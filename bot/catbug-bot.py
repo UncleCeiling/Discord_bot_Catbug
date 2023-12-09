@@ -38,7 +38,7 @@ def new_status():
         for row in csv.DictReader(file,fieldnames=("quote","emoji")):
             quotes.append(row)
     quote = choice(quotes)
-    return f"{quote["emoji"]} {quote["quote"]}"
+    return f"{quote['emoji']} {quote['quote']}"
 
 @tasks.loop()
 async def status_task() -> None:
