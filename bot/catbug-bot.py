@@ -17,7 +17,6 @@ bot = commands.Bot(command_prefix="!",intents=intents) # Builds bot
 
 @bot.event
 async def on_ready(): # When the client is ready
-    bot.tree.add_command(VCCommands(name="vc",description="Voice-Chat commands"))
     if bot.user:
         print(f"Signed in as {bot.user} (ID: {bot.user.id})") # Successful sign-in
     try:
@@ -165,16 +164,6 @@ async def vc(interaction:discord.Interaction,command:app_commands.Choice[str]):
             ...
         case 5:
             ...
-
-
-class VCCommands(app_commands.Group): # Create Group
-    @app_commands.command(name="join",description="Join Voice-Chat")
-    async def join(self,interaction: discord.Interaction): # Don't forget `self`
-        await interaction.response.send_message("Being gutted, please ignore",ephemeral=True)
-
-    @app_commands.command(name="leave",description="Leave Voice-Chat")
-    async def leave(self,interaction: discord.Interaction): # Don't forget `self`
-        await interaction.response.send_message("Being gutted, please ignore",ephemeral=True)
 
 # endregion ==-VC-==
 # region ==-Radio-==
