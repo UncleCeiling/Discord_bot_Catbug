@@ -32,7 +32,7 @@ async def on_ready(): # When the client is ready
 # region ===STATUS===
 
 def new_quote():
-    with open("files/quotes.csv") as file:
+    with open("files/quotes.csv",encoding="utf8") as file:
         quotes = []
         for row in csv.DictReader(file,fieldnames=("quote","emoji")):
             quotes.append(row)
