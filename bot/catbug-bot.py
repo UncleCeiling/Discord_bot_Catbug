@@ -207,7 +207,7 @@ async def radio(interaction:discord.Interaction,station: app_commands.Choice[str
         except Exception as exception: # Freak out if you can't
             await interaction.edit_original_response(content=f"Couldn't start Stream.\nError:\n```{exception}```")
             return
-        await interaction.edit_original_response(content=f"Global stream started!\nEnjoy!")
+        await interaction.edit_original_response(content=f"Global stream started!\nStream courtesy of [Radio Paradise](https://radioparadise.com/)\nEnjoy! [Stream URL]({url})")
 
 
 
