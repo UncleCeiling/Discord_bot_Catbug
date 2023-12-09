@@ -1,0 +1,5 @@
+RJAA,NRT,Tokyo (Narita),Control,http://d.liveatc.net/rjaa_control1
+RJTT,HND,Tokyo (International),Control,http://d.liveatc.net/rjtt_control
+EIDW,DUB,Dublin(International),Del/Gnd/Twr/App/Center,http://d.liveatc.net/eidw3
+KLAX,LAX,Los Angeles (International),Tower (North) #1,http://d.liveatc.net/klax3
+KLAX,LAX,Los Angeles (International),Tower (North/South) #1,http://d.liveatc.net/klax_twr

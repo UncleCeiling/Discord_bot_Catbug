@@ -18,15 +18,18 @@ ___
 
 | **Fun** ||
 |---|---|
-| `/penis [member{User}]` | Will generate a graphic for any user, to show-off or hide accordingly. Based on UserID. |
+| `/member [member{User}]` | Will generate a graphic for any user, to show-off or hide accordingly. Based on UserID. |
 
 | **Catbug References** ||
 |---|---|
 | `/status` | Refreshes the bot's status message. |
 
-| **Radio Streaming** ||
+| **Streaming** ||
 |---|---|
-| `/radio <Station/Genre> [Quality{64kbps}] [Visible{False}]` |  |
+| `/vc <Join/Leave/Pause/Resume/Stop>` | Various Audio controls. |
+| `/radio <Station/Genre> [Visible{False}]` | Reads Stations and Streams from a csv and plays them into a VC. |
+| `/atc <option> [search]` | Reads Air Traffic Control Towers and Streams from a csv and plays them into a VC. |
+| `/stream <url>` | Streams any given url |
 
 ___
 ## ***To-do List***
@@ -37,7 +40,6 @@ ___
 |**Commands**||
 |---|---|
 | `Equipment Generator` | A command that generates random equipment based on txt files. Based on the bones of an old project. |
-| `/atc <option> [search]` | Ability to stream Air Traffic Control feeds into a channel. |
 | `/dad-joke ` | Takes Jokes from lists, might have optional genres. |
 | `/catbug <option> [specifics]` | A variety of Catbug references; like gifs, soundbytes and maybe videos? |
 | `/CCFlamez` | Auto-mute/Auto-unmute based on rich-presence of Guitar Hero |
