@@ -153,7 +153,7 @@ async def whois(interaction: discord.Interaction, member: Optional[discord.Membe
     ])
 async def vc(interaction:discord.Interaction,command:app_commands.Choice[str]):
     await interaction.response.send_message("WIP - Sorry about that!")
-    match command.value:
+    match (command.value):
         case "1":
             ...
         case "2":
