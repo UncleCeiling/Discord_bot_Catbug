@@ -143,6 +143,30 @@ async def whois(interaction: discord.Interaction, member: Optional[discord.Membe
 # endregion ==-CLI-==
 # region ==-VC-==
 
+@bot.tree.command(name="vc",description="Voice-chat Commands")
+@app_commands.describe(command="Which command you want to use.")
+@app_commands.choices(command=[
+    app_commands.Choice(name="Join", value="1"),
+    app_commands.Choice(name="Leave", value="2"),
+    app_commands.Choice(name="Play", value="3"),
+    app_commands.Choice(name="Pause", value="4"),
+    app_commands.Choice(name="Stop", value="5")
+    ])
+async def vc(interaction:discord.Interaction,command:app_commands.Choice[str]):
+    await interaction.response.send_message("WIP - Sorry about that!")
+    match int(command.value):
+        case 1:
+            ...
+        case 2:
+            ...
+        case 3:
+            ...
+        case 4:
+            ...
+        case 5:
+            ...
+
+
 class VCCommands(app_commands.Group): # Create Group
     @app_commands.command(name="join",description="Join Voice-Chat")
     async def join(self,interaction: discord.Interaction): # Don't forget `self`
@@ -156,7 +180,7 @@ class VCCommands(app_commands.Group): # Create Group
 # region ==-Radio-==
 
 @bot.tree.command(name="radio",description="Radio channels")
-@app_commands.describe(quality="The quality of the stream.")
+@app_commands.describe(station="The Genre you'd like to listen to.",quality="The quality of the stream.")
 @app_commands.choices(station=[
     app_commands.Choice(name="Mixed", value="aac"),
     app_commands.Choice(name="Rock", value="rock"),
@@ -207,7 +231,7 @@ async def radio(interaction:discord.Interaction,station: app_commands.Choice[str
         except Exception as exception: # Freak out if you can't
             await interaction.edit_original_response(content=f"> Couldn't start Stream.\n>Error:\n```{exception}```")
             return
-        await interaction.edit_original_response(content=f"> Global stream started!\n> Stream courtesy of [Radio Paradise](https://radioparadise.com/)\n> Enjoy! [Stream URL]({url})")
+        await interaction.edit_original_response(content=f"> {station.name} stream started!\n> Stream courtesy of [Radio Paradise](https://radioparadise.com/)\n> Enjoy! [Stream URL]({url})")
 
 
 
