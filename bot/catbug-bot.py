@@ -155,60 +155,59 @@ async def whois(interaction: discord.Interaction, member: Optional[discord.Membe
 async def vc(interaction:discord.Interaction,command:app_commands.Choice[str],visible:Optional[bool]=True):
     choice = int(command.value)
     global player
-    match choice:
-        case 1:
-            if not interaction.guild:
-                await interaction.response.send_message("This command can only be used in a Server.",ephemeral=(not visible))
-                return
-            elif interaction.guild.voice_client:
-                await interaction.guild.voice_client.disconnect(force=True)
-            if isinstance(interaction.user,discord.Member) and interaction.user.voice and interaction.user.voice.channel:
-                channel = interaction.user.voice.channel
-                await interaction.response.send_message(f"Joining `{channel}`...",ephemeral=(not visible))
-                try:
-                    player = await channel.connect()
-                    await interaction.edit_original_response(content=f"Joined `{channel}`.")
-                except Exception as exception:
-                    await interaction.edit_original_response(content=f"> Joining `{channel}` failed.\n> Error:\n```{exception}```")
-            else:
-                await interaction.response.send_message(f"This command can only be used when connected to a Voice Channel in the current Server.\nCurrent Server:{interaction.guild}",ephemeral=(not visible))
-                return
-        case 2:
-            if interaction.guild and interaction.guild.voice_client: # If in voice-chat
-                channel = interaction.guild.voice_client.channel # Store channel
-                await interaction.response.send_message(f"> Leaving `{channel}`...",ephemeral=(not visible))
-                try: # Try to stop and leave.
-                    player.stop()
-                    await interaction.guild.voice_client.disconnect(force=True)
-                    await interaction.edit_original_response(content=f"> Left `{channel}`.")
-                except Exception as exception: # You tried
-                    await interaction.edit_original_response(content=f"> Leaving `{channel}` failed.\n> Error:\n```{exception}```")
-            else:
-                if interaction.guild: # If we're even in a server
-                    await interaction.response.send_message("This command can only be used if I'm in a voice channel already.",ephemeral=(not visible))
-                else:
-                    await interaction.response.send_message("This command can only be used in a Server.",ephemeral=(not visible))
-        case 3:
-            await interaction.response.send_message("> Resuming...",ephemeral=(not visible))
+    if choice == 1:
+        if not interaction.guild:
+            await interaction.response.send_message("This command can only be used in a Server.",ephemeral=(not visible))
+            return
+        elif interaction.guild.voice_client:
+            await interaction.guild.voice_client.disconnect(force=True)
+        if isinstance(interaction.user,discord.Member) and interaction.user.voice and interaction.user.voice.channel:
+            channel = interaction.user.voice.channel
+            await interaction.response.send_message(f"Joining `{channel}`...",ephemeral=(not visible))
             try:
-                player.resume()
-                await interaction.edit_original_response(content="> Resumed.")
+                player = await channel.connect()
+                await interaction.edit_original_response(content=f"Joined `{channel}`.")
             except Exception as exception:
-                await interaction.edit_original_response(content=f"> Resume failed.\n> Error:\n```{exception}```")
-        case 4:
-            await interaction.response.send_message("> Pausing...",ephemeral=(not visible))
-            try:
-                player.pause()
-                await interaction.edit_original_response(content="> Paused.")
-            except Exception as exception:
-                await interaction.edit_original_response(content=f"> Pause failed.\n> Error:\n```{exception}```")
-        case 5:
-            await interaction.response.send_message("> Stopping...",ephemeral=(not visible))
-            try:
+                await interaction.edit_original_response(content=f"> Joining `{channel}` failed.\n> Error:\n```{exception}```")
+        else:
+            await interaction.response.send_message(f"This command can only be used when connected to a Voice Channel in the current Server.\nCurrent Server:{interaction.guild}",ephemeral=(not visible))
+            return
+    elif choice == 2:
+        if interaction.guild and interaction.guild.voice_client: # If in voice-chat
+            channel = interaction.guild.voice_client.channel # Store channel
+            await interaction.response.send_message(f"> Leaving `{channel}`...",ephemeral=(not visible))
+            try: # Try to stop and leave.
                 player.stop()
-                await interaction.edit_original_response(content="> Stopped.")
-            except Exception as exception:
-                await interaction.edit_original_response(content=f"> Stop failed.\n> Error:\n```{exception}```")
+                await interaction.guild.voice_client.disconnect(force=True)
+                await interaction.edit_original_response(content=f"> Left `{channel}`.")
+            except Exception as exception: # You tried
+                await interaction.edit_original_response(content=f"> Leaving `{channel}` failed.\n> Error:\n```{exception}```")
+        else:
+            if interaction.guild: # If we're even in a server
+                await interaction.response.send_message("This command can only be used if I'm in a voice channel already.",ephemeral=(not visible))
+            else:
+                await interaction.response.send_message("This command can only be used in a Server.",ephemeral=(not visible))
+    elif choice == 3:
+        await interaction.response.send_message("> Resuming...",ephemeral=(not visible))
+        try:
+            player.resume()
+            await interaction.edit_original_response(content="> Resumed.")
+        except Exception as exception:
+            await interaction.edit_original_response(content=f"> Resume failed.\n> Error:\n```{exception}```")
+    elif choice == 4:
+        await interaction.response.send_message("> Pausing...",ephemeral=(not visible))
+        try:
+            player.pause()
+            await interaction.edit_original_response(content="> Paused.")
+        except Exception as exception:
+            await interaction.edit_original_response(content=f"> Pause failed.\n> Error:\n```{exception}```")
+    elif choice == 5:
+        await interaction.response.send_message("> Stopping...",ephemeral=(not visible))
+        try:
+            player.stop()
+            await interaction.edit_original_response(content="> Stopped.")
+        except Exception as exception:
+            await interaction.edit_original_response(content=f"> Stop failed.\n> Error:\n```{exception}```")
 
 # endregion ==-VC-==
 # region ==-Radio-==
