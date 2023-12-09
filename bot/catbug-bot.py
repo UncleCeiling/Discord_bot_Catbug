@@ -188,8 +188,9 @@ class RadioCommands(app_commands.Group):
             channel = interaction.user.voice.channel
             await interaction.response.send_message(f"Connecting to {channel}")
             global player
+            default = app_commands.Choice(name="64", value="64")
             if not quality:
-                quality = app_commands.Choice(name="128", value="128")
+                quality = default
             url = f"http://stream.radioparadise.com/aac-{quality.value}"
             try: # Try to Connect
                 player = await channel.connect()
