@@ -182,7 +182,7 @@ async def vc(interaction:discord.Interaction,command:app_commands.Choice[str]):
     app_commands.Choice(name="Low (32kbps)", value="32")
     ]
 )
-async def radio(interaction:discord.Interaction,station: app_commands.Choice[str],quality: Optional[app_commands.Choice[str]],visible: Optional[bool]):
+async def radio(interaction:discord.Interaction,station: app_commands.Choice[str],quality: Optional[app_commands.Choice[str]],visible: Optional[bool]=True):
     # Build URL with Args
     quality_default = app_commands.Choice(name="64", value="64")
     if not quality:
