@@ -21,6 +21,8 @@ ___
 - ATC commands
   - atc [airport/search]
 - Catbug References
+  - Statuses
+    - Emoji (might need quotes.txt to be a .csv)
   - Commands
     - gifs
     - Sugarpeas!
