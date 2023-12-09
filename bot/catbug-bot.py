@@ -186,7 +186,7 @@ class RadioCommands(app_commands.Group):
             await interaction.response.send_message(f"This command can only be used when connected to a Voice Channel in this Server.\nCurrent Server:{interaction.guild}\nVoice Channels:{interaction.guild.voice_channels}",ephemeral=True)
         else:
             channel = interaction.user.voice.channel
-            await interaction.response.send_message(f"Connecting to {channel}",ephemeral=True)
+            await interaction.response.send_message(f"Connecting to {channel}")
             global player
             if not quality:
                 quality = app_commands.Choice(name="128", value="128")
