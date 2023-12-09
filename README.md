@@ -13,16 +13,16 @@ ___
 - /penis [member] (hehehe)
 - Catbug References
   - Statuses
-    - Cycling Quotes from a list.
+    - Cycling Quotes & Emoji from a .csv
     - /status (randomises a new status) 
 ___
 ## To-do List
 - Equipment Generator (From an old Project)
 - ATC commands
   - atc [airport/search]
+- Radio Streaming
+- Dad-jokes
 - Catbug References
-  - Statuses
-    - Emoji (might need quotes.txt to be a .csv)
   - Commands
     - gifs
     - Sugarpeas!
