@@ -1,6 +1,6 @@
 # region ===Imports===
 
-import asyncio,discord,settings,datetime,os
+import asyncio,discord,settings,datetime,os,csv
 from random import choice
 from typing import Optional
 from discord.ext import commands, tasks
@@ -29,21 +29,23 @@ async def on_ready(): # When the client is ready
 # region ===STATUS===
 
 def new_quote():
-    with open("files/quotes.txt") as file:
-        quotes = file.readlines()
-    return choice(quotes).strip()
+    with open("files/quotes.csv") as file:
+        quotes = []
+        for row in csv.DictReader(file,fieldnames=("quote","emoji")):
+            quotes.append(row)
+    return choice(quotes)
 
 @tasks.loop()
 async def status_task() -> None:
     quote = new_quote()
-    await bot.change_presence(activity=discord.CustomActivity(name=quote))
+    await bot.change_presence(activity=discord.CustomActivity(name=quote["quote"],emoji=quote["emoji"]))
     await asyncio.sleep(300)
 
 @bot.tree.command(name="status",description="picks a new random status")
 async def status(interaction: discord.Interaction):
     quote = new_quote()
-    await bot.change_presence(activity=discord.CustomActivity(name=quote))
-    await interaction.response.send_message(f"""Changed Status to "{quote}" """,ephemeral=True)
+    await bot.change_presence(activity=discord.CustomActivity(name=quote["quote"],emoji=quote["emoji"]))
+    await interaction.response.send_message(f"""Changed Status to "{quote["emoji"]}{quote["quote"]}" """,ephemeral=True)
 
 # endregion ===STATUS===
 # region ===EXAMPLE===
