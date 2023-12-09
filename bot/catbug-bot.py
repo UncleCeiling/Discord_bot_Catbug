@@ -28,24 +28,24 @@ async def on_ready(): # When the client is ready
 # endregion ===ON_READY===
 # region ===STATUS===
 
-def new_quote():
+def new_status():
     with open("files/quotes.csv") as file:
         quotes = []
         for row in csv.DictReader(file,fieldnames=("quote","emoji")):
             quotes.append(row)
-    return choice(quotes)
+    quote = choice(quotes)
+    return f"{quote["emoji"]} {quote["quote"]} {quote["emoji"]}"
 
 @tasks.loop()
 async def status_task() -> None:
-    quote = new_quote()
-    await bot.change_presence(activity=discord.CustomActivity(name=quote["quote"],emoji=quote["emoji"]))
+    await bot.change_presence(activity=discord.CustomActivity(name=new_status()))
     await asyncio.sleep(300)
 
 @bot.tree.command(name="status",description="picks a new random status")
 async def status(interaction: discord.Interaction):
-    quote = new_quote()
-    await bot.change_presence(activity=discord.CustomActivity(name=quote["quote"],emoji=quote["emoji"]))
-    await interaction.response.send_message(f"""Changed Status to "{quote["emoji"]}{quote["quote"]}" """,ephemeral=True)
+    status = new_status()
+    await bot.change_presence(activity=discord.CustomActivity(name=status))
+    await interaction.response.send_message(f"""Changed Status to "{status}" """,ephemeral=True)
 
 # endregion ===STATUS===
 # region ===EXAMPLE===
