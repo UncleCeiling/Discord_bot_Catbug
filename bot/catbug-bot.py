@@ -1,6 +1,7 @@
 # region ===IMPORTS===
 
 import asyncio,discord,settings,datetime,os,csv
+from optparse import Option
 from random import choice
 from typing import Optional
 from discord.ext import commands, tasks
@@ -212,25 +213,19 @@ async def vc(interaction:discord.Interaction,command:app_commands.Choice[str],vi
 # endregion ==-VC-==
 # region ==-Radio-==
 
+def get_stations():
+    with open("files/stations.csv",encoding="utf8") as file:
+        stations = []
+        for station in csv.DictReader(file,fieldnames=("station","link")):
+            stations.append(app_commands.Choice(name=station["station"], value=station["link"]))
+    return stations
+
 @bot.tree.command(name="radio",description="Radio channels")
-@app_commands.describe(station="The Genre you'd like to listen to.",quality="The quality of the stream.",visible="Make output visible in channel?")
-@app_commands.choices(station=[
-    app_commands.Choice(name="Mixed", value="aac"),
-    app_commands.Choice(name="Rock", value="rock"),
-    app_commands.Choice(name="Mellow", value="mellow"),
-    app_commands.Choice(name="Global", value="global")
-    ],quality=[
-    app_commands.Choice(name="High (128kbps)", value="128"),
-    app_commands.Choice(name="Default (64kbps)", value="64"),
-    app_commands.Choice(name="Low (32kbps)", value="32")
-    ]
-)
-async def radio(interaction:discord.Interaction,station: app_commands.Choice[str],quality: Optional[app_commands.Choice[str]],visible: Optional[bool]=True):
+@app_commands.describe(station="The Genre you'd like to listen to.",visible="Make output visible in channel?")
+@app_commands.choices(station=get_stations())
+async def radio(interaction:discord.Interaction,station: app_commands.Choice[str],visible: Optional[bool]=True):
     # Build URL with Args
-    quality_default = app_commands.Choice(name="64", value="64")
-    if not quality:
-        quality = quality_default
-    url = f"http://stream.radioparadise.com/{station.value}-{quality.value}"
+    url = station.value
     # Filter cases where no action is taken
     if not interaction.guild: # Not in Server
         await interaction.response.send_message("This command can only be used in a Server.",ephemeral=True)
@@ -264,11 +259,19 @@ async def radio(interaction:discord.Interaction,station: app_commands.Choice[str
         except Exception as exception: # Freak out if you can't
             await interaction.edit_original_response(content=f"> Couldn't start Stream.\n>Error:\n```{exception}```")
             return
-        await interaction.edit_original_response(content=f"> {station.name} stream started!\n> Stream courtesy of [Radio Paradise](https://radioparadise.com/)\n> Enjoy! [Stream URL]({url})")
+        await interaction.edit_original_response(content=f"> {station.name} stream started!\n> Enjoy! [Stream URL]({url})")
 
 
 
 # endregion ==-Radio-==
+# region ==-URL-==
+
+@bot.tree.command(name="stream",description="Stream a url")
+@app_commands.describe(url="The link you want to stream",visible="Make output visible in channel?")
+async def stream(interaction: discord.Interaction,url: str,visible: Optional[bool]=True):
+    await interaction.response.send_message(f"WIP - URL: `{url}`",ephemeral=(not visible))
+
+# endregion ==-URL-==
 # endregion ===COMMANDS===
 
 bot.run(settings.TOKEN)
