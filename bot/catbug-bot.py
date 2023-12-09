@@ -153,16 +153,17 @@ async def whois(interaction: discord.Interaction, member: Optional[discord.Membe
     ])
 async def vc(interaction:discord.Interaction,command:app_commands.Choice[str]):
     await interaction.response.send_message("WIP - Sorry about that!")
-    match (command.value):
-        case "1":
+    choice = int(command.value)
+    match choice:
+        case 1:
             print("1")
-        case "2":
+        case 2:
             print("2")
-        case "3":
+        case 3:
             print("3")
-        case "4":
+        case 4:
             print("4")
-        case "5":
+        case 5:
             print("5")
 
 # endregion ==-VC-==
