@@ -1,6 +1,18 @@
-BBC-1,http://lstn.lv/bbc.m3u8?station=bbc_radio_one&bitrate=128000
-Gaydio,https://listen-gaydio.sharp-stream.com/gaydiouk.mp3
-Global,http://stream.radioparadise.com/global-128
-Mellow,http://stream.radioparadise.com/mellow-128
-Mixed,http://stream.radioparadise.com/aac-128
-Rock,http://stream.radioparadise.com/rock-128
+BBC - Radio 1,http://lstn.lv/bbc.m3u8?station=bbc_radio_one&bitrate=128000
+BBC - Radio 2,http://lstn.lv/bbc.m3u8?station=bbc_radio_two&bitrate=128000
+BBC - Radio 4,http://lstn.lv/bbc.m3u8?station=bbc_radio_fourfm&bitrate=128000
+BBC - Radio 6,http://lstn.lv/bbc.m3u8?station=bbc_6music&bitrate=128000
+BBC - Radio Scot,http://lstn.lv/bbc.m3u8?station=bbc_radio_scotland_fm&bitrate=128000
+Radio Paradise - Global,http://stream.radioparadise.com/global-128
+Radio Paradise - Mellow,http://stream.radioparadise.com/mellow-128
+Radio Paradise - Mixed,http://stream.radioparadise.com/aac-128
+Radio Paradise - Rock,http://stream.radioparadise.com/rock-128
+UK - Absolute,http://www.radiofeeds.net/playlists/bauerflash.pls?station=absoluteradio-mp3
+UK - Capital,http://icecast.thisisdax.com/CapitalUKMP3.m3u
+UK - Classic FM,http://icecast.thisisdax.com/ClassicFMMP3.m3u
+UK - Eruption,http://streaming04.liveboxstream.uk:8116/listen.pls?sid=1
+UK - Gaydio,https://listen-gaydio.sharp-stream.com/gaydiouk.mp3
+UK - Magic,http://www.radiofeeds.net/playlists/bauerflash.pls?station=magicnational-mp3
+UK - Smooth,http://icecast.thisisdax.com/SmoothUKMP3.m3u
+UK - Radio X,http://icecast.thisisdax.com/RadioXUKMP3.m3u
+UK - Mom's Spaghetti,http://stream.rcs.revma.com/6q7ksnnz6k0uv.m3u
