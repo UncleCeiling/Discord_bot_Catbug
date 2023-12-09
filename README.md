@@ -18,9 +18,14 @@ ___
 ___
 ## To-do List
 - Equipment Generator (From an old Project)
-- ATC commands
+- ATC Streaming
   - atc [airport/search]
-- Radio Streaming
+- [Radio Streaming](https://stackoverflow.com/questions/61757011/how-to-create-a-discord-bot-that-streams-online-radio-in-python)
+  - [RadioParadise](https://radioparadise.com/listen/stream-links)
+    - Main Mix
+    - Mellow Mix
+    - Rock Mix
+    - Global Mix
 - Dad-jokes
 - Catbug References
   - Commands
