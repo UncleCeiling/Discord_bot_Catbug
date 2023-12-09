@@ -173,10 +173,9 @@ class RadioCommands(app_commands.Group):
     @app_commands.command(name="pop",description="Stream Pop Radio")
     @app_commands.describe(quality="This is a description of what the option means")
     @app_commands.choices(quality=[
-        app_commands.Choice(name="320", value="320"),
-        app_commands.Choice(name="128", value="128"),
-        app_commands.Choice(name="64", value="64"),
-        app_commands.Choice(name="32", value="32")])
+        app_commands.Choice(name="High (128kbps)", value="128"),
+        app_commands.Choice(name="Default (64kbps)", value="64"),
+        app_commands.Choice(name="Low (32kbps)", value="32")])
     async def pop(self,interaction: discord.Interaction,quality: Optional[app_commands.Choice[str]]):
         if not interaction.guild:
             await interaction.response.send_message("This command can only be used in a Server.",ephemeral=True)
@@ -188,9 +187,9 @@ class RadioCommands(app_commands.Group):
             channel = interaction.user.voice.channel
             await interaction.response.send_message(f"Connecting to {channel}",ephemeral=True)
             global player
-            default = app_commands.Choice(name="32", value="32")
+            quality_default = app_commands.Choice(name="64", value="64")
             if not quality:
-                quality = default
+                quality = quality_default
             url = f"http://stream.radioparadise.com/aac-{quality.value}"
             try: # Try to Connect
                 player = await channel.connect()
