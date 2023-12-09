@@ -152,7 +152,6 @@ async def whois(interaction: discord.Interaction, member: Optional[discord.Membe
     app_commands.Choice(name="Stop", value="5")
     ])
 async def vc(interaction:discord.Interaction,command:app_commands.Choice[str],visible:Optional[bool]=True):
-    await interaction.response.send_message("WIP - Sorry about that!",ephemeral=(not visible))
     choice = int(command.value)
     global player
     match choice:
