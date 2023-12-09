@@ -1,4 +1,4 @@
-BBC-1,files/stations/BBC1.m3u8
+BBC-1,http://lstn.lv/bbc.m3u8?station=bbc_radio_one&bitrate=128000
 Gaydio,https://listen-gaydio.sharp-stream.com/gaydiouk.mp3
 Global,http://stream.radioparadise.com/global-128
 Mellow,http://stream.radioparadise.com/mellow-128
