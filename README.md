@@ -41,6 +41,7 @@ ___
 | `/dad-joke ` | Takes Jokes from lists, might have optional genres. |
 | `/catbug <option> [specifics]` | A variety of Catbug references; like gifs, soundbytes and maybe videos? |
 | `/CCFlamez` | Auto-mute/Auto-unmute based on rich-presence of Guitar Hero |
+| `/monty` | Various Monty Python quotes |
 
 
 <!--
