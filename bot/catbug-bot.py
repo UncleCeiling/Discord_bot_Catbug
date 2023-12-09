@@ -12,14 +12,12 @@ os.chdir(os.path.dirname(__file__))
 
 intents = discord.Intents.all() # Declare intents
 bot = commands.Bot(command_prefix="!",intents=intents) # Builds bot
-player = VoiceClient
 # endregion ===DECLARATIONS===
 # region ===ON_READY===
 
 @bot.event
 async def on_ready(): # When the client is ready
     bot.tree.add_command(VCCommands(name="vc",description="Voice-Chat commands"))
-    bot.tree.add_command(RadioCommands(name="radio",description="Radio commands"))
     if bot.user:
         print(f"Signed in as {bot.user} (ID: {bot.user.id})") # Successful sign-in
     try:
@@ -157,154 +155,58 @@ class VCCommands(app_commands.Group): # Create Group
 # endregion ==-VC-==
 # region ==-Radio-==
 
-class RadioCommands(app_commands.Group):
-    @app_commands.command(name="pause",description="Pause playback")
-    async def pause(self,interaction: discord.Interaction):
-        await interaction.response.send_message("Being gutted, please ignore",ephemeral=True)
-
-    @app_commands.command(name="play",description="Resume playback")
-    async def play(self,interaction: discord.Interaction):
-        await interaction.response.send_message("Being gutted, please ignore",ephemeral=True)
-
-    @app_commands.command(name="stop",description="Stop playback")
-    async def stop(self,interaction: discord.Interaction):
-        await interaction.response.send_message("Being gutted, please ignore",ephemeral=True)
-
-    @app_commands.command(name="mix",description="Stream a Mix of Genres")
-    @app_commands.describe(quality="The quality of the stream.")
-    @app_commands.choices(quality=[
-        app_commands.Choice(name="High (128kbps)", value="128"),
-        app_commands.Choice(name="Default (64kbps)", value="64"),
-        app_commands.Choice(name="Low (32kbps)", value="32")])
-    async def mix(self,interaction: discord.Interaction,quality: Optional[app_commands.Choice[str]]):
-        if not interaction.guild:
-            await interaction.response.send_message("This command can only be used in a Server.",ephemeral=True)
-        elif not interaction.guild.voice_channels:
-            await interaction.response.send_message("This command can only be used in Servers with Voice Channels.",ephemeral=True)
-        elif not (isinstance(interaction.user,discord.Member) and interaction.user.voice and interaction.user.voice.channel):
-            await interaction.response.send_message(f"This command can only be used when connected to a Voice Channel in this Server.\nCurrent Server:{interaction.guild}\nVoice Channels:{interaction.guild.voice_channels}",ephemeral=True)
-        else:
-            channel = interaction.user.voice.channel
-            await interaction.response.send_message(f"Connecting to {channel}",ephemeral=True)
-            global player
-            quality_default = app_commands.Choice(name="64", value="64")
-            if not quality:
-                quality = quality_default
-            url = f"http://stream.radioparadise.com/rock-{quality.value}"
+@bot.tree.command(name="radio",description="Radio channels")
+@app_commands.describe(quality="The quality of the stream.")
+@app_commands.choices(station=[
+    app_commands.Choice(name="Mixed", value="aac"),
+    app_commands.Choice(name="Rock", value="rock"),
+    app_commands.Choice(name="Mellow", value="mellow"),
+    app_commands.Choice(name="Global", value="global")
+    ],quality=[
+    app_commands.Choice(name="High (128kbps)", value="128"),
+    app_commands.Choice(name="Default (64kbps)", value="64"),
+    app_commands.Choice(name="Low (32kbps)", value="32")
+    ]
+)
+async def radio(interaction:discord.Interaction,station: app_commands.Choice[str],quality: Optional[app_commands.Choice[str]]):
+    # Build URL with Args
+    quality_default = app_commands.Choice(name="64", value="64")
+    if not quality:
+        quality = quality_default
+    url = f"http://stream.radioparadise.com/{station.value}-{quality.value}"
+    # Filter cases where no action is taken
+    if not interaction.guild: # Not in Server
+        await interaction.response.send_message("This command can only be used in a Server.",ephemeral=True)
+        return
+    elif not interaction.guild.voice_channels: # No Voice Channels
+        await interaction.response.send_message("This command can only be used in Servers with Voice Channels.",ephemeral=True)
+        return
+    elif not (isinstance(interaction.user,discord.Member) and interaction.user.voice and interaction.user.voice.channel): # If User is not in Voice Channel
+        await interaction.response.send_message(f"This command can only be used when connected to a Voice Channel in this Server.\nCurrent Server:{interaction.guild}\nVoice Channels:{interaction.guild.voice_channels}",ephemeral=True)
+    else: # Enter the channel
+        channel = interaction.user.voice.channel # Find which channel to go to
+        await interaction.response.send_message(f"Connecting to {channel}",ephemeral=True)
+        global player
+        if interaction.guild.voice_client and (interaction.guild.voice_client.channel != channel): # If we are already in a channel, but not the right one
+            await interaction.edit_original_response(content=f"Disconnecting from {interaction.guild.voice_client.channel}...")
+            try: # Try to disconnect from current Channel
+                await interaction.guild.voice_client.disconnect(force=True)
+            except Exception as exception: # Freak out if you can't
+                await interaction.edit_original_response(content=f"Couldn't disconnect.\nError:\n```{exception}```")
+                return
+        if not interaction.guild.voice_client: # If we aren't in a channel
             try: # Try to Connect
                 player = await channel.connect()
             except Exception as exception: # Freak out if it doesn't work
                 await interaction.edit_original_response(content=f"Couldn't connect.\nError:\n```{exception}```")
                 return
-            await interaction.edit_original_response(content=f"Connected!\nStarting Stream...",)
-            try: # Try to Start the Stream
-                player.play(FFmpegPCMAudio(source=url))
-            except Exception as exception: # Freak out if you can't
-                await interaction.edit_original_response(content=f"Couldn't start Stream.\nError:\n```{exception}```")
-                return
-            await interaction.edit_original_response(content=f"Mixed stream started!\nEnjoy!")
-
-    @app_commands.command(name="rock",description="Stream Rock Radio")
-    @app_commands.describe(quality="The quality of the stream.")
-    @app_commands.choices(quality=[
-        app_commands.Choice(name="High (128kbps)", value="128"),
-        app_commands.Choice(name="Default (64kbps)", value="64"),
-        app_commands.Choice(name="Low (32kbps)", value="32")])
-    async def rock(self,interaction: discord.Interaction,quality: Optional[app_commands.Choice[str]]):
-        if not interaction.guild:
-            await interaction.response.send_message("This command can only be used in a Server.",ephemeral=True)
-        elif not interaction.guild.voice_channels:
-            await interaction.response.send_message("This command can only be used in Servers with Voice Channels.",ephemeral=True)
-        elif not (isinstance(interaction.user,discord.Member) and interaction.user.voice and interaction.user.voice.channel):
-            await interaction.response.send_message(f"This command can only be used when connected to a Voice Channel in this Server.\nCurrent Server:{interaction.guild}\nVoice Channels:{interaction.guild.voice_channels}",ephemeral=True)
-        else:
-            channel = interaction.user.voice.channel
-            await interaction.response.send_message(f"Connecting to {channel}",ephemeral=True)
-            global player
-            quality_default = app_commands.Choice(name="64", value="64")
-            if not quality:
-                quality = quality_default
-            url = f"http://stream.radioparadise.com/aac-{quality.value}"
-            try: # Try to Connect
-                player = await channel.connect()
-            except Exception as exception: # Freak out if it doesn't work
-                await interaction.edit_original_response(content=f"Couldn't connect.\nError:\n```{exception}```")
-                return
-            await interaction.edit_original_response(content=f"Connected!\nStarting Stream...",)
-            try: # Try to Start the Stream
-                player.play(FFmpegPCMAudio(source=url))
-            except Exception as exception: # Freak out if you can't
-                await interaction.edit_original_response(content=f"Couldn't start Stream.\nError:\n```{exception}```")
-                return
-            await interaction.edit_original_response(content=f"Rock stream started!\nEnjoy!")
-
-    @app_commands.command(name="mellow",description="Stream Mellow Radio")
-    @app_commands.describe(quality="The quality of the stream.")
-    @app_commands.choices(quality=[
-        app_commands.Choice(name="High (128kbps)", value="128"),
-        app_commands.Choice(name="Default (64kbps)", value="64"),
-        app_commands.Choice(name="Low (32kbps)", value="32")])
-    async def mellow(self,interaction: discord.Interaction,quality: Optional[app_commands.Choice[str]]):
-        if not interaction.guild:
-            await interaction.response.send_message("This command can only be used in a Server.",ephemeral=True)
-        elif not interaction.guild.voice_channels:
-            await interaction.response.send_message("This command can only be used in Servers with Voice Channels.",ephemeral=True)
-        elif not (isinstance(interaction.user,discord.Member) and interaction.user.voice and interaction.user.voice.channel):
-            await interaction.response.send_message(f"This command can only be used when connected to a Voice Channel in this Server.\nCurrent Server:{interaction.guild}\nVoice Channels:{interaction.guild.voice_channels}",ephemeral=True)
-        else:
-            channel = interaction.user.voice.channel
-            await interaction.response.send_message(f"Connecting to {channel}",ephemeral=True)
-            global player
-            quality_default = app_commands.Choice(name="64", value="64")
-            if not quality:
-                quality = quality_default
-            url = f"http://stream.radioparadise.com/mellow-{quality.value}"
-            try: # Try to Connect
-                player = await channel.connect()
-            except Exception as exception: # Freak out if it doesn't work
-                await interaction.edit_original_response(content=f"Couldn't connect.\nError:\n```{exception}```")
-                return
-            await interaction.edit_original_response(content=f"Connected!\nStarting Stream...",)
-            try: # Try to Start the Stream
-                player.play(FFmpegPCMAudio(source=url))
-            except Exception as exception: # Freak out if you can't
-                await interaction.edit_original_response(content=f"Couldn't start Stream.\nError:\n```{exception}```")
-                return
-            await interaction.edit_original_response(content=f"Mellow stream started!\nEnjoy!")
-
-    @app_commands.command(name="global",description="Stream Global Radio")
-    @app_commands.describe(quality="The quality of the stream.")
-    @app_commands.choices(quality=[
-        app_commands.Choice(name="High (128kbps)", value="128"),
-        app_commands.Choice(name="Default (64kbps)", value="64"),
-        app_commands.Choice(name="Low (32kbps)", value="32")])
-    async def global_radio(self,interaction: discord.Interaction,quality: Optional[app_commands.Choice[str]]):
-        if not interaction.guild:
-            await interaction.response.send_message("This command can only be used in a Server.",ephemeral=True)
-        elif not interaction.guild.voice_channels:
-            await interaction.response.send_message("This command can only be used in Servers with Voice Channels.",ephemeral=True)
-        elif not (isinstance(interaction.user,discord.Member) and interaction.user.voice and interaction.user.voice.channel):
-            await interaction.response.send_message(f"This command can only be used when connected to a Voice Channel in this Server.\nCurrent Server:{interaction.guild}\nVoice Channels:{interaction.guild.voice_channels}",ephemeral=True)
-        else:
-            channel = interaction.user.voice.channel
-            await interaction.response.send_message(f"Connecting to {channel}",ephemeral=True)
-            global player
-            quality_default = app_commands.Choice(name="64", value="64")
-            if not quality:
-                quality = quality_default
-            url = f"http://stream.radioparadise.com/global-{quality.value}"
-            try: # Try to Connect
-                player = await channel.connect()
-            except Exception as exception: # Freak out if it doesn't work
-                await interaction.edit_original_response(content=f"Couldn't connect.\nError:\n```{exception}```")
-                return
-            await interaction.edit_original_response(content=f"Connected!\nStarting Stream...",)
-            try: # Try to Start the Stream
-                player.play(FFmpegPCMAudio(source=url))
-            except Exception as exception: # Freak out if you can't
-                await interaction.edit_original_response(content=f"Couldn't start Stream.\nError:\n```{exception}```")
-                return
-            await interaction.edit_original_response(content=f"Global stream started!\nEnjoy!")
+        await interaction.edit_original_response(content=f"Connected!\nStarting Stream...",)
+        try: # Try to Start the Stream
+            player.play(source=FFmpegPCMAudio(source=url))
+        except Exception as exception: # Freak out if you can't
+            await interaction.edit_original_response(content=f"Couldn't start Stream.\nError:\n```{exception}```")
+            return
+        await interaction.edit_original_response(content=f"Global stream started!\nEnjoy!")
 
 
 
