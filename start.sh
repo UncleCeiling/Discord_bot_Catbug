@@ -2,4 +2,4 @@
 cd ~/Catbug
 git fetch
 git pull --rebase
-sudo python3 ~/Catbug/bot/catbug-bot.py > output.log
+sudo python3 ~/Catbug/bot/catbug-bot.py
