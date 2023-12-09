@@ -19,6 +19,7 @@ bot = commands.Bot(command_prefix="!",intents=intents) # Builds bot
 @bot.event
 async def on_ready(): # When the client is ready
     bot.tree.add_command(VCCommands(name="vc",description="Voice-Chat commands"))
+    bot.tree.add_command(RadioCommands(name="radio",description="Radio commands"))
     if bot.user:
         print(f"Signed in as {bot.user} (ID: {bot.user.id})") # Successful sign-in
     try:
@@ -147,45 +148,41 @@ async def whois(interaction: discord.Interaction, member: Optional[discord.Membe
 class VCCommands(app_commands.Group): # Create Group
     @app_commands.command(name="join",description="Join Voice-Chat")
     async def join(self,interaction: discord.Interaction): # Don't forget `self`
-        if not interaction.guild: # If DM, send "nuh-uh"
-            await interaction.response.send_message("This command can only be used in servers, sorry!",ephemeral=True)
-            return
-        elif isinstance(interaction.user,discord.Member): # Check that the right info is there
-            if not interaction.user.voice: # Check that user is in the channel
-                await interaction.response.send_message("You must be connected to a VC to use this command",ephemeral=True) # If they aren't, send "nuh-uh"
-                return
-            elif interaction.user.voice.channel: # Check that we know what channel the user is in
-                try: # Try connecting
-                    await interaction.user.voice.channel.connect()
-                    await interaction.response.send_message(f"Connected to {interaction.user.voice.channel}",ephemeral=True) # Nailed it
-                except: # If we fail to connect say why
-                    await interaction.response.send_message(f"Could not connect to {interaction.user.voice.channel}",ephemeral=True) # Damn it
-        else: # Something has gone wrong, so say that and give some info.
-            await interaction.response.send_message(f"Error encountered: You are not recognised as a member.\nUser:`{interaction.user}`\nGuild:`{interaction.guild}`",ephemeral=True)
+        await interaction.response.send_message("Being gutted, please ignore",ephemeral=True)
 
     @app_commands.command(name="leave",description="Leave Voice-Chat")
     async def leave(self,interaction: discord.Interaction): # Don't forget `self`
-        if not interaction.guild: # If DM, send "nuh-uh"
-            await interaction.response.send_message("This command can only be used in servers, sorry!",ephemeral=True)
-            return
-        elif isinstance(interaction.guild,discord.Guild): # Check that guild info is there
-            if not interaction.guild.voice_client: # Check that bot is connected in that server.
-                await interaction.response.send_message("I am not connected to a VC in this server.",ephemeral=True) # If it's not, send "nuh-uh"
-                return
-            else:
-                try: # Try disconnecting
-                    await interaction.guild.voice_client.disconnect(force=True)
-                    await interaction.response.send_message(f"Disconnected.",ephemeral=True) # Nailed it
-                except: # If we fail to disconnect say it
-                    await interaction.response.send_message(f"Could not disconnect!?\nHelp!?!?",ephemeral=True) # Damn it
-        else: # Something has gone wrong, so say that and give some info.
-            await interaction.response.send_message(f"Error encountered: Guild not recognised.\nGuild:`{interaction.guild}`",ephemeral=True)
+        await interaction.response.send_message("Being gutted, please ignore",ephemeral=True)
 
-@bot.tree.command(name="atc",description="WIP - Streams Radio Traffic")
-@app_commands.describe(airport = "Enter an Airport code")
-async def atc(interaction: discord.Interaction, airport: Optional[str] = "blank"):
-    await interaction.response.send_message(f"This feature is still under construction, but for now:\nYou requested the {airport} airport.",ephemeral=True)
 # endregion ==-VC-==
+# region ==-Radio-==
+
+class RadioCommands(app_commands.Group):
+    @app_commands.command(name="pause",description="Pause playback")
+    async def pause(self,interaction: discord.Interaction):
+        await interaction.response.send_message("Being gutted, please ignore",ephemeral=True)
+
+    @app_commands.command(name="play",description="Resume playback")
+    async def play(self,interaction: discord.Interaction):
+        await interaction.response.send_message("Being gutted, please ignore",ephemeral=True)
+
+    @app_commands.command(name="stop",description="Stop playback")
+    async def stop(self,interaction: discord.Interaction):
+        await interaction.response.send_message("Being gutted, please ignore",ephemeral=True)
+
+    @app_commands.command(name="pop",description="Stream Pop Radio")
+    @app_commands.describe(option="This is a description of what the option means")
+    @app_commands.choices(option=[
+        app_commands.Choice(name="320", value="320"),
+        app_commands.Choice(name="128", value="128"),
+        app_commands.Choice(name="64", value="64"),
+        app_commands.Choice(name="32", value="32")])
+    async def pop(self,interaction: discord.Interaction,quality: Optional[app_commands.Choice[str]]):
+        if not quality:
+            quality = app_commands.Choice(name="128", value="128")
+        await interaction.response.send_message(f"http://stream.radioparadise.com/aac-{quality.value}",ephemeral=True)
+
+# endregion ==-Radio-==
 # endregion ===COMMANDS===
 
 bot.run(settings.TOKEN)
