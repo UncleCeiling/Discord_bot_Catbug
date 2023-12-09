@@ -196,13 +196,13 @@ class RadioCommands(app_commands.Group):
             except Exception as exception: # Freak out if it doesn't work
                 await interaction.response.edit_message(content=f"Couldn't connect.\nError:\n```{exception}```")
                 return
-            await interaction.response.edit_message(content=f"Connected!\nStarting Stream...")
+            await interaction.followup.send(content=f"Connected!\nStarting Stream...")
             try: # Try to Start the Stream
                 player.play(FFmpegPCMAudio(source=url))
             except Exception as exception: # Freak out if you can't
                 await interaction.response.edit_message(content=f"Couldn't start Stream.\nError:\n```{exception}```")
                 return
-            await interaction.response.edit_message(content=f"Stream started!\nEnjoy!")
+            await interaction.followup.send(content=f"Stream started!\nEnjoy!")
 
 # endregion ==-Radio-==
 # endregion ===COMMANDS===
