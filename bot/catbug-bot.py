@@ -78,7 +78,7 @@ async def example(interaction: discord.Interaction, member: Optional[discord.Mem
 @app_commands.describe(visible="Make output visible in channel?")
 async def pwd(interaction: discord.Interaction,visible: bool = False):
     try:
-        synced = await bot.tree.sync()
+        await bot.tree.sync()
     except Exception as exception:
         print(exception)
     await interaction.response.send_message(f"`{interaction.guild}/{interaction.channel}`",ephemeral=not visible)
