@@ -202,6 +202,7 @@ async def radio(interaction:discord.Interaction,station: app_commands.Choice[str
                 return
         await interaction.edit_original_response(content=f"Connected!\nStarting Stream...",)
         try: # Try to Start the Stream
+            player.stop()
             player.play(source=FFmpegPCMAudio(source=url))
         except Exception as exception: # Freak out if you can't
             await interaction.edit_original_response(content=f"Couldn't start Stream.\nError:\n```{exception}```")
