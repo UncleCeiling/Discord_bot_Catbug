@@ -7,7 +7,7 @@ ___
 ## ***Feature List:***
 - Visibility toggle for most commands
 - Bot Custom statuses - Cycling Quotes & Emoji from a .csv
-- [Radio Streaming](https://stackoverflow.com/questions/61757011/how-to-create-a-discord-bot-that-streams-online-radio-in-python) from [RadioParadise](https://radioparadise.com/listen/stream-links)
+- [Radio Streaming](https://stackoverflow.com/questions/61757011/how-to-create-a-discord-bot-that-streams-online-radio-in-python) from [RadioParadise](https://radioparadise.com/listen/stream-links) and most other Streaming urls.
 ___
 ## ***Commands***
 | **CLI** ||
@@ -27,8 +27,8 @@ ___
 | **Streaming** ||
 |---|---|
 | `/vc <Join/Leave/Pause/Resume/Stop>` | Various Audio controls. |
-| `/radio <Station/Genre> [Visible{False}]` | Reads Stations and Streams from a csv and plays them into a VC. |
-| `/atc <option> [search]` | Reads Air Traffic Control Towers and Streams from a csv and plays them into a VC. |
+| `/radio <Station/Genre> [Visible{True}]` | Reads Stations and Streams from a csv and plays them into a VC. |
+| `/atc <option> [visible{True}]` | Reads Air Traffic Control Towers and Streams from a csv and plays them into a VC. |
 | `/stream <url>` | Streams any given url |
 
 ___
