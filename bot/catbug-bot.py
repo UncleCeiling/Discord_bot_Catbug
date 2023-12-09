@@ -74,20 +74,19 @@ async def example(interaction: discord.Interaction, member: Optional[discord.Mem
 # endregion ===Silly===
 # region ===CLI===
 
+@bot.tree.command(name="pwd",description="tells you *where* you are") # Also syncs commands
+@app_commands.describe(visible="Make output visible in channel?")
+async def pwd(interaction: discord.Interaction,visible: bool = False):
+    try:
+        synced = await bot.tree.sync()
+    except Exception as exception:
+        print(exception)
+    await interaction.response.send_message(f"`{interaction.guild}/{interaction.channel}`",ephemeral=not visible)
+
 @bot.tree.command(name="whoami",description="tells you *who* you are")
 @app_commands.describe(visible="Make output visible in channel?")
 async def whoami(interaction: discord.Interaction,visible: bool = False):
     await interaction.response.send_message(f"`{interaction.user}`",ephemeral=not visible)
-
-@bot.tree.command(name="pwd",description="tells you *where* you are")
-@app_commands.describe(visible="Make output visible in channel?")
-async def pwd(interaction: discord.Interaction,visible: bool = False):
-    try:
-        synced = await bot.tree.sync() # Sync Command Tree
-        print(f"Synced {len(synced)} command(s)") # Display results
-    except Exception as exception:
-        print(exception)
-    await interaction.response.send_message(f"`{interaction.guild}/{interaction.channel}`",ephemeral=not visible)
 
 @bot.tree.command(name="whois",description="Prints out a bunch of information")
 @app_commands.describe(member = "The person you want to know more about (leave empty for yourself)",visible="Make output visible in channel?")
