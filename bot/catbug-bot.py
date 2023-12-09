@@ -4,7 +4,7 @@ import asyncio,discord,settings,datetime,os,csv
 from random import choice
 from typing import Optional
 from discord.ext import commands, tasks
-from discord import app_commands
+from discord import FFmpegPCMAudio, VoiceClient, app_commands
 
 os.chdir(os.path.dirname(__file__))
 # endregion ===IMPORTS===
@@ -12,7 +12,7 @@ os.chdir(os.path.dirname(__file__))
 
 intents = discord.Intents.all() # Declare intents
 bot = commands.Bot(command_prefix="!",intents=intents) # Builds bot
-
+player = VoiceClient
 # endregion ===DECLARATIONS===
 # region ===ON_READY===
 
@@ -178,9 +178,31 @@ class RadioCommands(app_commands.Group):
         app_commands.Choice(name="64", value="64"),
         app_commands.Choice(name="32", value="32")])
     async def pop(self,interaction: discord.Interaction,quality: Optional[app_commands.Choice[str]]):
-        if not quality:
-            quality = app_commands.Choice(name="128", value="128")
-        await interaction.response.send_message(f"http://stream.radioparadise.com/aac-{quality.value}",ephemeral=True)
+        if not interaction.guild:
+            await interaction.response.send_message("This command can only be used in a Server.",ephemeral=True)
+        elif not interaction.guild.voice_channels:
+            await interaction.response.send_message("This command can only be used in Servers with Voice Channels.",ephemeral=True)
+        elif not (isinstance(interaction.user,discord.Member) and interaction.user.voice and interaction.user.voice.channel):
+            await interaction.response.send_message(f"This command can only be used when connected to a Voice Channel in this Server.\nCurrent Server:{interaction.guild}\nVoice Channels:{interaction.guild.voice_channels}",ephemeral=True)
+        else:
+            channel = interaction.user.voice.channel
+            await interaction.response.send_message(f"Connecting to {channel}",ephemeral=True)
+            global player
+            if not quality:
+                quality = app_commands.Choice(name="128", value="128")
+            url = f"http://stream.radioparadise.com/aac-{quality.value}"
+            try: # Try to Connect
+                player = await channel.connect()
+            except Exception as exception: # Freak out if it doesn't work
+                await interaction.response.edit_message(content=f"Couldn't connect.\nError:\n```{exception}```")
+                return
+            await interaction.response.edit_message(content=f"Connected!\nStarting Stream...")
+            try: # Try to Start the Stream
+                player.play(FFmpegPCMAudio(source=url))
+            except Exception as exception: # Freak out if you can't
+                await interaction.response.edit_message(content=f"Couldn't start Stream.\nError:\n```{exception}```")
+                return
+            await interaction.response.edit_message(content=f"Stream started!\nEnjoy!")
 
 # endregion ==-Radio-==
 # endregion ===COMMANDS===
