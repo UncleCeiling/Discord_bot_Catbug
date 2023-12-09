@@ -185,7 +185,7 @@ async def radio(interaction:discord.Interaction,station: app_commands.Choice[str
         await interaction.response.send_message(f"This command can only be used when connected to a Voice Channel in this Server.\nCurrent Server:{interaction.guild}\nVoice Channels:{interaction.guild.voice_channels}",ephemeral=True)
     else: # Enter the channel
         channel = interaction.user.voice.channel # Find which channel to go to
-        await interaction.response.send_message(f"Connecting to {channel}",ephemeral=(not visible))
+        await interaction.response.send_message(f"> Connecting to {channel}",ephemeral=(not visible),suppress_embeds=True)
         global player
         if interaction.guild.voice_client and (interaction.guild.voice_client.channel != channel): # If we are already in a channel, but not the right one
             await interaction.edit_original_response(content=f"Disconnecting from {interaction.guild.voice_client.channel}...")
@@ -200,14 +200,14 @@ async def radio(interaction:discord.Interaction,station: app_commands.Choice[str
             except Exception as exception: # Freak out if it doesn't work
                 await interaction.edit_original_response(content=f"Couldn't connect.\nError:\n```{exception}```")
                 return
-        await interaction.edit_original_response(content=f"Connected!\nStarting Stream...",)
+        await interaction.edit_original_response(content=f"> Connected!\n> Starting Stream...",)
         try: # Try to Start the Stream
             player.stop()
             player.play(source=FFmpegPCMAudio(source=url))
         except Exception as exception: # Freak out if you can't
-            await interaction.edit_original_response(content=f"Couldn't start Stream.\nError:\n```{exception}```")
+            await interaction.edit_original_response(content=f"> Couldn't start Stream.\n>Error:\n```{exception}```")
             return
-        await interaction.edit_original_response(content=f"Global stream started!\nStream courtesy of [Radio Paradise](https://radioparadise.com/)\nEnjoy! [Stream URL]({url})")
+        await interaction.edit_original_response(content=f"> Global stream started!\n> Stream courtesy of [Radio Paradise](https://radioparadise.com/)\n> Enjoy! [Stream URL]({url})")
 
 
 
