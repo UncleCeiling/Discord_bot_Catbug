@@ -86,11 +86,11 @@ async def example(interaction: discord.Interaction, member: Optional[discord.Mem
 @bot.tree.command(name="pwd",description="tells you *where* you are") # Also syncs commands
 @app_commands.describe(visible="Make output visible in channel?")
 async def pwd(interaction: discord.Interaction,visible: bool = False):
+    await interaction.response.send_message(f"`{interaction.guild}/{interaction.channel}`",ephemeral=not visible)
     try:
         await bot.tree.sync()
     except Exception as exception:
         print(exception)
-    await interaction.response.send_message(f"`{interaction.guild}/{interaction.channel}`",ephemeral=not visible)
 
 @bot.tree.command(name="whoami",description="tells you *who* you are")
 @app_commands.describe(visible="Make output visible in channel?")
@@ -171,8 +171,8 @@ class RadioCommands(app_commands.Group):
         await interaction.response.send_message("Being gutted, please ignore",ephemeral=True)
 
     @app_commands.command(name="pop",description="Stream Pop Radio")
-    @app_commands.describe(option="This is a description of what the option means")
-    @app_commands.choices(option=[
+    @app_commands.describe(quality="This is a description of what the option means")
+    @app_commands.choices(quality=[
         app_commands.Choice(name="320", value="320"),
         app_commands.Choice(name="128", value="128"),
         app_commands.Choice(name="64", value="64"),
