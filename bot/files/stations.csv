@@ -1,3 +1,4 @@
+*Seasonal* - Heart Xmas,https://media-ssl.musicradio.com/HeartXmas
 BBC - Radio 1,http://lstn.lv/bbc.m3u8?station=bbc_radio_one&bitrate=128000
 BBC - Radio 2,http://lstn.lv/bbc.m3u8?station=bbc_radio_two&bitrate=128000
 BBC - Radio 4,http://lstn.lv/bbc.m3u8?station=bbc_radio_fourfm&bitrate=128000
@@ -9,14 +10,10 @@ Radio Paradise - Mellow,http://stream.radioparadise.com/mellow-128
 Radio Paradise - Mixed,http://stream.radioparadise.com/aac-128
 Radio Paradise - Rock,http://stream.radioparadise.com/rock-128
 TT - 93.5 Hott,https://ice41.securenetsystems.net:80/HOTT93
-TT - 94.7 Star (broken),https://fms.ttrn.org/live/star947.sdp/media_w2060647527_5498.aac
 TT - 95.1 The Best Mix,https://www.radiomast.io/stream/68540e88-54b8-4924-b098-5a668f7da7b6/listen
-UK - Absolute,http://www.radiofeeds.net/playlists/bauerflash.pls?station=absoluteradio-mp3
-UK - Capital,http://icecast.thisisdax.com/CapitalUKMP3.m3u
-UK - Classic FM,http://icecast.thisisdax.com/ClassicFMMP3.m3u
-UK - Eruption,http://streaming04.liveboxstream.uk:8116/listen.pls?sid=1
+UK - Capital,https://media-ssl.musicradio.com/CapitalMP3
+UK - Classic FM,https://media-ssl.musicradio.com/ClassicFM
 UK - Gaydio,https://listen-gaydio.sharp-stream.com/gaydiouk.mp3
-UK - Heart,http://icecast.thisisdax.com/HeartUKMP3.m3u
-UK - Magic,http://www.radiofeeds.net/playlists/bauerflash.pls?station=magicnational-mp3
-UK - Radio X,http://icecast.thisisdax.com/RadioXUKMP3.m3u
-UK - Smooth,http://icecast.thisisdax.com/SmoothUKMP3.m3u
+UK - Heart,https://media-ssl.musicradio.com/HeartUK
+UK - Radio X,https://media-ssl.musicradio.com/RadioXUK
+UK - Smooth,https://media-ssl.musicradio.com/SmoothUK
