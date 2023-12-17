@@ -156,13 +156,17 @@ async def reboot(interaction: discord.Interaction):
             await interaction.response.send_message("> You do not have permission to perform this command",ephemeral=True)
             return
         else:
-            await interaction.response.send_message("> :hourglass_flowing_sand: Shutting down...",ephemeral=True)
-            output = subprocess.check_output(["git","pull"])
-            if output == None:
-                await asyncio.sleep(10)
-            else:
-                await asyncio.sleep(2)
+            message = ">>> :hourglass_flowing_sand: Initiating shutdown..."
+            await interaction.response.send_message(message,ephemeral=True)
+            message += "\n :hook: Running `git pull`..."
+            await interaction.edit_original_response(content=message)
+            message += f"\n{subprocess.check_output(["git","pull"])}"
+            await interaction.edit_original_response(content=message)
+            message += "\n :door: Logging off..."
+            await interaction.edit_original_response(content=message)
             await bot.change_presence(status=discord.Status.offline,activity=None)
+            message += "\n :arrows_counterclockwise: Rebooting..."
+            await interaction.edit_original_response(content=message)
             os.system("sudo reboot")
 
 # endregion ==-CLI-==
