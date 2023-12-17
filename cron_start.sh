@@ -2,4 +2,4 @@
 cd /home/minipi/Catbug
 git fetch
 git pull --rebase
-./start.sh
+sudo python3 bot/catbug-bot.py
