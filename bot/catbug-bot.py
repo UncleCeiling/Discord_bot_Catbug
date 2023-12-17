@@ -160,7 +160,7 @@ async def reboot(interaction: discord.Interaction):
             await interaction.response.send_message(message,ephemeral=True)
             message += "\n:hook: Running `git pull`..."
             await interaction.edit_original_response(content=message)
-            message += f"\n:spiral_note_pad: Output:\n{str(subprocess.check_output(['git','pull']))[2:-1]}"
+            message += f"\n:spiral_note_pad: Output:\n```{str(subprocess.check_output(['git','pull']))[2:-1].replace('\\n', '\n').replace('\\t', '\t')}```"
             await interaction.edit_original_response(content=message)
             message += "\n:door: Logging off..."
             await interaction.edit_original_response(content=message)
