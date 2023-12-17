@@ -158,14 +158,14 @@ async def reboot(interaction: discord.Interaction):
         else:
             message = ">>> :hourglass_flowing_sand: Initiating shutdown..."
             await interaction.response.send_message(message,ephemeral=True)
-            message += "\n :hook: Running `git pull`..."
+            message += "\n:hook: Running `git pull`..."
             await interaction.edit_original_response(content=message)
-            message += f"\n{subprocess.check_output(['git','pull'])}"
+            message += f"\n```{subprocess.check_output(['git','pull'])}```"
             await interaction.edit_original_response(content=message)
-            message += "\n :door: Logging off..."
+            message += "\n:door: Logging off..."
             await interaction.edit_original_response(content=message)
             await bot.change_presence(status=discord.Status.offline,activity=None)
-            message += "\n :arrows_counterclockwise: Rebooting..."
+            message += "\n:arrows_counterclockwise: Rebooting..."
             await interaction.edit_original_response(content=message)
             os.system("sudo reboot")
 
