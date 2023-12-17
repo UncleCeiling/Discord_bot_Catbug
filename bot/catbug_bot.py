@@ -155,7 +155,7 @@ async def reboot(interaction: discord.Interaction):
             await interaction.response.send_message("> You do not have permission to perform this command",ephemeral=True)
             return
         else:
-            message = "> :hourglass_flowing_sand: Initiating shutdown..."
+            message = "> :hourglass_flowing_sand:⏳ Initiating shutdown..."
             await interaction.response.send_message(message,ephemeral=True)
             message += "\n\n> :hook: Running `git pull`..."
             await interaction.edit_original_response(content=message)
@@ -202,7 +202,7 @@ async def vc(interaction:discord.Interaction,command:app_commands.Choice[str],vi
                 message += f"\n\n>>> Joining `{channel}` failed.\nError:\n```{exception}```"
                 await interaction.edit_original_response(content=message)
         else:
-            await interaction.response.send_message(f">>> This command can only be used when connected to a Voice Channel in the current Server.\n Current Server:{interaction.guild}",ephemeral=(not visible))
+            await interaction.response.send_message(f">>> This command can only be used when connected to a Voice Channel in the current Server.\nCurrent Server:{interaction.guild}",ephemeral=(not visible))
             return
     elif choice == 2:
         if interaction.guild and interaction.guild.voice_client: # If in voice-chat
