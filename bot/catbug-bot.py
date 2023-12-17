@@ -162,7 +162,7 @@ async def reboot(interaction: discord.Interaction):
                 await asyncio.sleep(10)
             else:
                 await asyncio.sleep(2)
-            await bot.change_presence(status=discord.Status.offline)
+            await bot.change_presence(status=discord.Status.offline,activity=None)
             os.system("sudo reboot")
 
 # endregion ==-CLI-==
