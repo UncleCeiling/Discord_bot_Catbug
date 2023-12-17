@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 cd /home/minipi/Catbug
 git fetch --all
 git reset --hard
