@@ -140,10 +140,26 @@ async def whois(interaction: discord.Interaction, member: Optional[discord.Membe
             message += f"[Guild Avatar]({member.guild_avatar.url})\n"
     await interaction.response.send_message(content=message,ephemeral=not visible)
 
+@bot.tree.command(name="reboot",description="Reboots the bot (Need perms)")
+async def reboot(interaction: discord.Interaction):
+    if interaction.guild:
+        await interaction.response.send_message("> This command can only used in DMs.",ephemeral=True)
+        return
+    else:
+        with open("files/admins.csv",encoding="utf8") as file:
+            admins = {}
+            for line in csv.DictReader(file,fieldnames=("Name","ID")):
+                admins.update({line["Name"]:line["ID"]})
+        if interaction.user.id not in admins.values():
+            await interaction.response.send_message("> You do not have permission to perform this command",ephemeral=True)
+        else:
+            await interaction.response.send_message("> Shutting down...",ephemeral=True)
+            os.system("sudo reboot")
+
 # endregion ==-CLI-==
 # region ==-VC-==
 
-@bot.tree.command(name="vc",description="Voice-chat Commands")
+@bot.tree.command(name="vc",description="join|leave|resume|pause|stop")
 @app_commands.describe(command="Which command you want to use.",visible="Make output visible in channel?")
 @app_commands.choices(command=[
     app_commands.Choice(name="Join", value="1"),
@@ -152,25 +168,25 @@ async def whois(interaction: discord.Interaction, member: Optional[discord.Membe
     app_commands.Choice(name="Pause", value="4"),
     app_commands.Choice(name="Stop", value="5")
     ])
-async def vc(interaction:discord.Interaction,command:app_commands.Choice[str],visible:Optional[bool]=True):
+async def vc(interaction:discord.Interaction,command:app_commands.Choice[str],visible:Optional[bool]=False):
     choice = int(command.value)
     global player
     if choice == 1:
         if not interaction.guild:
-            await interaction.response.send_message("This command can only be used in a Server.",ephemeral=(not visible))
+            await interaction.response.send_message("> This command can only be used in a Server.",ephemeral=(not visible))
             return
         elif interaction.guild.voice_client:
             await interaction.guild.voice_client.disconnect(force=True)
         if isinstance(interaction.user,discord.Member) and interaction.user.voice and interaction.user.voice.channel:
             channel = interaction.user.voice.channel
-            await interaction.response.send_message(f"Joining `{channel}`...",ephemeral=(not visible))
+            await interaction.response.send_message(f"> Joining `{channel}`...",ephemeral=(not visible))
             try:
                 player = await channel.connect()
-                await interaction.edit_original_response(content=f"Joined `{channel}`.")
+                await interaction.edit_original_response(content=f"> Joined `{channel}`.")
             except Exception as exception:
                 await interaction.edit_original_response(content=f"> Joining `{channel}` failed.\n> Error:\n```{exception}```")
         else:
-            await interaction.response.send_message(f"This command can only be used when connected to a Voice Channel in the current Server.\nCurrent Server:{interaction.guild}",ephemeral=(not visible))
+            await interaction.response.send_message(f"> This command can only be used when connected to a Voice Channel in the current Server.\n> Current Server:{interaction.guild}",ephemeral=(not visible))
             return
     elif choice == 2:
         if interaction.guild and interaction.guild.voice_client: # If in voice-chat
@@ -184,9 +200,9 @@ async def vc(interaction:discord.Interaction,command:app_commands.Choice[str],vi
                 await interaction.edit_original_response(content=f"> Leaving `{channel}` failed.\n> Error:\n```{exception}```")
         else:
             if interaction.guild: # If we're even in a server
-                await interaction.response.send_message("This command can only be used if I'm in a voice channel already.",ephemeral=(not visible))
+                await interaction.response.send_message("> This command can only be used if I'm in a voice channel already.",ephemeral=(not visible))
             else:
-                await interaction.response.send_message("This command can only be used in a Server.",ephemeral=(not visible))
+                await interaction.response.send_message("> This command can only be used in a Server.",ephemeral=(not visible))
     elif choice == 3:
         await interaction.response.send_message("> Resuming...",ephemeral=(not visible))
         try:

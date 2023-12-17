@@ -2,4 +2,4 @@
 cd /home/minipi/Catbug
 git fetch
 git pull --rebase
-python3 bot/catbug-bot.py >> cron.log
+sudo python3 /home/minipi/Catbug/bot/catbug-bot.py >> cron.log
