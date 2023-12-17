@@ -156,17 +156,17 @@ async def reboot(interaction: discord.Interaction):
             await interaction.response.send_message("> You do not have permission to perform this command",ephemeral=True)
             return
         else:
-            message = ">>> :hourglass_flowing_sand: Initiating shutdown..."
+            message = "> :hourglass_flowing_sand: Initiating shutdown..."
             await interaction.response.send_message(message,ephemeral=True)
-            message += "\n:hook: Running `git pull`..."
+            message += "\n\n> :hook: Running `git pull`..."
             await interaction.edit_original_response(content=message)
             output = str(subprocess.check_output(["git","pull"]))[2:-1].replace("\\n", "\n").replace("\\t", "\t").replace("+",":large_green_circle:").replace("-",":red_circle:").replace("Already up to date.","Already up to date. :white_check_mark:")
-            message += f"\n:spiral_note_pad: Output:\n>>>{output}"
+            message += f"\n\n>>> :spiral_note_pad: Output:\n>>>{output}"
             await interaction.edit_original_response(content=message)
-            message += "\n:door: Logging off..."
+            message += "\n\n> :door: Logging off..."
             await interaction.edit_original_response(content=message)
             await bot.change_presence(status=discord.Status.offline,activity=None)
-            message += "\n:arrows_counterclockwise: Rebooting..."
+            message += "\n\n> :arrows_counterclockwise: Rebooting..."
             await interaction.edit_original_response(content=message)
             os.system("sudo reboot")
 
