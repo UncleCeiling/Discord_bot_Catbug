@@ -108,11 +108,11 @@ async def whois(interaction: discord.Interaction, member: Optional[discord.Membe
     if member.bot == True or member.system == True:
         message += ">>> ## This account is "
         if member.bot == True and member.system == True:
-            message += "an `official bot` :robot: :shield:\n"
+            message += "an `official bot` 🤖 🛡️\n"
         elif member.bot == True:
-            message += "a `bot` :robot:\n"
+            message += "a `bot` 🤖\n"
         elif member.system == True:
-            message += "an `official account`:shield:\n"
+            message += "an `official account` 🛡️\n"
     if member.global_name:
         message += f"### Global Nickname:\n`{member.global_name}`\n"
     message += f"### Username:\n`{member}`\n"
@@ -155,17 +155,17 @@ async def reboot(interaction: discord.Interaction):
             await interaction.response.send_message("> You do not have permission to perform this command",ephemeral=True)
             return
         else:
-            message = "> :hourglass_flowing_sand:⏳ Initiating shutdown..."
+            message = "> ⏳ Initiating shutdown..."
             await interaction.response.send_message(message,ephemeral=True)
-            message += "\n\n> :hook: Running `git pull`..."
+            message += "\n\n> 🪝 Running `git pull`..."
             await interaction.edit_original_response(content=message)
-            output = str(subprocess.check_output(["git","pull"]))[2:-1].replace("Fast-forward","FastForward").replace("\\n", "\n> ").replace("\\t", "\t").replace("+",":green_circle:").replace("-",":red_circle:").replace("Already up to date.","Already up to date. :white_check_mark:")
-            message += f"\n\n> :spiral_note_pad: Output:\n> {output}"
+            output = str(subprocess.check_output(["git","pull"]))[2:-1].replace("Fast-forward","FastForward").replace("\\n", "\n> ").replace("\\t", "\t").replace("+","🟢").replace("-","🔴").replace("Already up to date.","Already up to date. ✅")
+            message += f"\n\n> 🗒️ Output:\n> {output}"
             await interaction.edit_original_response(content=message)
-            message += "\n\n> :door: Logging off..."
+            message += "\n\n> 🚪 Logging off..."
             await interaction.edit_original_response(content=message)
             await bot.change_presence(status=discord.Status.offline,activity=None)
-            message += "\n\n> :arrows_counterclockwise: Rebooting..."
+            message += "\n\n> 🔄 Rebooting..."
             await interaction.edit_original_response(content=message)
             os.system("sudo reboot")
 
@@ -175,11 +175,11 @@ async def reboot(interaction: discord.Interaction):
 @bot.tree.command(name="vc",description="join | leave | resume | pause | stop")
 @app_commands.describe(command="What you want the bot to do.",visible="Make output visible in channel?")
 @app_commands.choices(command=[
-    app_commands.Choice(name="Join", value="1"),
-    app_commands.Choice(name="Leave", value="2"),
-    app_commands.Choice(name="Resume", value="3"),
-    app_commands.Choice(name="Pause", value="4"),
-    app_commands.Choice(name="Stop", value="5")
+    app_commands.Choice(name="join", value="1"),
+    app_commands.Choice(name="leave", value="2"),
+    app_commands.Choice(name="resume", value="3"),
+    app_commands.Choice(name="pause", value="4"),
+    app_commands.Choice(name="stop", value="5")
     ])
 async def vc(interaction:discord.Interaction,command:app_commands.Choice[str],visible:Optional[bool]=False):
     choice = int(command.value)
