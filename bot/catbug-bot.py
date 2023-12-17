@@ -1,11 +1,12 @@
 # region ===IMPORTS===
 
-import asyncio,discord,settings,datetime,os,csv
+import asyncio,discord,settings,datetime,os,csv,subprocess
 from optparse import Option
 from random import choice
 from typing import Optional
 from discord.ext import commands, tasks
 from discord import FFmpegPCMAudio, VoiceClient, app_commands
+
 
 os.chdir(os.path.dirname(__file__))
 # endregion ===IMPORTS===
@@ -155,6 +156,11 @@ async def reboot(interaction: discord.Interaction):
             return
         else:
             await interaction.response.send_message("> :hourglass_flowing_sand: Shutting down...",ephemeral=True)
+            output = subprocess.check_output(["git","pull"])
+            if output == None:
+                await asyncio.sleep(10)
+            else:
+                await asyncio.sleep(2)
             os.system("sudo reboot")
 
 # endregion ==-CLI-==
