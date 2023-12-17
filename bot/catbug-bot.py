@@ -26,6 +26,7 @@ async def on_ready(): # When the client is ready
         print(f"Synced {len(synced)} command(s)") # Display results
     except Exception as exception:
         print(exception)
+    await bot.change_presence(status=discord.Status.online)
     status_task.start()
 
 # endregion ===ON_READY===
@@ -161,6 +162,7 @@ async def reboot(interaction: discord.Interaction):
                 await asyncio.sleep(10)
             else:
                 await asyncio.sleep(2)
+            await bot.change_presence(status=discord.Status.offline)
             os.system("sudo reboot")
 
 # endregion ==-CLI-==
