@@ -149,7 +149,7 @@ async def reboot(interaction: discord.Interaction):
         with open("files/admins.csv",encoding="utf8") as file:
             admins = {}
             for line in csv.DictReader(file,fieldnames=("Name","ID")):
-                admins.update({line["Name"]:line["ID"]})
+                admins.update({line["Name"]:int(line["ID"])})
         if interaction.user.id not in admins.values():
             await interaction.response.send_message("> You do not have permission to perform this command",ephemeral=True)
         else:
