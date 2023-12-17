@@ -1,11 +1,10 @@
 # region ===IMPORTS===
 
 import asyncio,discord,settings,datetime,os,csv,subprocess
-from optparse import Option
 from random import choice
 from typing import Optional
 from discord.ext import commands, tasks
-from discord import FFmpegPCMAudio, VoiceClient, app_commands
+from discord import FFmpegPCMAudio, app_commands
 
 
 os.chdir(os.path.dirname(__file__))
@@ -272,38 +271,47 @@ async def radio(interaction:discord.Interaction,station: app_commands.Choice[str
     url = station.value
     # Filter cases where no action is taken
     if not interaction.guild: # Not in Server
-        await interaction.response.send_message("This command can only be used in a Server.",ephemeral=True)
+        await interaction.response.send_message("> This command can only be used in a Server.",ephemeral=True)
         return
     elif not interaction.guild.voice_channels: # No Voice Channels
-        await interaction.response.send_message("This command can only be used in Servers with Voice Channels.",ephemeral=True)
+        await interaction.response.send_message("> This command can only be used in Servers with Voice Channels.",ephemeral=True)
         return
     elif not (isinstance(interaction.user,discord.Member) and interaction.user.voice and interaction.user.voice.channel): # If User is not in Voice Channel
-        await interaction.response.send_message(f"This command can only be used when connected to a Voice Channel in the current Server.\nCurrent Server:{interaction.guild}",ephemeral=True)
+        await interaction.response.send_message(f">>> This command can only be used when connected to a Voice Channel in the current Server.\nCurrent Server:{interaction.guild}",ephemeral=True)
     else: # Enter the channel
         channel = interaction.user.voice.channel # Find which channel to go to
-        await interaction.response.send_message(f"> Connecting to {channel}",ephemeral=(not visible),suppress_embeds=True)
+        message = f"> Starting Connection..."
+        await interaction.response.send_message(message,ephemeral=(not visible),suppress_embeds=True)
         global player
         if interaction.guild.voice_client and (interaction.guild.voice_client.channel != channel): # If we are already in a channel, but not the right one
-            await interaction.edit_original_response(content=f"Disconnecting from {interaction.guild.voice_client.channel}...")
+            message += f"\n\n> Disconnecting from {interaction.guild.voice_client.channel}..."
+            await interaction.edit_original_response(content=message)
             try: # Try to disconnect from current Channel
                 await interaction.guild.voice_client.disconnect(force=True)
             except Exception as exception: # Freak out if you can't
-                await interaction.edit_original_response(content=f"Couldn't disconnect.\nError:\n```{exception}```")
+                message += f"\n\n>>> Couldn't disconnect.\nError:\n```{exception}```"
+                await interaction.edit_original_response(content=message)
                 return
         if not interaction.guild.voice_client: # If we aren't in a channel
+            message += f"\n\n> Connecting to {channel}..."
+            await interaction.edit_original_response(content=message)
             try: # Try to Connect
                 player = await channel.connect()
             except Exception as exception: # Freak out if it doesn't work
-                await interaction.edit_original_response(content=f"Couldn't connect.\nError:\n```{exception}```")
+                message += f"\n\n>>> Couldn't connect to {channel}.\nError:\n```{exception}```"
+                await interaction.edit_original_response(content=message)
                 return
-        await interaction.edit_original_response(content=f"> Connected!\n> Starting Stream...",)
+        message += f"\n\n> Connected! Starting Stream..."
+        await interaction.edit_original_response(content=message)
         try: # Try to Start the Stream
             player.stop()
             player.play(source=FFmpegPCMAudio(source=url))
         except Exception as exception: # Freak out if you can't
-            await interaction.edit_original_response(content=f"> Couldn't start Stream.\n>Error:\n```{exception}```")
+            message += f"\n\n>>> Couldn't start Stream.\nError:\n```{exception}```"
+            await interaction.edit_original_response(content=message)
             return
-        await interaction.edit_original_response(content=f"> {station.name} stream started!\n> Enjoy! [Stream URL]({url})")
+        message += f"\n\n>>> {station.name} stream started!\nEnjoy! [Stream URL]({url})"
+        await interaction.edit_original_response(content=message)
 
 # endregion ==-Radio-==
 # region ==-ATC-==
@@ -315,8 +323,8 @@ def get_towers():
             towers.append(app_commands.Choice(name=f"{tower['IATA']} - {tower['City']} - {tower['Type']}", value=tower["url"]))
     return towers
 
-@bot.tree.command(name="atc",description="Air Traffic Control chatter")
-@app_commands.describe(tower="The ATC Tower you'd like to listen to.",visible="Make output visible in channel?")
+@bot.tree.command(name="atc",description="Air Traffic Control radio feed.")
+@app_commands.describe(tower="ATC Tower you'd like to listen to.",visible="Make output visible in channel?")
 @app_commands.choices(tower=get_towers())
 async def atc(interaction:discord.Interaction,tower: app_commands.Choice[str],visible: Optional[bool]=True):
     # Build URL with Args
@@ -330,31 +338,41 @@ async def atc(interaction:discord.Interaction,tower: app_commands.Choice[str],vi
         return
     elif not (isinstance(interaction.user,discord.Member) and interaction.user.voice and interaction.user.voice.channel): # If User is not in Voice Channel
         await interaction.response.send_message(f"> This command can only be used when connected to a Voice Channel in the current Server.\n> Current Server:{interaction.guild}",ephemeral=True)
+        return
     else: # Enter the channel
         channel = interaction.user.voice.channel # Find which channel to go to
-        await interaction.response.send_message(f"> Connecting to {channel}",ephemeral=(not visible),suppress_embeds=True)
+        message = f"> Starting Connection..."
+        await interaction.response.send_message(message,ephemeral=(not visible),suppress_embeds=True)
         global player
         if interaction.guild.voice_client and (interaction.guild.voice_client.channel != channel): # If we are already in a channel, but not the right one
-            await interaction.edit_original_response(content=f"> Disconnecting from {interaction.guild.voice_client.channel}...")
+            message += f"\n\n> Disconnecting from {interaction.guild.voice_client.channel}..."
+            await interaction.edit_original_response(content=message)
             try: # Try to disconnect from current Channel
                 await interaction.guild.voice_client.disconnect(force=True)
             except Exception as exception: # Freak out if you can't
-                await interaction.edit_original_response(content=f"> Couldn't disconnect.\n> Error:\n```{exception}```")
+                message += f"\n\n>>> Couldn't disconnect.\nError:\n```{exception}```"
+                await interaction.edit_original_response(content=message)
                 return
         if not interaction.guild.voice_client: # If we aren't in a channel
+            message += f"\n\n> Connecting to {channel}..."
+            await interaction.edit_original_response(content=message)
             try: # Try to Connect
                 player = await channel.connect()
             except Exception as exception: # Freak out if it doesn't work
-                await interaction.edit_original_response(content=f"> Couldn't connect.\n> Error:\n```{exception}```")
+                message += f"\n\n>>> Couldn't connect to {channel}.\nError:\n```{exception}```"
+                await interaction.edit_original_response(content=message)
                 return
-        await interaction.edit_original_response(content=f"> Connected!\n> Starting Stream...",)
+        message += f"\n\n> Connected! Starting Stream..."
+        await interaction.edit_original_response(content=message)
         try: # Try to Start the Stream
             player.stop()
             player.play(source=FFmpegPCMAudio(source=url))
         except Exception as exception: # Freak out if you can't
-            await interaction.edit_original_response(content=f"> Couldn't start Stream.\n>Error:\n```{exception}```")
+            message += f"\n\n>>> Couldn't start Stream.\nError:\n```{exception}```"
+            await interaction.edit_original_response(content=message)
             return
-        await interaction.edit_original_response(content=f"> {tower.name} stream started!\n> Enjoy! [Stream URL]({url})")
+        message += f"\n\n>>> {tower.name} stream started!\nEnjoy! [Stream URL]({url})"
+        await interaction.edit_original_response(content=message)
 
 # endregion ==-ATC-==
 # region ==-URL-==
@@ -362,6 +380,7 @@ async def atc(interaction:discord.Interaction,tower: app_commands.Choice[str],vi
 @bot.tree.command(name="stream",description="Stream a url")
 @app_commands.describe(url="The link you want to stream",visible="Make output visible in channel?")
 async def stream(interaction: discord.Interaction,url: str,visible: Optional[bool]=True):
+    # Filter cases where no action is taken
     if not interaction.guild: # Not in Server
         await interaction.response.send_message("> This command can only be used in a Server.",ephemeral=True)
         return
@@ -369,32 +388,41 @@ async def stream(interaction: discord.Interaction,url: str,visible: Optional[boo
         await interaction.response.send_message("> This command can only be used in Servers with Voice Channels.",ephemeral=True)
         return
     elif not (isinstance(interaction.user,discord.Member) and interaction.user.voice and interaction.user.voice.channel): # If User is not in Voice Channel
-        await interaction.response.send_message(f"> This command can only be used when connected to a Voice Channel in the current Server.\n> Current Server:{interaction.guild}",ephemeral=True)
+        await interaction.response.send_message(f">>> This command can only be used when connected to a Voice Channel in the current Server.\nCurrent Server:{interaction.guild}",ephemeral=True)
     else: # Enter the channel
         channel = interaction.user.voice.channel # Find which channel to go to
-        await interaction.response.send_message(f"> Connecting to {channel}",ephemeral=(not visible),suppress_embeds=True)
+        message = f"> Starting Connection..."
+        await interaction.response.send_message(message,ephemeral=(not visible),suppress_embeds=True)
         global player
         if interaction.guild.voice_client and (interaction.guild.voice_client.channel != channel): # If we are already in a channel, but not the right one
-            await interaction.edit_original_response(content=f"Disconnecting from {interaction.guild.voice_client.channel}...")
+            message += f"\n\n> Disconnecting from {interaction.guild.voice_client.channel}..."
+            await interaction.edit_original_response(content=message)
             try: # Try to disconnect from current Channel
                 await interaction.guild.voice_client.disconnect(force=True)
             except Exception as exception: # Freak out if you can't
-                await interaction.edit_original_response(content=f"Couldn't disconnect.\n> Error:\n```{exception}```")
+                message += f"\n\n>>> Couldn't disconnect.\nError:\n```{exception}```"
+                await interaction.edit_original_response(content=message)
                 return
         if not interaction.guild.voice_client: # If we aren't in a channel
+            message += f"\n\n> Connecting to {channel}..."
+            await interaction.edit_original_response(content=message)
             try: # Try to Connect
                 player = await channel.connect()
             except Exception as exception: # Freak out if it doesn't work
-                await interaction.edit_original_response(content=f"Couldn't connect.\n> Error:\n```{exception}```")
+                message += f"\n\n>>> Couldn't connect to {channel}.\nError:\n```{exception}```"
+                await interaction.edit_original_response(content=message)
                 return
-        await interaction.edit_original_response(content=f"> Connected!\n> Starting Stream...",)
+        message += f"\n\n> Connected! Starting Stream..."
+        await interaction.edit_original_response(content=message)
         try: # Try to Start the Stream
             player.stop()
             player.play(source=FFmpegPCMAudio(source=url))
         except Exception as exception: # Freak out if you can't
-            await interaction.edit_original_response(content=f"> Couldn't start Stream.\n> Error:\n```{exception}```")
+            message += f"\n\n>>> Couldn't start Stream.\nError:\n```{exception}```"
+            await interaction.edit_original_response(content=message)
             return
-        await interaction.edit_original_response(content=f"> Stream started!\n> Enjoy! [Stream URL]({url})")
+        message += f"\n\n>>> Stream started!\nEnjoy! [Stream URL]({url})"
+        await interaction.edit_original_response(content=message)
 
 # endregion ==-URL-==
 # endregion ===COMMANDS===
