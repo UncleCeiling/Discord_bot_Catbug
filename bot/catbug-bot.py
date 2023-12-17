@@ -154,7 +154,7 @@ async def reboot(interaction: discord.Interaction):
             await interaction.response.send_message("> You do not have permission to perform this command",ephemeral=True)
             return
         else:
-            await interaction.response.send_message("> Shutting down...",ephemeral=True)
+            await interaction.response.send_message("> :hourglass_flowing_sand: Shutting down...",ephemeral=True)
             os.system("sudo reboot")
 
 # endregion ==-CLI-==
