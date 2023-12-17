@@ -16,7 +16,7 @@ ___
 | `/pwd [Visible{False}]` | Prints the location that it is executed in. |
 | `/whoami [Visible{False}]` | Prints the username of whoever executes it. |
 | `/whois [member{User}] [Visible{False}]` | Display a Dynamic set of information about a specified member. |
-| `/reboot` | Reboots Catbug (in DMs, if user is in admin list). |
+| `/reboot` | Reboots Catbug (in DMs, if user is in admin list). Also runs `git pull`, updating the bot |
 
 | **Fun** ||
 |---|---|
