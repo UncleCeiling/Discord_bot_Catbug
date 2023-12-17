@@ -38,6 +38,7 @@ ___
 |**Features**||
 |---|---|
 | `Channel Status` | Set and clear Channel Statuses as appropriate |
+| `Reboot command` | Send message to admin if non-admin tries to reboot |
 
 |**Commands**||
 |---|---|
@@ -46,6 +47,13 @@ ___
 | `/catbug <option> [specifics]` | A variety of Catbug references; like gifs, soundbytes and maybe videos? |
 | `/CCFlamez` | Auto-mute/Auto-unmute based on rich-presence of Guitar Hero |
 | `/monty` | Various Monty Python quotes |
+
+___
+## ***Other Projects***
+| | |
+|---|---|
+| `Discord Shell` | Find a way to use a discord bot as a shell. |
+
 
 
 <!--

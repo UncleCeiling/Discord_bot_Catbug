@@ -75,39 +75,39 @@ async def phallus(interaction: discord.Interaction, member: Optional[discord.Mem
     if isinstance(interaction.user,discord.Member):
         member = member or interaction.user
     else:
-        await interaction.response.send_message("Error - member does not exist",ephemeral=not visible)
+        await interaction.response.send_message("> Error - member does not exist",ephemeral=not visible)
         return
     length = (int(member.id) % 11) + 1
-    await interaction.response.send_message(f"{member.mention}:\n8"+"=".center(length,"=")+"D",ephemeral=not visible)
+    await interaction.response.send_message(f">>> {member.mention}:\n8"+"=".center(length,"=")+"D",ephemeral=not visible)
 
 # endregion ==-SILLY-==
 # region ==-CLI-==
 
-@bot.tree.command(name="pwd",description="tells you *where* you are") # Also syncs commands
+@bot.tree.command(name="pwd",description="Tells you WHERE you are.") # Also syncs commands
 @app_commands.describe(visible="Make output visible in channel?")
 async def pwd(interaction: discord.Interaction,visible: bool = False):
-    await interaction.response.send_message(f"`{interaction.guild}/{interaction.channel}`",ephemeral=not visible)
+    await interaction.response.send_message(f"> `{interaction.guild}/{interaction.channel}`",ephemeral=(not visible))
     try:
         await bot.tree.sync()
     except Exception as exception:
         print(exception)
 
-@bot.tree.command(name="whoami",description="tells you *who* you are")
+@bot.tree.command(name="whoami",description="Tells you WHO you are")
 @app_commands.describe(visible="Make output visible in channel?")
 async def whoami(interaction: discord.Interaction,visible: bool = False):
-    await interaction.response.send_message(f"`{interaction.user}`",ephemeral=not visible)
+    await interaction.response.send_message(f"> `{interaction.user}`",ephemeral=(not visible))
 
-@bot.tree.command(name="whois",description="Prints out a bunch of information")
-@app_commands.describe(member = "The person you want to know more about (leave empty for yourself)",visible="Make output visible in channel?")
+@bot.tree.command(name="whois",description="Infodump about a user.")
+@app_commands.describe(member = "The person you want to know more about (leave empty for yourself).",visible="Make output visible in channel?")
 async def whois(interaction: discord.Interaction, member: Optional[discord.Member], visible: bool = False):
     message = ""
     if isinstance(interaction.user,discord.Member):
         member = member or interaction.user
     else:
-        await interaction.response.send_message("Error - member does not exist")
+        await interaction.response.send_message(f"> Error - member does not exist or command is busted.\n> Member: {member}",ephemeral=(not visible))
         return
     if member.bot == True or member.system == True:
-        message += "## This account is "
+        message += ">>> ## This account is "
         if member.bot == True and member.system == True:
             message += "an `official bot` :robot: :shield:\n"
         elif member.bot == True:
@@ -140,9 +140,9 @@ async def whois(interaction: discord.Interaction, member: Optional[discord.Membe
             message += f"[Main Avatar]({member.display_avatar.url})\n"
         if member.guild_avatar:
             message += f"[Guild Avatar]({member.guild_avatar.url})\n"
-    await interaction.response.send_message(content=message,ephemeral=not visible)
+    await interaction.response.send_message(content=message,ephemeral=(not visible))
 
-@bot.tree.command(name="reboot",description="Reboots the bot (Need perms)")
+@bot.tree.command(name="reboot",description="Reboots the bot.")
 async def reboot(interaction: discord.Interaction):
     if interaction.guild:
         await interaction.response.send_message("> This command can only used in DMs.",ephemeral=True)
@@ -173,8 +173,8 @@ async def reboot(interaction: discord.Interaction):
 # endregion ==-CLI-==
 # region ==-VC-==
 
-@bot.tree.command(name="vc",description="join|leave|resume|pause|stop")
-@app_commands.describe(command="Which command you want to use.",visible="Make output visible in channel?")
+@bot.tree.command(name="vc",description="join | leave | resume | pause | stop")
+@app_commands.describe(command="What you want the bot to do.",visible="Make output visible in channel?")
 @app_commands.choices(command=[
     app_commands.Choice(name="Join", value="1"),
     app_commands.Choice(name="Leave", value="2"),
@@ -193,51 +193,66 @@ async def vc(interaction:discord.Interaction,command:app_commands.Choice[str],vi
             await interaction.guild.voice_client.disconnect(force=True)
         if isinstance(interaction.user,discord.Member) and interaction.user.voice and interaction.user.voice.channel:
             channel = interaction.user.voice.channel
-            await interaction.response.send_message(f"> Joining `{channel}`...",ephemeral=(not visible))
+            message = f"> Joining `{channel}`..."
+            await interaction.response.send_message(message,ephemeral=(not visible))
             try:
                 player = await channel.connect()
-                await interaction.edit_original_response(content=f"> Joined `{channel}`.")
+                message += f"\n\n> Joined `{channel}`."
+                await interaction.edit_original_response(content=message)
             except Exception as exception:
-                await interaction.edit_original_response(content=f"> Joining `{channel}` failed.\n> Error:\n```{exception}```")
+                message += f"\n\n>>> Joining `{channel}` failed.\nError:\n```{exception}```"
+                await interaction.edit_original_response(content=message)
         else:
-            await interaction.response.send_message(f"> This command can only be used when connected to a Voice Channel in the current Server.\n> Current Server:{interaction.guild}",ephemeral=(not visible))
+            await interaction.response.send_message(f">>> This command can only be used when connected to a Voice Channel in the current Server.\n Current Server:{interaction.guild}",ephemeral=(not visible))
             return
     elif choice == 2:
         if interaction.guild and interaction.guild.voice_client: # If in voice-chat
             channel = interaction.guild.voice_client.channel # Store channel
-            await interaction.response.send_message(f"> Leaving `{channel}`...",ephemeral=(not visible))
+            message = f"> Leaving `{channel}`..."
+            await interaction.response.send_message(message,ephemeral=(not visible))
             try: # Try to stop and leave.
                 player.stop()
                 await interaction.guild.voice_client.disconnect(force=True)
-                await interaction.edit_original_response(content=f"> Left `{channel}`.")
+                message += f"\n\n> Left `{channel}`."
+                await interaction.edit_original_response(content=message)
             except Exception as exception: # You tried
-                await interaction.edit_original_response(content=f"> Leaving `{channel}` failed.\n> Error:\n```{exception}```")
+                message += f"\n\n>>> Leaving `{channel}` failed.\nError:\n```{exception}```"
+                await interaction.edit_original_response(content=message)
         else:
             if interaction.guild: # If we're even in a server
                 await interaction.response.send_message("> This command can only be used if I'm in a voice channel already.",ephemeral=(not visible))
             else:
                 await interaction.response.send_message("> This command can only be used in a Server.",ephemeral=(not visible))
     elif choice == 3:
-        await interaction.response.send_message("> Resuming...",ephemeral=(not visible))
+        message = "> Resuming..."
+        await interaction.response.send_message(message,ephemeral=(not visible))
         try:
             player.resume()
-            await interaction.edit_original_response(content="> Resumed.")
+            message += "\n\n> Resumed."
+            await interaction.edit_original_response(content=message)
         except Exception as exception:
-            await interaction.edit_original_response(content=f"> Resume failed.\n> Error:\n```{exception}```")
+            message += f"\n\n>>> Resume failed.\nError:\n```{exception}```"
+            await interaction.edit_original_response(content=message)
     elif choice == 4:
-        await interaction.response.send_message("> Pausing...",ephemeral=(not visible))
+        message = "> Pausing..."
+        await interaction.response.send_message(message,ephemeral=(not visible))
         try:
             player.pause()
-            await interaction.edit_original_response(content="> Paused.")
+            message += "\n\n> Paused."
+            await interaction.edit_original_response(content=message)
         except Exception as exception:
-            await interaction.edit_original_response(content=f"> Pause failed.\n> Error:\n```{exception}```")
+            message += f"\n\n>>> Pause failed.\nError:\n```{exception}```"
+            await interaction.edit_original_response(content=message)
     elif choice == 5:
-        await interaction.response.send_message("> Stopping...",ephemeral=(not visible))
+        message = "> Stopping..."
+        await interaction.response.send_message(message,ephemeral=(not visible))
         try:
             player.stop()
-            await interaction.edit_original_response(content="> Stopped.")
+            message += "\n\n> Stopped."
+            await interaction.edit_original_response(content=message)
         except Exception as exception:
-            await interaction.edit_original_response(content=f"> Stop failed.\n> Error:\n```{exception}```")
+            message += f"\n\n>>> Stop failed.\nError:\n```{exception}```"
+            await interaction.edit_original_response(content=message)
 
 # endregion ==-VC-==
 # region ==-Radio-==
