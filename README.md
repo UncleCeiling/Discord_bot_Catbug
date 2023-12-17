@@ -43,6 +43,7 @@ ___
 |**Commands**||
 |---|---|
 | `Equipment Generator` | A command that generates random equipment based on txt files. Based on the bones of an old project. |
+| `Birthday Announcements` | Makes announcements on people's Birthdays |
 | `/dad-joke ` | Takes Jokes from lists, might have optional genres. |
 | `/catbug <option> [specifics]` | A variety of Catbug references; like gifs, soundbytes and maybe videos? |
 | `/CCFlamez` | Auto-mute/Auto-unmute based on rich-presence of Guitar Hero |
