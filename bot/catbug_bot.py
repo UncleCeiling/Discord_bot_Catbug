@@ -1,6 +1,9 @@
 # region ===IMPORTS===
 
-import asyncio,discord,settings,datetime,os,csv,subprocess
+# pip install discord.py[voice]
+# pip install python-dotenv
+import asyncio,discord,settings,datetime,os,csv,subprocess,rpg_generator
+from email import message
 from random import choice
 from typing import Optional
 from discord.ext import commands, tasks
@@ -11,6 +14,7 @@ os.chdir(os.path.dirname(__file__))
 # endregion ===IMPORTS===
 # region ===DECLARATIONS===
 
+rpg_words = rpg_generator.import_rpg_words("files/rpg_words/")
 intents = discord.Intents.all() # Declare intents
 bot = commands.Bot(command_prefix="!",intents=intents) # Builds bot
 # endregion ===DECLARATIONS===
@@ -257,7 +261,7 @@ async def vc(interaction:discord.Interaction,command:app_commands.Choice[str],vi
 # region ==-Radio-==
 
 def get_stations():
-    with open("files/stations.csv",encoding="utf8") as file:
+    with open("files/streams/stations.csv",encoding="utf8") as file:
         stations = []
         for station in csv.DictReader(file,fieldnames=("station","link")):
             stations.append(app_commands.Choice(name=station["station"], value=station["link"]))
@@ -317,7 +321,7 @@ async def radio(interaction:discord.Interaction,station: app_commands.Choice[str
 # region ==-ATC-==
 
 def get_towers():
-    with open("files/towers.csv",encoding="utf8") as file:
+    with open("files/streams/towers.csv",encoding="utf8") as file:
         towers = []
         for tower in csv.DictReader(file,fieldnames=("ICAO","IATA","City","Type","url")):
             towers.append(app_commands.Choice(name=f"{tower['IATA']} - {tower['City']} - {tower['Type']}", value=tower["url"]))
@@ -425,6 +429,36 @@ async def stream(interaction: discord.Interaction,url: str,visible: Optional[boo
         await interaction.edit_original_response(content=message)
 
 # endregion ==-URL-==
+# region ==-RPG-==
+
+@bot.tree.command(name="rpg",description="Generate an RPG item.")
+@app_commands.describe(item_type="What type of Item you want to generate.",visible="Make output visible in channel?")
+@app_commands.choices(item_type=[
+    app_commands.Choice(name="weapon", value="1"),
+    app_commands.Choice(name="armour", value="2")
+    ])
+async def rpg(interaction:discord.Interaction,item_type:app_commands.Choice[str],modifiers:Optional[int]=0,visible:Optional[bool]=False):
+    choice = int(item_type.value)
+    if choice == 1: # Weapon
+        message = "> Your Weapon is the..."
+        await interaction.response.send_message(message,ephemeral=(not visible))
+        if modifiers == 0 or modifiers == None:
+            weapon = rpg_generator.gen_equipment(rpg_words["weapons"],rpg_words["nouns"])
+        else:
+            weapon = rpg_generator.gen_equipment(rpg_words["weapons"],rpg_words["nouns"])
+            weapon = rpg_generator.add_modifier(weapon,modifiers,rpg_words["adjectives"])
+        message += f"\n\n>>> {weapon}."
+        await interaction.edit_original_response(content=message)
+    elif choice == 2: # Armour
+        message = "> Your Armour is the..."
+        await interaction.response.send_message(message,ephemeral=(not visible))
+        armour = rpg_generator.gen_equipment(rpg_words["armour"],rpg_words["nouns"])
+        if modifiers != 0 and modifiers != None:
+            armour = rpg_generator.add_modifier(armour,modifiers,rpg_words["adjectives"])
+        message += f"\n\n>>> {armour}."
+        await interaction.edit_original_response(content=message)
+
+# endregion ==-RPG-==
 # endregion ===COMMANDS===
 
 bot.run(settings.TOKEN)
