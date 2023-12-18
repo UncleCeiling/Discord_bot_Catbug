@@ -447,7 +447,7 @@ async def rpg(interaction:discord.Interaction,item_type:app_commands.Choice[str]
         else:
             weapon = rpg_generator.gen_equipment(rpg_words["weapons"],rpg_words["nouns"])
             weapon = rpg_generator.add_modifier(weapon,modifiers,rpg_words["adjectives"])
-        message += f"\n\n```{weapon}.```"
+        message += f"\n\n>>> {weapon}."
         await interaction.edit_original_response(content=message)
     elif choice == 2: # Armour
         message = "> Your Armour is the..."
@@ -455,7 +455,7 @@ async def rpg(interaction:discord.Interaction,item_type:app_commands.Choice[str]
         armour = rpg_generator.gen_equipment(rpg_words["armour"],rpg_words["nouns"])
         if modifiers != 0 and modifiers != None:
             armour = rpg_generator.add_modifier(armour,modifiers,rpg_words["adjectives"])
-        message += f"\n\n```{armour}.```"
+        message += f"\n\n>>> {armour}."
         await interaction.edit_original_response(content=message)
 
 # endregion ==-RPG-==
