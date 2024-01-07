@@ -175,15 +175,16 @@ async def reboot(interaction: discord.Interaction):
             await interaction.edit_original_response(content=message)
             os.system("sudo reboot")
 
-@bot.tree.command(name="shell",description="Use the bot like a shell")
-@app_commands.describe(command = "The command you want to run")
-async def shell(interaction: discord.Interaction, command: str):
-    args = command.split()
-    message = "> Under Construction"
-    await interaction.response.send_message(message,ephemeral=True)
-    terminal = subprocess.run(args, stdout=subprocess.PIPE).stdout.decode("utf-8")
-    message += f"\n\n```{terminal}```"
-    await interaction.edit_original_response(content=message)
+# @bot.tree.command(name="shell",description="Use the bot like a shell")
+# @app_commands.describe(command = "The command you want to run")
+# async def shell(interaction: discord.Interaction, command: str):
+#     args = command.split()
+#     message = "> # Under Construction"
+#     await interaction.response.send_message(message,ephemeral=True)
+#     terminal = subprocess.run(args, stdout=subprocess.PIPE).stdout.decode("utf-8")
+#     message += f"\n\n```{terminal}```"
+#     await interaction.edit_original_response(content=message)
+
 # endregion ==-CLI-==
 # region ==-VC-==
 
