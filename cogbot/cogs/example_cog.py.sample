@@ -1,0 +1,20 @@
+import discord
+from discord import app_commands
+from discord.ext import commands
+from typing import Optional
+
+class Example(commands.Cog):
+    def __init__(self, bot: commands.Bot):
+        self.bot = bot
+    
+    @commands.Cog.listener()
+    async def on_ready(self):
+        print("> Example_Cog loaded")
+    
+    @app_commands.command(name="example",description="the command description")
+    @app_commands.describe(argument="1st Argument",visible="Make output visible in channel?")
+    async def phallus(self, interaction: discord.Interaction, argument: Optional[str], visible: bool = False):
+        await interaction.response.send_message(f"> The command runs",ephemeral=(not visible))
+
+async def setup(bot):
+        await bot.add_cog(Example(bot))

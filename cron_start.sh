@@ -1,2 +1,2 @@
 #!/bin/sh
-python3 /home/minipi/Catbug/bot/catbug_bot.py
+python3 /home/minipi/Catbug/cogbot/catbug_bot.py
