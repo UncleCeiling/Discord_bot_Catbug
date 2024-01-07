@@ -165,7 +165,7 @@ async def reboot(interaction: discord.Interaction):
             await interaction.response.send_message(message,ephemeral=True)
             message += "\n\n> 🪝 Running `git pull`..."
             await interaction.edit_original_response(content=message)
-            output = str(subprocess.check_output(["git","pull"]))[2:-1].replace("Fast-forward","FastForward").replace("\\n", "\n> ").replace("\\t", "\t").replace("+","🟢").replace("-","🔴").replace("Already up to date.","Already up to date. ✅")
+            output = subprocess.run(["git","pull"],stdout=subprocess.PIPE).stdout.decode("utf-8").replace("Fast-forward","FastForward").replace("+","🟢").replace("-","🔴").replace("Already up to date.","Already up to date. ✅")
             message += f"\n\n> 🗒️ Output:\n> {output}"
             await interaction.edit_original_response(content=message)
             message += "\n\n> 🚪 Logging off..."
@@ -178,10 +178,11 @@ async def reboot(interaction: discord.Interaction):
 @bot.tree.command(name="shell",description="Use the bot like a shell")
 @app_commands.describe(command = "The command you want to run")
 async def shell(interaction: discord.Interaction, command: str):
+    args = command.split()
     message = "> Under Construction"
     await interaction.response.send_message(message,ephemeral=True)
-    terminal = subprocess.run(["ls","-a","/"], stdout=subprocess.PIPE)
-    message += f"\n{str(terminal.stdout)[2:-1].replace('\\n', '\n> ').replace('\\t', '\t')}"
+    terminal = subprocess.run(args, stdout=subprocess.PIPE).stdout.decode("utf-8")
+    message += f"\n>>> {terminal}"
     await interaction.edit_original_response(content=message)
 # endregion ==-CLI-==
 # region ==-VC-==
