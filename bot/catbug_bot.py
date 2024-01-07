@@ -3,9 +3,6 @@
 # pip install discord.py[voice]
 # pip install python-dotenv
 import asyncio,discord,settings,datetime,os,csv,subprocess,rpg_generator
-from unittest import result
-import string
-from email import message
 from random import choice
 from typing import Optional
 from discord.ext import commands, tasks
@@ -36,7 +33,6 @@ async def on_ready(): # When the client is ready
 
 # endregion ===ON_READY===
 # region ===STATUS===
-
 
 def new_status():
     with open("files/quotes.csv",encoding="utf8") as file:
@@ -174,16 +170,6 @@ async def reboot(interaction: discord.Interaction):
             message += "\n\n> 🔄 Rebooting..."
             await interaction.edit_original_response(content=message)
             os.system("sudo reboot")
-
-# @bot.tree.command(name="shell",description="Use the bot like a shell")
-# @app_commands.describe(command = "The command you want to run")
-# async def shell(interaction: discord.Interaction, command: str):
-#     args = command.split()
-#     message = "> # Under Construction"
-#     await interaction.response.send_message(message,ephemeral=True)
-#     terminal = subprocess.run(args, stdout=subprocess.PIPE).stdout.decode("utf-8")
-#     message += f"\n\n```{terminal}```"
-#     await interaction.edit_original_response(content=message)
 
 # endregion ==-CLI-==
 # region ==-VC-==
