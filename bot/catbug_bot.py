@@ -181,7 +181,7 @@ async def shell(interaction: discord.Interaction, command: str):
     message = "> Under Construction"
     await interaction.response.send_message(message,ephemeral=True)
     terminal = subprocess.run(["ls","-a","/"], stdout=subprocess.PIPE)
-    message += f"\n\n{str(terminal.stdout)[2:-1].replace('\\n', '\n> ').replace('\\t', '\t')}"
+    message += f"\n{str(terminal.stdout)[2:-1].replace('\\n', '\n> ').replace('\\t', '\t')}"
     await interaction.edit_original_response(content=message)
 # endregion ==-CLI-==
 # region ==-VC-==
