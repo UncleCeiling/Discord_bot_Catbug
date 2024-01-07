@@ -150,7 +150,7 @@ async def whois(interaction: discord.Interaction, member: Optional[discord.Membe
 @bot.tree.command(name="reboot",description="Reboots the bot.")
 async def reboot(interaction: discord.Interaction):
     if interaction.guild:
-        await interaction.response.send_message("> This command can only used in DMs.",ephemeral=True)
+        await interaction.response.send_message("> This command can only used in DMs.",ephemeral=False)
         return
     else:
         with open("files/admins.csv",encoding="utf8") as file:
