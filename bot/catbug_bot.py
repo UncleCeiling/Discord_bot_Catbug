@@ -178,9 +178,11 @@ async def reboot(interaction: discord.Interaction):
 @bot.tree.command(name="shell",description="Use the bot like a shell")
 @app_commands.describe(command = "The command you want to run")
 async def shell(interaction: discord.Interaction, command: str):
-    await interaction.response.send_message("> Under construction")
+    message = "> Under Construction"
+    await interaction.response.send_message(message,ephemeral=True)
     terminal = subprocess.run(["ls","-a","/"], stdout=subprocess.PIPE)
-    await interaction.edit_original_response(content=f"> {terminal.stdout}")
+    message += f"\n\n{str(terminal.stdout)[2:-1].replace('\\n', '\n> ').replace('\\t', '\t')}"
+    await interaction.edit_original_response(content=message)
 # endregion ==-CLI-==
 # region ==-VC-==
 
