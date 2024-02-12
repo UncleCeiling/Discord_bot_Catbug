@@ -9,7 +9,7 @@ class Example(commands.Cog):
     
     @commands.Cog.listener()
     async def on_ready(self):
-        print("> Example_Cog loaded")
+        print("> example_cog loaded")
     
     @app_commands.command(name="example",description="the command description")
     @app_commands.describe(argument="1st Argument",visible="Make output visible in channel?")
