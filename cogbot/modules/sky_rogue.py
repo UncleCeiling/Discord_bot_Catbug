@@ -129,8 +129,8 @@ def import_sky_rogue_lists(path_to_lists: str):
                 details[2],
                 int(details[3]),
                 int(details[4]),
-                bool(details[5]),
-                bool(details[6]),
+                True if details[5] == "1" else False,
+                True if details[6] == "1" else False,
             )
         )
     for line in open(path_to_lists + "specials.csv", "r").readlines():
@@ -192,11 +192,13 @@ def find_secondary(
     weapon_list = sky_rogue_lists["secondaries"]
     shuffle(weapon_list)
     for weapon in weapon_list:
+        # print(weapon.code,weapon.air,weapon.ground)
         if experimental == False and is_experimental(weapon):
             pass
         elif (air == False and weapon.air == True) or (
             ground == False and weapon.ground == True
         ):
+            # print(f"air/ground fail for {weapon.code}")
             pass
         elif (weapon.payload > current_loadout.remaining_budget()[0]) or (
             weapon.avionics > current_loadout.remaining_budget()[1]
@@ -222,9 +224,9 @@ def find_special(current_loadout: Loadout) -> Weapon:
 
 def fill_loadout(
     current_loadout: Loadout,
-    experimental: bool = False,
-    air: bool = True,
-    ground: bool = True,
+    experimental: bool,
+    air: bool,
+    ground: bool,
 ) -> Loadout:
     choices = [1, 2, 2, 2, 3]
     while len(choices) > 0:
