@@ -38,14 +38,15 @@ class SkyRogue(commands.Cog):
             current_loadout=loadout, experimental=experimental, air=air, ground=ground
         )
         col2,col3 = len(max(loadout.weapon_codes(), key=len)),len(max(loadout.weapon_names(),key=len))
-        message = f"""> # Aircraft: {loadout.aircraft.name}
-> `{loadout.aircraft.type}-{loadout.aircraft.role}`
->   Micro |`{loadout.primary.code.center(col2)}`|{loadout.primary.name.center(col3)}|{loadout.primary.type}|
->  Slot 1 |`{loadout.secondary1.code.center(col2)}`|{loadout.secondary1.name.center(col3)}|{loadout.secondary1.type}|
->  Slot 2 |`{loadout.secondary2.code.center(col2)}`|{loadout.secondary2.name.center(col3)}|{loadout.secondary2.type}|
->  Slot 3 |`{loadout.secondary3.code.center(col2)}`|{loadout.secondary3.name.center(col3)}|{loadout.secondary3.type}|
-> Special |`{loadout.special.code.center(col2)}`|{loadout.special.name.center(col3)}|{loadout.special.type}|
-> ========================
+        message = f"""> ## Aircraft: <u>**{loadout.aircraft.name}**</u>
+>              `{(loadout.aircraft.type + ' - ' + loadout.aircraft.role).center(col2+col3)}`
+> ============{"".center(col2+col3,"=")}============
+> `  Micro  ` | {loadout.primary.code.center(col2)} | {loadout.primary.name.center(col3)}|{loadout.primary.type}
+> ` Weapn 1 ` | {loadout.secondary1.code.center(col2)} | {loadout.secondary1.name.center(col3)}|{loadout.secondary1.type}
+> ` Weapn 2 ` | {loadout.secondary2.code.center(col2)} | {loadout.secondary2.name.center(col3)}|{loadout.secondary2.type}
+> ` Weapn 3 ` | {loadout.secondary3.code.center(col2)} | {loadout.secondary3.name.center(col3)}|{loadout.secondary3.type}
+> ` Special ` | {loadout.special.code.center(col2)} | {loadout.special.name.center(col3)}|{loadout.special.type}
+> ============{"".center(col2+col3,"=")}============
 > Remaining:
 > Payload: {loadout.remaining_budget()[0]} | Avionics: {loadout.remaining_budget()[1]}
 """
