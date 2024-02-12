@@ -226,7 +226,7 @@ def fill_loadout(
     air: bool = True,
     ground: bool = True,
 ) -> Loadout:
-
+    choices = [1, 2, 2, 2, 3]
     while len(choices) > 0:
         match choice(choices):
             case 1:  # Primary
@@ -251,8 +251,6 @@ def fill_loadout(
                 choices.remove(3)
     return current_loadout
 
-
-choices = [1, 2, 2, 2, 3]
 sky_rogue_lists = import_sky_rogue_lists("./files/sky_rogue/")
 
 # region Testing
