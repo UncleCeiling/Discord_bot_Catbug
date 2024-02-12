@@ -42,9 +42,9 @@ class SkyRogue(commands.Cog):
 >              `{(loadout.aircraft.type + ' - ' + loadout.aircraft.role).center(col2+col3)}`
 > ============{"".center(col2+col3,"=")}============
 > `  Micro  ` | `{loadout.primary.code.center(col2)}` | `{loadout.primary.name.center(col3)}` | `{loadout.primary.type}`
-> ` Weapn 1 ` | `{loadout.secondary1.code.center(col2)}` | `{loadout.secondary1.name.center(col3)}` | `{loadout.secondary1.type}`
-> ` Weapn 2 ` | `{loadout.secondary2.code.center(col2)}` | `{loadout.secondary2.name.center(col3)}` | `{loadout.secondary2.type}`
-> ` Weapn 3 ` | `{loadout.secondary3.code.center(col2)}` | `{loadout.secondary3.name.center(col3)}` | `{loadout.secondary3.type}`
+> ` Weapon1 ` | `{loadout.secondary1.code.center(col2)}` | `{loadout.secondary1.name.center(col3)}` | `{loadout.secondary1.type}`
+> ` Weapon2 ` | `{loadout.secondary2.code.center(col2)}` | `{loadout.secondary2.name.center(col3)}` | `{loadout.secondary2.type}`
+> ` Weapon3 ` | `{loadout.secondary3.code.center(col2)}` | `{loadout.secondary3.name.center(col3)}` | `{loadout.secondary3.type}`
 > ` Special ` | `{loadout.special.code.center(col2)}` | `{loadout.special.name.center(col3)}` | `{loadout.special.type}`
 > ============{"".center(col2+col3,"=")}============
 > Remaining:
