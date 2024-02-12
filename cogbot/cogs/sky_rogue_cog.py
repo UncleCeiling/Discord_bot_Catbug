@@ -14,7 +14,7 @@ class SkyRogue(commands.Cog):
         print("> sky_rogue_cog loaded")
 
     @app_commands.command(
-        name="Sky Rogue", description="Generate a loadout for a Sky Rogue run."
+        name="skyrogue", description="Generate a loadout for a Sky Rogue run."
     )
     @app_commands.describe(
         experimental="Choose whether to include 'Experimental' equipment in the loadout.",
