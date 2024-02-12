@@ -20,6 +20,8 @@ class System(commands.Cog):
         try:
             await self.bot.tree.sync()
         except Exception as exception:
+            message = f"{exception}"
+            await interaction.edit_original_response(content=message)
             print(exception)
 
     @app_commands.command(name="whoami",description="Tells you WHO you are")
