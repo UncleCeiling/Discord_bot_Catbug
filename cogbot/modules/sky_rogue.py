@@ -253,7 +253,7 @@ def fill_loadout(
 
 
 choices = [1, 2, 2, 2, 3]
-sky_rogue_lists = import_sky_rogue_lists("./cogbot/files/sky_rogue/")
+sky_rogue_lists = import_sky_rogue_lists("./files/sky_rogue/")
 
 # region Testing
 
