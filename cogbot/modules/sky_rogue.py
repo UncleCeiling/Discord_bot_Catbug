@@ -143,7 +143,7 @@ def generate_empty_loadout(sky_rogue_lists: dict, experimental: bool) -> Loadout
     aircraft_list = sky_rogue_lists["aircraft"]
     shuffle(aircraft_list)
     for aircraft in aircraft_list:
-        if aircraft.experimental == False or experimental == True:
+        if experimental == aircraft.experimental:
             return Loadout(aircraft, Weapon(), Weapon(), Weapon(), Weapon(), Weapon())
     return Loadout()
 
@@ -158,7 +158,7 @@ def find_weapon(
     shuffle(weapon_list)
     for weapon in weapon_list:
         if slot == weapon.slot:
-            if weapon.experimental == False or experimental == True:
+            if weapon.experimental == experimental or weapon.experimental == False:
                 if weapon.target == "All" or weapon.target == target:
                     if (weapon.payload <= current_loadout.remaining_budget()[0]) and (
                         weapon.avionics <= current_loadout.remaining_budget()[1]
