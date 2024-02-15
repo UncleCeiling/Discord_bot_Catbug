@@ -188,7 +188,7 @@ def find_secondary(sky_rogue_lists:dict,
     shuffle(weapon_list)
     for weapon in weapon_list:
         if experimental != is_experimental(weapon) or experimental == True:
-            if (False if weapon.air == True and air == False else True) and (False if weapon.air == True and air == False else True):
+            if (False if weapon.air == True and air == False else True) and (False if weapon.ground == True and ground == False else True):
                 if (weapon.payload <= current_loadout.remaining_budget()[0]) and (weapon.avionics <= current_loadout.remaining_budget()[1]):
                     return weapon
     return Secondary()
