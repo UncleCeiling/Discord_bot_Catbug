@@ -33,8 +33,9 @@ class SkyRogue(commands.Cog):
         await interaction.response.send_message(
             f"> Generating...", ephemeral=(not visible)
         )
-        loadout = sky_rogue.generate_empty_loadout(experimental)
-        loadout = sky_rogue.fill_loadout(
+        sr_lists = sky_rogue.import_sky_rogue_lists("./files/sky_rogue/")
+        loadout = sky_rogue.generate_empty_loadout(sr_lists,experimental)
+        loadout = sky_rogue.fill_loadout(sky_rogue_lists=sr_lists,
             current_loadout=loadout, experimental=experimental, air=air, ground=ground
         )
         col2,col3 = len(max(loadout.weapon_codes(), key=len)),len(max(loadout.weapon_names(),key=len))

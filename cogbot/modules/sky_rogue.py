@@ -155,7 +155,7 @@ def is_experimental(item_to_check: Aircraft | Weapon):
     return True if "Experimental" in item_to_check.type else False
 
 
-def generate_empty_loadout(experimental: bool = False) -> Loadout:
+def generate_empty_loadout(sky_rogue_lists:dict,experimental: bool = False) -> Loadout:
     aircraft_list = sky_rogue_lists["aircraft"]
     shuffle(aircraft_list)
     for aircraft in aircraft_list:
@@ -168,7 +168,7 @@ def generate_empty_loadout(experimental: bool = False) -> Loadout:
     return Loadout()
 
 
-def find_primary(current_loadout: Loadout, experimental: bool) -> Weapon:
+def find_primary(sky_rogue_lists:dict,current_loadout: Loadout, experimental: bool) -> Weapon:
     weapon_list = sky_rogue_lists["primaries"]
     shuffle(weapon_list)
     for weapon in weapon_list:
@@ -183,7 +183,7 @@ def find_primary(current_loadout: Loadout, experimental: bool) -> Weapon:
     return Weapon()
 
 
-def find_secondary(
+def find_secondary(sky_rogue_lists:dict,
     current_loadout: Loadout,
     experimental: bool,
     air: bool,
@@ -193,23 +193,15 @@ def find_secondary(
     shuffle(weapon_list)
     for weapon in weapon_list:
         # print(weapon.code,weapon.air,weapon.ground)
-        if experimental == False and is_experimental(weapon):
-            pass
-        elif (air == False and weapon.air == True) or (
-            ground == False and weapon.ground == True
-        ):
+        if experimental != is_experimental(weapon) or experimental == True:
+            if (air == False and weapon.air == True) or (ground == False and weapon.ground == True):
             # print(f"air/ground fail for {weapon.code}")
-            pass
-        elif (weapon.payload > current_loadout.remaining_budget()[0]) or (
-            weapon.avionics > current_loadout.remaining_budget()[1]
-        ):
-            pass
-        else:
-            return weapon
+                if (weapon.payload <= current_loadout.remaining_budget()[0]) and (weapon.avionics <= current_loadout.remaining_budget()[1]):
+                    return weapon
     return Secondary()
 
 
-def find_special(current_loadout: Loadout) -> Weapon:
+def find_special(sky_rogue_lists:dict,current_loadout: Loadout) -> Weapon:
     weapon_list = sky_rogue_lists["specials"]
     shuffle(weapon_list)
     for weapon in weapon_list:
@@ -222,7 +214,7 @@ def find_special(current_loadout: Loadout) -> Weapon:
     return Weapon()
 
 
-def fill_loadout(
+def fill_loadout(sky_rogue_lists:dict,
     current_loadout: Loadout,
     experimental: bool,
     air: bool,
@@ -232,33 +224,33 @@ def fill_loadout(
     while len(choices) > 0:
         match choice(choices):
             case 1:  # Primary
-                current_loadout.primary = find_primary(current_loadout, experimental)
+                current_loadout.primary = find_primary(sky_rogue_lists,current_loadout, experimental)
                 choices.remove(1)
             case 2:  # Secondary
                 if current_loadout.secondary1.name == "":
-                    current_loadout.secondary1 = find_secondary(
+                    current_loadout.secondary1 = find_secondary(sky_rogue_lists,
                         current_loadout, experimental, air, ground
                     )
                 elif current_loadout.secondary2.name == "":
-                    current_loadout.secondary2 = find_secondary(
+                    current_loadout.secondary2 = find_secondary(sky_rogue_lists,
                         current_loadout, experimental, air, ground
                     )
                 else:
-                    current_loadout.secondary3 = find_secondary(
+                    current_loadout.secondary3 = find_secondary(sky_rogue_lists,
                         current_loadout, experimental, air, ground
                     )
                 choices.remove(2)
             case 3:  # Special
-                current_loadout.special = find_special(current_loadout)
+                current_loadout.special = find_special(sky_rogue_lists,current_loadout)
                 choices.remove(3)
     return current_loadout
 
-sky_rogue_lists = import_sky_rogue_lists("./files/sky_rogue/")
+# sr_lists = import_sky_rogue_lists("C:/Users/CodeNation CFarfan/Documents/GitHub/Catbug/cogbot/files/sky_rogue/")
 
-# region Testing
+# # region Testing
 
-# loadout = generate_empty_loadout()
-# loadout = fill_loadout(loadout)
+# loadout = generate_empty_loadout(sr_lists)
+# loadout = fill_loadout(sr_lists,loadout,False,False,False)
 
 # print(loadout.budget())
 # print(loadout.cost())
