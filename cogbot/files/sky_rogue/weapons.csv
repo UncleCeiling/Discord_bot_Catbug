@@ -11,11 +11,11 @@
 2,AA-LR,Longbow,Semi-Active,Air,10,80
 2,AA-MR,Javelin,Fire-n-Forget,Air,0,60
 2,AA-S,Meteor,Fire-n-Forget,Air,20,80
-2,AC-40,Autocannon,Gun,All,50,10
+2,AC-40,Autocannon,Gun,Ground,50,10
 2,AG-F,Firestorm,Fire-n-Forget,Ground,40,20
 2,AG-MIRV,Hwatcha,Fire-n-Forget,Ground,60,30
 2,BEAM,Thunder Beam,Experimental,All,60,60
-2,FLAK,Flak Cannon,Gun,All,50,10
+2,FLAK,Flak Cannon,Gun,Air,50,10
 2,GB-1,Yumi,Guided Bomb,Ground,90,20
 2,GUN,Vulkan,Gun,All,10,0
 2,GUN-H,Heavy Vulkan,Gun,All,20,0
@@ -25,7 +25,7 @@
 2,MIRV,Flail,Fire-n-Forget,Air,10,60
 2,RKT,Dirk,Rocket,All,30,0
 2,RKT-H,Estoc,Rocket,All,50,0
-2,TORPEDO,Partisan,Rocket,All,80,10
+2,TORPEDO,Partisan,Rocket,Ground,80,10
 2,UB-1,Warhammer,Bomb,Ground,80,10
 2,UB-2,Basilisk,Experimental,Ground,120,10
 2,UB-C,Morningstar,Cluster Bomb,Ground,60,10
