@@ -16,6 +16,7 @@ class Aircraft:
         self.payload = payload
         self.avionics = avionics
         self.experimental = True if type == "Experimental" else False
+        self.modded = True if type == "Modded" else False
 
 
 class Weapon:
@@ -37,6 +38,7 @@ class Weapon:
         self.payload = payload
         self.avionics = avionics
         self.experimental = True if type == "Experimental" else False
+        self.modded = True if type == "Modded" else False
 
 
 class Loadout:
@@ -145,12 +147,13 @@ def select_from_list(list_name: str, dict_of_lists: dict):
     return sample(dict_of_lists[list_name], 1)[0]
 
 
-def generate_empty_loadout(sky_rogue_lists: dict, experimental: bool) -> Loadout:
+def generate_empty_loadout(sky_rogue_lists: dict, experimental: bool, modded: bool) -> Loadout:
     aircraft_list = sky_rogue_lists["aircraft"]
     shuffle(aircraft_list)
     for aircraft in aircraft_list:
         if experimental == aircraft.experimental:
-            return Loadout(aircraft, Weapon(), Weapon(), Weapon(), Weapon(), Weapon())
+            if modded == aircraft.modded:
+                return Loadout(aircraft, Weapon(), Weapon(), Weapon(), Weapon(), Weapon())
     return Loadout()
 
 def find_weapon(

@@ -35,3 +35,72 @@
 3,FLARE,Countermeasures,Equipment,All,10,10
 3,GUN-TAIL,Tail Vulkan,Gun,Air,30,10
 3,L-DRONE,Trebuchet,Equipment,All,40,20
+1,MICRO-UB,Firecracker,Modded,All,40,10
+1,CFT,C-Tank,Modded,All,-60,-60
+1,DT-2,Drop Tank,Modded,All,-20,-20
+1,PESG,ReVOLT,Modded,All,10,40
+1,TWIN-GUN-REV,Twin Typhoon,Modded,All,20,20
+1,AC-30-2,Twindevil,Modded,All,40,10
+1,PLSC,Flux,Modded,All,0,50
+1,E-CANNON,Ikaru,Modded,All,50,50
+1,TWIN-PLSL-T,Flash II,Modded,All,0,30
+1,AA-D,Liberator,Modded,Air,0,80
+1,MICRO-B,Brushfire,Modded,All,40,40
+1,CWB,Weapon Bay,Modded,All,-10,-10
+1,MICRO-AA,Adder,Modded,Air,0,30
+1,MICRO-K,Kilovolt,Modded,All,0,40
+1,MICRO-HT,Wildfire,Modded,All,30,30
+1,AA-RKT,Machete,Modded,All,30,0
+2,AA-C,Comet,Modded,Air,0,40
+2,AA-C-2,Comet x2,Modded,Air,0,80
+2,AA-C-3,Comet x3,Modded,Air,0,120
+2,AA-HM,Fishtail,Modded,Air,20,90
+2,AA-SL,Ceres,Modded,Air,10,100
+2,AA-SM,Arrow,Modded,Air,0,50
+2,AA-SM-2,Arrow x2,Modded,Air,0,100
+2,AA-SM-3,Arrow x3,Modded,Air,0,150
+2,AA-XR,Polearm,Modded,Air,60,120
+2,AA-MB,Bushfire,Modded,Air,10,60
+2,AA-MB-2,Bushfire x2,Modded,Air,20,120
+2,AA-HV,Pike,Modded,Air,0,60
+2,AA-HV-2,Pike x2,Modded,Air,0,120
+2,AA-MRER,Halberd,Modded,Air,0,70
+2,AA-MRER-2,Halberd x2,Modded,Air,0,140
+2,AA-DM,Slammer,Modded,Air,20,40
+2,AA-QM,Mamba,Modded,Air,10,30
+2,AG-AT,Raider,Modded,Ground,40,20
+2,AG-AT-2,Raider x2,Modded,Ground,80,40
+2,AG-MR,Lance,Modded,Ground,60,30
+2,AG-MR-2,Lance x2,Modded,Ground,120,60
+2,AG-LR,Wolverine,Modded,Ground,80,40
+2,XAG-N,Blue Streak,Modded,All,120,60
+2,FAEB,Sunburst,Modded,Ground,120,10
+2,FAEB-M,Sunspot,Modded,Ground,100,10
+2,GB-2,Yari,Modded,Ground,70,20
+2,BDSP,Salter,Modded,Ground,80,10
+2,UB-3,Sledgehammer,Modded,Ground,60,10
+2,UB-3-2,Sledgehammer x2,Modded,Ground,120,20
+2,UB-4,Molot,Modded,Ground,80,10
+2,GB-M,Jackhammer,Modded,Ground,50,20
+2,ADT-1A7,Drop Tank,Modded,All,0,0
+2,DT-1,Drop Tank,Modded,All,-40,-40
+2,G-EMIG,Magnum,Modded,All,90,20
+2,COILGUN,Snapper,Modded,All,50,10
+2,S-EMIG,Mitsurugi,Modded,All,90,10
+2,EMIG,Donnerkanone,Modded,All,80,10
+2,AC-30-1,Dustdevil,Modded,All,20,10
+2,AC-30-8,Dagger,Modded,All,80,10
+2,GUN-REV,Typhoon,Modded,All,10,20
+2,GUN-B2,Tempest,Modded,All,10,10
+2,GUN-RT,Tornado,Modded,All,30,0
+2,D-LASER,JUSTICE,Modded,Ground,100,30
+2,LASER,Rapier,Modded,All,80,80
+2,GPLSL,Sentinel,Modded,All,30,80
+2,PLSL-H,Flint,Modded,All,0,20
+2,PLSL-T,Flash,Modded,All,0,10
+2,GRKT,Keris,Modded,All,30,30
+2,RKT-HV,Stiletto,Modded,All,40,0
+2,RKT-B,Kukri,Modded,All,60,0
+3,DT-1S,Drop Tank,Modded,All,-40,-40
+3,GUNPOD,GU-11,Modded,All,80,0
+3,GUNPOD,Tornado-P,Modded,All,30,0
