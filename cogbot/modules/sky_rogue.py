@@ -172,14 +172,9 @@ def find_primary(sky_rogue_lists:dict,current_loadout: Loadout, experimental: bo
     weapon_list = sky_rogue_lists["primaries"]
     shuffle(weapon_list)
     for weapon in weapon_list:
-        if experimental == False and is_experimental(weapon):
-            pass
-        elif (weapon.payload > current_loadout.remaining_budget()[0]) or (
-            weapon.avionics > current_loadout.remaining_budget()[1]
-        ):
-            pass
-        else:
-            return weapon
+        if experimental != is_experimental(weapon) or experimental == True:
+            if (weapon.payload <= current_loadout.remaining_budget()[0]) and (weapon.avionics <= current_loadout.remaining_budget()[1]):
+                return weapon
     return Weapon()
 
 
@@ -205,11 +200,9 @@ def find_special(sky_rogue_lists:dict,current_loadout: Loadout) -> Weapon:
     weapon_list = sky_rogue_lists["specials"]
     shuffle(weapon_list)
     for weapon in weapon_list:
-        if (weapon.payload > current_loadout.remaining_budget()[0]) or (
-            weapon.avionics > current_loadout.remaining_budget()[1]
+        if (weapon.payload <= current_loadout.remaining_budget()[0]) and (
+            weapon.avionics <= current_loadout.remaining_budget()[1]
         ):
-            pass
-        else:
             return weapon
     return Weapon()
 
@@ -224,7 +217,7 @@ def fill_loadout(sky_rogue_lists:dict,
     while len(choices) > 0:
         match choice(choices):
             case 1:  # Primary
-                current_loadout.primary = find_primary(sky_rogue_lists,current_loadout, experimental)
+                current_loadout.primary = find_primary(sky_rogue_lists,current_loadout,experimental)
                 choices.remove(1)
             case 2:  # Secondary
                 if current_loadout.secondary1.name == "":
