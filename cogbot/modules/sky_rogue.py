@@ -104,11 +104,11 @@ class Loadout:
 
     def weapon_types(self):
         return [
-            self.primary.name,
-            self.secondary1.name,
-            self.secondary2.name,
-            self.secondary3.name,
-            self.special.name
+            self.primary.type,
+            self.secondary1.type,
+            self.secondary2.type,
+            self.secondary3.type,
+            self.special.type
         ]
 
 def import_sky_rogue_lists(path_to_lists: str):
