@@ -203,14 +203,14 @@ def fill_loadout(
 
 # # region Testing
 
-sr_lists = import_sky_rogue_lists(
-    "C:/Users/CodeNation CFarfan/Documents/GitHub/Catbug/cogbot/files/sky_rogue/"
-)
-for x in range(100):
-    loadout = generate_empty_loadout(sr_lists, False)
-    loadout = fill_loadout(sr_lists, loadout, False, "Air")
-    print(
-        f"Aircraft: {loadout.aircraft.name}\nMicros  : {loadout.primary.code}\nSlot 1  : {loadout.secondary1.code} {loadout.secondary1.target}\nSlot 2  : {loadout.secondary2.code} {loadout.secondary2.target}\nSlot 3  : {loadout.secondary3.code} {loadout.secondary3.target}\nSpecial : {loadout.special.code}\n"
-    )
+# sr_lists = import_sky_rogue_lists(
+#     "C:/Users/CodeNation CFarfan/Documents/GitHub/Catbug/cogbot/files/sky_rogue/"
+# )
+# for x in range(100):
+#     loadout = generate_empty_loadout(sr_lists, False)
+#     loadout = fill_loadout(sr_lists, loadout, False, "Air")
+#     print(
+#         f"Aircraft: {loadout.aircraft.name}\nMicros  : {loadout.primary.code}\nSlot 1  : {loadout.secondary1.code} {loadout.secondary1.target}\nSlot 2  : {loadout.secondary2.code} {loadout.secondary2.target}\nSlot 3  : {loadout.secondary3.code} {loadout.secondary3.target}\nSpecial : {loadout.special.code}\n"
+#     )
 
 # endregion
