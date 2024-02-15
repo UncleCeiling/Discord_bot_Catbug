@@ -18,25 +18,28 @@ class SkyRogue(commands.Cog):
     )
     @app_commands.describe(
         experimental="Choose whether to include 'Experimental' equipment in the loadout.",
-        air="Disable weapons that are specifically for Air-combat.",
-        ground="Disable weapons that are specifically for Ground-attack.",
+        target="Choose which types of weapons to include.",
         visible="Make output visible in channel.",
     )
+    @app_commands.choices(target=[
+        app_commands.Choice(name="All",value="All"),
+        app_commands.Choice(name="Air",value="Air"),
+        app_commands.Choice(name="Ground",value="Ground")
+    ])
     async def skyrogue(
         self,
         interaction: discord.Interaction,
+        target: app_commands.Choice[str],
         experimental: bool = False,
-        air: bool = True,
-        ground: bool = True,
         visible: bool = False,
     ):
         await interaction.response.send_message(
-            f"> Generating...", ephemeral=(not visible)
+            f"> Generating loadout...", ephemeral=(not visible)
         )
         sr_lists = sky_rogue.import_sky_rogue_lists("./files/sky_rogue/")
         loadout = sky_rogue.generate_empty_loadout(sr_lists,experimental)
         loadout = sky_rogue.fill_loadout(sky_rogue_lists=sr_lists,
-            current_loadout=loadout, experimental=experimental, air=air, ground=ground
+            current_loadout=loadout, experimental=experimental, target=target.value
         )
         col2,col3 = len(max(loadout.weapon_codes(), key=len)),len(max(loadout.weapon_names(),key=len))
         message = f"""> ## {"__***" + loadout.aircraft.name.upper() + "***__"}

@@ -1,0 +1,37 @@
+1,BLASTER,Pulse Blaster,Experimental,All,50,50
+1,ITANO,Itano Micromissile,Experimental,All,40,40
+1,MICRO,Micromissile,Fire-n-Forget,All,20,20
+1,MICRO-H,Heavy Micromissile,Fire-n-Forget,All,30,20
+1,MICRO-RKT,Micro Rocket,Rocket,All,30,0
+1,MICRO-S,Swarm Micromissile,Fire-n-Forget,All,20,20
+1,MICRO-T,Turbo Micromissile,Fire-n-Forget,All,20,30
+1,TWIN-GUN,Twin Vulkan,Gun,All,30,0
+2,AA-IR,Diamondback,Rear-Aspect,Air,0,30
+2,AA-IRMR,Cobra,Rear-Aspect,Air,0,50
+2,AA-LR,Longbow,Semi-Active,Air,10,80
+2,AA-MR,Javelin,Fire-n-Forget,Air,0,60
+2,AA-S,Meteor,Fire-n-Forget,Air,20,80
+2,AC-40,Autocannon,Gun,All,50,10
+2,AG-F,Firestorm,Fire-n-Forget,Ground,40,20
+2,AG-MIRV,Hwatcha,Fire-n-Forget,Ground,60,30
+2,BEAM,Thunder Beam,Experimental,All,60,60
+2,FLAK,Flak Cannon,Gun,All,50,10
+2,GB-1,Yumi,Guided Bomb,Ground,90,20
+2,GUN,Vulkan,Gun,All,10,0
+2,GUN-H,Heavy Vulkan,Gun,All,20,0
+2,GUN-T,Turbo Vulkan,Gun,All,10,10
+2,ITANO-C,Circus,Experimental,All,20,100
+2,KUNAI,Railgun,Gun,All,50,10
+2,MIRV,Flail,Fire-n-Forget,Air,10,60
+2,RKT,Dirk,Rocket,All,30,0
+2,RKT-H,Estoc,Rocket,All,50,0
+2,TORPEDO,Partisan,Rocket,All,80,10
+2,UB-1,Warhammer,Bomb,Ground,80,10
+2,UB-2,Basilisk,Experimental,Ground,120,10
+2,UB-C,Morningstar,Cluster Bomb,Ground,60,10
+2,UB-M,Blackjack,Bomb,Ground,50,10
+3,ALMM,Scorpion,Fire-n-Forget,Air,20,40
+3,BOOST,Aeroboost,Equipment,All,20,40
+3,FLARE,Countermeasures,Equipment,All,10,10
+3,GUN-TAIL,Tail Vulkan,Gun,Air,30,10
+3,L-DRONE,Trebuchet,Equipment,All,40,20
