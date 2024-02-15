@@ -155,7 +155,7 @@ def generate_empty_loadout(
     shuffle(aircraft_list)
     for aircraft in aircraft_list:
         if experimental == aircraft.experimental:
-            if modded == aircraft.modded:
+            if modded == aircraft.modded or aircraft.modded == False:
                 return Loadout(
                     aircraft, Weapon(), Weapon(), Weapon(), Weapon(), Weapon()
                 )
