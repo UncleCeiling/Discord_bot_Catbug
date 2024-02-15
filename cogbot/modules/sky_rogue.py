@@ -5,18 +5,18 @@ class Aircraft:
     def __init__(
         self,
         name: str = "EMPTY",
-        type: str = "",
+        atype: str = "",
         role: str = "",
         payload: int = 0,
         avionics: int = 0,
     ):
         self.name = name
-        self.type = type
+        self.type = atype
         self.role = role
         self.payload = payload
         self.avionics = avionics
-        self.experimental = True if type == "Experimental" else False
-        self.modded = True if type == "Modded" else False
+        self.experimental = True if atype == "Experimental" else False
+        self.modded = True if atype == "Modded" else False
 
 
 class Weapon:
@@ -25,7 +25,7 @@ class Weapon:
         slot: int = 0,
         code: str = "EMPTY",
         name: str = "",
-        type: str = "",
+        wtype: str = "",
         target: str = "",
         payload: int = 0,
         avionics: int = 0,
@@ -33,12 +33,12 @@ class Weapon:
         self.slot = slot
         self.code = code
         self.name = name
-        self.type = type
+        self.type = wtype
         self.target = target
         self.payload = payload
         self.avionics = avionics
-        self.experimental = True if type == "Experimental" else False
-        self.modded = True if type == "Modded" else False
+        self.experimental = True if wtype == "Experimental" else False
+        self.modded = True if wtype == "Modded" else False
 
 
 class Loadout:
