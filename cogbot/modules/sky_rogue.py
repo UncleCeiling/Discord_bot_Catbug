@@ -102,6 +102,14 @@ class Loadout:
             self.special.name,
         ]
 
+    def weapon_types(self):
+        return [
+            self.primary.name,
+            self.secondary1.name,
+            self.secondary2.name,
+            self.secondary3.name,
+            self.special.name
+        ]
 
 def import_sky_rogue_lists(path_to_lists: str):
     """Returns a Dict containing 4 lists, containing Objects of the appropriate class, taken from the files in the specified path:
