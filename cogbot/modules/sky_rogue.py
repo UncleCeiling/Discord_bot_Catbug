@@ -110,8 +110,9 @@ class Loadout:
             self.secondary1.type,
             self.secondary2.type,
             self.secondary3.type,
-            self.special.type
+            self.special.type,
         ]
+
 
 def import_sky_rogue_lists(path_to_lists: str):
     """Returns a Dict containing 4 lists, containing Objects of the appropriate class, taken from the files in the specified path:
@@ -147,20 +148,26 @@ def select_from_list(list_name: str, dict_of_lists: dict):
     return sample(dict_of_lists[list_name], 1)[0]
 
 
-def generate_empty_loadout(sky_rogue_lists: dict, experimental: bool, modded: bool) -> Loadout:
+def generate_empty_loadout(
+    sky_rogue_lists: dict, experimental: bool, modded: bool
+) -> Loadout:
     aircraft_list = sky_rogue_lists["aircraft"]
     shuffle(aircraft_list)
     for aircraft in aircraft_list:
         if experimental == aircraft.experimental:
             if modded == aircraft.modded:
-                return Loadout(aircraft, Weapon(), Weapon(), Weapon(), Weapon(), Weapon())
+                return Loadout(
+                    aircraft, Weapon(), Weapon(), Weapon(), Weapon(), Weapon()
+                )
     return Loadout()
+
 
 def find_weapon(
     sky_rogue_lists: dict,
     current_loadout: Loadout,
     slot: int,
-    experimental: bool,modded:bool,
+    experimental: bool,
+    modded: bool,
     target: str,
 ):
     weapon_list = sky_rogue_lists["weapons"]
@@ -170,7 +177,9 @@ def find_weapon(
             if weapon.experimental == experimental or weapon.experimental == False:
                 if weapon.modded == modded or weapon.modded == False:
                     if weapon.target == "All" or weapon.target == target:
-                        if (weapon.payload <= current_loadout.remaining_budget()[0]) and (
+                        if (
+                            weapon.payload <= current_loadout.remaining_budget()[0]
+                        ) and (
                             weapon.avionics <= current_loadout.remaining_budget()[1]
                         ):
                             return weapon
@@ -180,7 +189,8 @@ def find_weapon(
 def fill_loadout(
     sky_rogue_lists: dict,
     current_loadout: Loadout,
-    experimental: bool,modded:bool,
+    experimental: bool,
+    modded: bool,
     target: str,
 ) -> Loadout:
     choices = [1, 2, 2, 2, 3]
@@ -188,39 +198,54 @@ def fill_loadout(
         match choice(choices):
             case 1:  # Primary
                 current_loadout.primary = find_weapon(
-                    sky_rogue_lists, current_loadout, 1, experimental,modded, target
+                    sky_rogue_lists, current_loadout, 1, experimental, modded, target
                 )
                 choices.remove(1)
             case 2:  # Secondary
                 if current_loadout.secondary1.name == "":
                     current_loadout.secondary1 = find_weapon(
-                        sky_rogue_lists, current_loadout,2, experimental,modded, target
+                        sky_rogue_lists,
+                        current_loadout,
+                        2,
+                        experimental,
+                        modded,
+                        target,
                     )
                 elif current_loadout.secondary2.name == "":
                     current_loadout.secondary2 = find_weapon(
-                        sky_rogue_lists, current_loadout,2, experimental,modded, target
+                        sky_rogue_lists,
+                        current_loadout,
+                        2,
+                        experimental,
+                        modded,
+                        target,
                     )
                 else:
                     current_loadout.secondary3 = find_weapon(
-                        sky_rogue_lists, current_loadout,2, experimental,modded, target
+                        sky_rogue_lists,
+                        current_loadout,
+                        2,
+                        experimental,
+                        modded,
+                        target,
                     )
                 choices.remove(2)
             case 3:  # Special
-                current_loadout.special = find_weapon(sky_rogue_lists, current_loadout,3,experimental,modded,target)
+                current_loadout.special = find_weapon(
+                    sky_rogue_lists, current_loadout, 3, experimental, modded, target
+                )
                 choices.remove(3)
     return current_loadout
 
 
 # # region Testing
 
-# sr_lists = import_sky_rogue_lists(
-#     "C:/Users/CodeNation CFarfan/Documents/GitHub/Catbug/cogbot/files/sky_rogue/"
-# )
+# sr_lists = import_sky_rogue_lists("./cogbot/files/sky_rogue/")
 # for x in range(100):
-#     loadout = generate_empty_loadout(sr_lists, False)
-#     loadout = fill_loadout(sr_lists, loadout, False, "Air")
+#     loadout = generate_empty_loadout(sr_lists, False, False)
+#     loadout = fill_loadout(sr_lists, loadout, False, False, "Air")
 #     print(
-#         f"Aircraft: {loadout.aircraft.name}\nMicros  : {loadout.primary.code}\nSlot 1  : {loadout.secondary1.code} {loadout.secondary1.target}\nSlot 2  : {loadout.secondary2.code} {loadout.secondary2.target}\nSlot 3  : {loadout.secondary3.code} {loadout.secondary3.target}\nSpecial : {loadout.special.code}\n"
+#         f"Aircraft: {loadout.aircraft.name}\nMicros  : {loadout.primary.code}\nSlot 1  : {loadout.secondary1.code} {loadout.secondary1.type}\nSlot 2  : {loadout.secondary2.code} {loadout.secondary2.type}\nSlot 3  : {loadout.secondary3.code} {loadout.secondary3.type}\nSpecial : {loadout.special.code}\n"
 #     )
 
 # endregion
