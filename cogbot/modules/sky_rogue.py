@@ -107,9 +107,7 @@ def import_sky_rogue_lists(path_to_lists: str):
     """Returns a Dict containing 4 lists, containing Objects of the appropriate class, taken from the files in the specified path:
 
     {"aircraft" = [aircraft.csv],
-    "primaries" = [primaries.csv],
-    "secondaries" = [secondaries.csv],
-    "specials" = [specials.csv]}"""
+    "weapons" = [weapons.csv]}"""
     aircraft, weapons = [], []
     for line in open(path_to_lists + "aircraft.csv", "r").readlines():
         details = line.strip().split(",")
