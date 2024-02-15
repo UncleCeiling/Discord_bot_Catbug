@@ -44,13 +44,13 @@ class SkyRogue(commands.Cog):
         col2,col3,col4 = len(max(loadout.weapon_codes(), key=len)),len(max(loadout.weapon_names(),key=len)),len(max(loadout.weapon_types(),key=len))
         message = f"""> ## {"__***" + loadout.aircraft.name.upper() + "***__"}
 > ` {(loadout.aircraft.type + ' ` -=- ` ' + loadout.aircraft.role).center(col2+col3)} `
-> ============{"LOADOUT".center(col2+col3,"=")}============
+> ==================LOADOUT==================
 > `  Micro  ` | ` {loadout.primary.code.center(col2)} ` | ` {loadout.primary.name.center(col3)} ` | ` {loadout.primary.type.center(col4)} ` | ` {loadout.primary.target} `
 > ` Weapon1 ` | ` {loadout.secondary1.code.center(col2)} ` | ` {loadout.secondary1.name.center(col3)} ` | ` {loadout.secondary1.type.center(col4)} ` | ` {loadout.secondary1.target} `
 > ` Weapon2 ` | ` {loadout.secondary2.code.center(col2)} ` | ` {loadout.secondary2.name.center(col3)} ` | ` {loadout.secondary2.type.center(col4)} ` | ` {loadout.secondary2.target} `
 > ` Weapon3 ` | ` {loadout.secondary3.code.center(col2)} ` | ` {loadout.secondary3.name.center(col3)} ` | ` {loadout.secondary3.type.center(col4)} ` | ` {loadout.secondary3.target} `
 > ` Special ` | ` {loadout.special.code.center(col2)} ` | ` {loadout.special.name.center(col3)} ` | ` {loadout.special.type.center(col4)} ` | ` {loadout.special.target} `
-> ============{"REMAINING".center(col2+col3,"=")}============
+> =================REMAINING=================
 > Payload: {loadout.remaining_budget()[0]} | Avionics: {loadout.remaining_budget()[1]}
 """
         await interaction.edit_original_response(content=message)
