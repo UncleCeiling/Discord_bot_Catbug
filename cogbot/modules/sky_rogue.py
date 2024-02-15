@@ -160,7 +160,7 @@ def find_weapon(
     sky_rogue_lists: dict,
     current_loadout: Loadout,
     slot: int,
-    experimental: bool,
+    experimental: bool,modded:bool,
     target: str,
 ):
     weapon_list = sky_rogue_lists["weapons"]
@@ -168,18 +168,19 @@ def find_weapon(
     for weapon in weapon_list:
         if slot == weapon.slot:
             if weapon.experimental == experimental or weapon.experimental == False:
-                if weapon.target == "All" or weapon.target == target:
-                    if (weapon.payload <= current_loadout.remaining_budget()[0]) and (
-                        weapon.avionics <= current_loadout.remaining_budget()[1]
-                    ):
-                        return weapon
+                if weapon.modded == modded or weapon.modded == False:
+                    if weapon.target == "All" or weapon.target == target:
+                        if (weapon.payload <= current_loadout.remaining_budget()[0]) and (
+                            weapon.avionics <= current_loadout.remaining_budget()[1]
+                        ):
+                            return weapon
     return Weapon()
 
 
 def fill_loadout(
     sky_rogue_lists: dict,
     current_loadout: Loadout,
-    experimental: bool,
+    experimental: bool,modded:bool,
     target: str,
 ) -> Loadout:
     choices = [1, 2, 2, 2, 3]
@@ -187,25 +188,25 @@ def fill_loadout(
         match choice(choices):
             case 1:  # Primary
                 current_loadout.primary = find_weapon(
-                    sky_rogue_lists, current_loadout, 1, experimental, target
+                    sky_rogue_lists, current_loadout, 1, experimental,modded, target
                 )
                 choices.remove(1)
             case 2:  # Secondary
                 if current_loadout.secondary1.name == "":
                     current_loadout.secondary1 = find_weapon(
-                        sky_rogue_lists, current_loadout,2, experimental, target
+                        sky_rogue_lists, current_loadout,2, experimental,modded, target
                     )
                 elif current_loadout.secondary2.name == "":
                     current_loadout.secondary2 = find_weapon(
-                        sky_rogue_lists, current_loadout,2, experimental, target
+                        sky_rogue_lists, current_loadout,2, experimental,modded, target
                     )
                 else:
                     current_loadout.secondary3 = find_weapon(
-                        sky_rogue_lists, current_loadout,2, experimental, target
+                        sky_rogue_lists, current_loadout,2, experimental,modded, target
                     )
                 choices.remove(2)
             case 3:  # Special
-                current_loadout.special = find_weapon(sky_rogue_lists, current_loadout,3,experimental,target)
+                current_loadout.special = find_weapon(sky_rogue_lists, current_loadout,3,experimental,modded,target)
                 choices.remove(3)
     return current_loadout
 
