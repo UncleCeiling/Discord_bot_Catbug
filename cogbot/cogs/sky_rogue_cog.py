@@ -17,8 +17,8 @@ class SkyRogue(commands.Cog):
         name="skyrogue", description="Generate a loadout for a Sky Rogue run."
     )
     @app_commands.describe(
-        experimental="Choose whether to include 'Experimental' equipment in the loadout.",
         target="Choose which types of weapons to include.",
+        experimental="Choose whether to include 'Experimental' equipment in the loadout.",
         visible="Make output visible in channel.",
     )
     @app_commands.choices(target=[
