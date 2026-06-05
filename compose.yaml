@@ -1,0 +1,7 @@
+services:
+  bot:
+    build:
+      context: .
+    volumes:
+      - ./data:/catbug-bot/data
+    restart: always

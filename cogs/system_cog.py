@@ -1,5 +1,10 @@
+from concurrent.futures import thread
+
 import discord,csv,subprocess,datetime,os
+from random import choice
 from discord import app_commands
+from discord import guild
+from discord import channel
 from discord.ext import commands
 from typing import Optional
 
@@ -11,18 +16,43 @@ class System(commands.Cog):
     async def on_ready(self):
         print("> system_cog loaded")
 
-    # region CLI-clone
+    @app_commands.command(name="status",description="Picks a new random status")
+    async def status(self, interaction: discord.Interaction):
+        with open("data/quotes.csv",encoding="utf8") as file:
+            quotes = []
+            for row in csv.DictReader(file,fieldnames=("quote","emoji")):
+                quotes.append(row)
+        quote = choice(quotes)
+        status = f"{quote['emoji']} {quote['quote']}"
+        await self.bot.change_presence(activity=discord.CustomActivity(name=status))
+        await interaction.response.send_message(f"""> Changed Status to:\n\n> {status} """,ephemeral=True)
 
     @app_commands.command(name="pwd",description="Tells you WHERE you are.") # Also syncs commands
     @app_commands.describe(visible="Make output visible in channel?")
     async def pwd(self, interaction: discord.Interaction,visible: bool = False):
-        await interaction.response.send_message(f"> `{interaction.guild}/{interaction.channel}`",ephemeral=(not visible))
+        guild = interaction.guild # Get guild of message.
+        if interaction.guild == None or interaction.channel == None: # Check for if we're in DMs
+            await interaction.response.send_message("> We are in DMs")
+            return
+        elif isinstance(interaction.channel,discord.Thread):
+            channel = self.bot.get_channel(interaction.channel.parent_id)
+            thread = self.bot.get_channel(interaction.channel.id)
+        else:
+            channel = interaction.channel
+            thread = None
+        message = f"> `{guild} / {channel}"
+        message += "`" if thread == None else f" / {thread}`"
+        await interaction.response.send_message(message,ephemeral=(not visible))
         try:
-            await self.bot.tree.sync()
-        except Exception as exception:
-            message = f"{exception}"
+            # self.bot.tree.copy_global_to(guild=interaction.guild.id)
+            synced = await self.bot.tree.sync(guild=interaction.guild)
+            for item in synced:
+                message += f"\n> Synced {item.name}"
             await interaction.edit_original_response(content=message)
-            print(exception)
+        except Exception as exception:
+            message += f"\n{exception}"
+            print(message)
+            await interaction.edit_original_response(content=message)
 
     @app_commands.command(name="whoami",description="Tells you WHO you are")
     @app_commands.describe(visible="Make output visible in channel?")
@@ -69,9 +99,9 @@ class System(commands.Cog):
         if member.display_avatar or member.guild_avatar:
             message += "### Avatar\n"
             if member.display_avatar:
-                message += f"[Main Avatar]({member.display_avatar.url})\n"
+                message += f"[Profile Avatar]({member.display_avatar.url})\n"
             if member.guild_avatar:
-                message += f"[Guild Avatar]({member.guild_avatar.url})\n"
+                message += f"[Server Avatar]({member.guild_avatar.url})\n"
         await interaction.response.send_message(content=message,ephemeral=(not visible))
 
     @app_commands.command(name="reboot",description="Reboots the bot.")
@@ -80,7 +110,7 @@ class System(commands.Cog):
             await interaction.response.send_message("> This command can only used in DMs.",ephemeral=False)
             return
         else:
-            with open("files/admins.csv",encoding="utf8") as file:
+            with open("data/admins.csv",encoding="utf8") as file:
                 admins = {}
                 for line in csv.DictReader(file,fieldnames=("Name","ID")):
                     admins.update({line["Name"]:int(line["ID"])})
@@ -90,19 +120,17 @@ class System(commands.Cog):
             else:
                 message = "> ⏳ Initiating shutdown..."
                 await interaction.response.send_message(message,ephemeral=False)
-                message += "\n\n> 🪝 Running `git pull`..."
-                await interaction.edit_original_response(content=message)
-                output = subprocess.run(["git","pull"],stdout=subprocess.PIPE).stdout.decode("utf-8").replace("Fast-forward","FastForward").replace("+","🟢").replace("-","🔴").replace("Already up to date.","Already up to date. ✅").replace("\n","\n> ")
-                message += f"\n\n> 🗒️ Output:\n> {output}"
-                await interaction.edit_original_response(content=message)
+                # message += "\n\n> 🪝 Running `git pull`..."
+                # await interaction.edit_original_response(content=message)
+                # output = subprocess.run(["git","pull"],stdout=subprocess.PIPE).stdout.decode("utf-8").replace("Fast-forward","FastForward").replace("+","🟢").replace("-","🔴").replace("Already up to date.","Already up to date. ✅").replace("\n","\n> ")
+                # message += f"\n\n> 🗒️ Output:\n> {output}"
+                # await interaction.edit_original_response(content=message)
                 message += "\n\n> 🚪 Logging off..."
                 await interaction.edit_original_response(content=message)
                 await self.bot.change_presence(status=discord.Status.offline,activity=None)
                 message += "\n\n> 🔄 Rebooting..."
                 await interaction.edit_original_response(content=message)
-                os.system("sudo reboot")
-
-    # endregion ==-CLI-==
+                exit(0)
 
 async def setup(bot):
         await bot.add_cog(System(bot))

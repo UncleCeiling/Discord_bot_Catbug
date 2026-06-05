@@ -39,7 +39,7 @@ class SkyRogue(commands.Cog):
         await interaction.response.send_message(
             f"> Generating loadout...", ephemeral=(not visible)
         )
-        sr_lists = sky_rogue.import_sky_rogue_lists("./files/sky_rogue/")
+        sr_lists = sky_rogue.import_sky_rogue_lists("data/sky_rogue/")
         loadout = sky_rogue.generate_empty_loadout(sr_lists, experimental, modded)
         loadout = sky_rogue.fill_loadout(
             sky_rogue_lists=sr_lists,

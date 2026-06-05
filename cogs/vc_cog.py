@@ -4,14 +4,14 @@ from discord.ext import commands
 from typing import Optional
 
 def get_stations():
-    with open("files/streams/stations.csv",encoding="utf8") as file:
+    with open("data/streams/stations.csv",encoding="utf8") as file:
         stations = []
         for station in csv.DictReader(file,fieldnames=("station","link")):
             stations.append(app_commands.Choice(name=station["station"], value=station["link"]))
     return stations
 
 def get_towers():
-    with open("files/streams/towers.csv",encoding="utf8") as file:
+    with open("data/streams/towers.csv",encoding="utf8") as file:
         towers = []
         for tower in csv.DictReader(file,fieldnames=("ICAO","IATA","City","Type","url")):
             towers.append(app_commands.Choice(name=f"{tower['IATA']} - {tower['City']} - {tower['Type']}", value=tower["url"]))
@@ -51,7 +51,7 @@ class Vc(commands.Cog):
                 await interaction.response.send_message(message,ephemeral=(not visible))
                 try:
                     player = await channel.connect()
-                    message += f"\n\n> Joined `{channel}`."
+                    message = f"> Joined `{channel}`."
                     await interaction.edit_original_response(content=message)
                 except Exception as exception:
                     message += f"\n\n>>> Joining `{channel}` failed.\nError:\n```{exception}```"
@@ -67,7 +67,7 @@ class Vc(commands.Cog):
                 try: # Try to stop and leave.
                     player.stop()
                     await interaction.guild.voice_client.disconnect(force=True)
-                    message += f"\n\n> Left `{channel}`."
+                    message = f"> Left `{channel}`."
                     await interaction.edit_original_response(content=message)
                 except Exception as exception: # You tried
                     message += f"\n\n>>> Leaving `{channel}` failed.\nError:\n```{exception}```"
@@ -82,7 +82,7 @@ class Vc(commands.Cog):
             await interaction.response.send_message(message,ephemeral=(not visible))
             try:
                 player.resume()
-                message += "\n\n> Resumed."
+                message = "> Resumed."
                 await interaction.edit_original_response(content=message)
             except Exception as exception:
                 message += f"\n\n>>> Resume failed.\nError:\n```{exception}```"
@@ -92,7 +92,7 @@ class Vc(commands.Cog):
             await interaction.response.send_message(message,ephemeral=(not visible))
             try:
                 player.pause()
-                message += "\n\n> Paused."
+                message = "> Paused."
                 await interaction.edit_original_response(content=message)
             except Exception as exception:
                 message += f"\n\n>>> Pause failed.\nError:\n```{exception}```"
@@ -102,7 +102,7 @@ class Vc(commands.Cog):
             await interaction.response.send_message(message,ephemeral=(not visible))
             try:
                 player.stop()
-                message += "\n\n> Stopped."
+                message = "> Stopped."
                 await interaction.edit_original_response(content=message)
             except Exception as exception:
                 message += f"\n\n>>> Stop failed.\nError:\n```{exception}```"
@@ -132,7 +132,7 @@ class Vc(commands.Cog):
             await interaction.response.send_message(message,ephemeral=(not visible),suppress_embeds=True)
             global player
             if interaction.guild.voice_client and (interaction.guild.voice_client.channel != channel): # If we are already in a channel, but not the right one
-                message += f"\n\n> Disconnecting from {interaction.guild.voice_client.channel}..."
+                message = f"> Disconnecting from {interaction.guild.voice_client.channel}..."
                 await interaction.edit_original_response(content=message)
                 try: # Try to disconnect from current Channel
                     await interaction.guild.voice_client.disconnect(force=True)
@@ -141,7 +141,7 @@ class Vc(commands.Cog):
                     await interaction.edit_original_response(content=message)
                     return
             if not interaction.guild.voice_client: # If we aren't in a channel
-                message += f"\n\n> Connecting to {channel}..."
+                message = f"> Connecting to {channel}..."
                 await interaction.edit_original_response(content=message)
                 try: # Try to Connect
                     player = await channel.connect()
@@ -149,16 +149,16 @@ class Vc(commands.Cog):
                     message += f"\n\n>>> Couldn't connect to {channel}.\nError:\n```{exception}```"
                     await interaction.edit_original_response(content=message)
                     return
-            message += f"\n\n> Connected! Starting Stream..."
+            message = f"> Connected! Starting Stream..."
             await interaction.edit_original_response(content=message)
             try: # Try to Start the Stream
                 player.stop()
-                player.play(source=FFmpegPCMAudio(source=url))
+                player.play(source=discord.PCMVolumeTransformer(FFmpegPCMAudio(source=url),volume=0.1))
             except Exception as exception: # Freak out if you can't
                 message += f"\n\n>>> Couldn't start Stream.\nError:\n```{exception}```"
                 await interaction.edit_original_response(content=message)
                 return
-            message += f"\n\n>>> {station.name} stream started!\nEnjoy! [Stream URL]({url})"
+            message = f">>> {station.name} stream started!\nEnjoy! [Stream URL]({url})"
             await interaction.edit_original_response(content=message)
 
     # endregion Radio
@@ -186,7 +186,7 @@ class Vc(commands.Cog):
             await interaction.response.send_message(message,ephemeral=(not visible),suppress_embeds=True)
             global player
             if interaction.guild.voice_client and (interaction.guild.voice_client.channel != channel): # If we are already in a channel, but not the right one
-                message += f"\n\n> Disconnecting from {interaction.guild.voice_client.channel}..."
+                message = f"> Disconnecting from {interaction.guild.voice_client.channel}..."
                 await interaction.edit_original_response(content=message)
                 try: # Try to disconnect from current Channel
                     await interaction.guild.voice_client.disconnect(force=True)
@@ -195,7 +195,7 @@ class Vc(commands.Cog):
                     await interaction.edit_original_response(content=message)
                     return
             if not interaction.guild.voice_client: # If we aren't in a channel
-                message += f"\n\n> Connecting to {channel}..."
+                message = f"> Connecting to {channel}..."
                 await interaction.edit_original_response(content=message)
                 try: # Try to Connect
                     player = await channel.connect()
@@ -203,16 +203,16 @@ class Vc(commands.Cog):
                     message += f"\n\n>>> Couldn't connect to {channel}.\nError:\n```{exception}```"
                     await interaction.edit_original_response(content=message)
                     return
-            message += f"\n\n> Connected! Starting Stream..."
+            message = f"> Connected! Starting Stream..."
             await interaction.edit_original_response(content=message)
             try: # Try to Start the Stream
                 player.stop()
-                player.play(source=FFmpegPCMAudio(source=url))
+                player.play(source=discord.PCMVolumeTransformer(FFmpegPCMAudio(source=url),volume=0.1))
             except Exception as exception: # Freak out if you can't
                 message += f"\n\n>>> Couldn't start Stream.\nError:\n```{exception}```"
                 await interaction.edit_original_response(content=message)
                 return
-            message += f"\n\n>>> {tower.name} stream started!\nEnjoy! [Stream URL]({url})"
+            message = f">>> {tower.name} stream started!\nEnjoy! [Stream URL]({url})"
             await interaction.edit_original_response(content=message)
 
     # endregion ATC
@@ -236,7 +236,7 @@ class Vc(commands.Cog):
             await interaction.response.send_message(message,ephemeral=(not visible),suppress_embeds=True)
             global player
             if interaction.guild.voice_client and (interaction.guild.voice_client.channel != channel): # If we are already in a channel, but not the right one
-                message += f"\n\n> Disconnecting from {interaction.guild.voice_client.channel}..."
+                message = f"> Disconnecting from {interaction.guild.voice_client.channel}..."
                 await interaction.edit_original_response(content=message)
                 try: # Try to disconnect from current Channel
                     await interaction.guild.voice_client.disconnect(force=True)
@@ -245,7 +245,7 @@ class Vc(commands.Cog):
                     await interaction.edit_original_response(content=message)
                     return
             if not interaction.guild.voice_client: # If we aren't in a channel
-                message += f"\n\n> Connecting to {channel}..."
+                message = f"> Connecting to {channel}..."
                 await interaction.edit_original_response(content=message)
                 try: # Try to Connect
                     player = await channel.connect()
@@ -253,16 +253,16 @@ class Vc(commands.Cog):
                     message += f"\n\n>>> Couldn't connect to {channel}.\nError:\n```{exception}```"
                     await interaction.edit_original_response(content=message)
                     return
-            message += f"\n\n> Connected! Starting Stream..."
+            message = f"> Connected! Starting Stream..."
             await interaction.edit_original_response(content=message)
             try: # Try to Start the Stream
                 player.stop()
-                player.play(source=FFmpegPCMAudio(source=url))
+                player.play(source=discord.PCMVolumeTransformer(FFmpegPCMAudio(source=url),volume=0.1))
             except Exception as exception: # Freak out if you can't
                 message += f"\n\n>>> Couldn't start Stream.\nError:\n```{exception}```"
                 await interaction.edit_original_response(content=message)
                 return
-            message += f"\n\n>>> Stream started!\nEnjoy! [Stream URL]({url})"
+            message = f">>> Stream started!\nEnjoy! [Stream URL]({url})"
             await interaction.edit_original_response(content=message)
 
     # endregion URL

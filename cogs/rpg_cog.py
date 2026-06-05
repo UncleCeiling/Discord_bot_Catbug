@@ -4,7 +4,7 @@ from discord import app_commands
 from discord.ext import commands
 from typing import Optional
 
-rpg_words = rpg_generator.import_rpg_words("./files/rpg_words/")
+rpg_words = rpg_generator.import_rpg_words("data/rpg_words/")
 
 class Rpg(commands.Cog):
     def __init__(self, bot: commands.Bot):
@@ -15,7 +15,7 @@ class Rpg(commands.Cog):
         print("> rpg_cog loaded")
     
     @app_commands.command(name="rpg",description="Generate an RPG item.")
-    @app_commands.describe(item_type="What type of Item you want to generate.",modifiers="How many modifiers should the item have?",visible="Make output visible in channel?")
+    @app_commands.describe(item_type="Type of Item to generate.",modifiers="How many modifiers should the item have?",visible="Make output visible in channel?")
     @app_commands.choices(item_type=[
         app_commands.Choice(name="weapon", value="1"),
         app_commands.Choice(name="armour", value="2")

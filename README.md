@@ -71,7 +71,7 @@ Based on **UserID** so the "**graphic**" should be consistent across servers.
 
 #### `/rpg <weapon/armour> [modifiers{None}] [visible{False}]`
 
-Uses the `.csv` files in `files/rpg_words` to generate names of **weapons** and **armour**.
+Uses the `.csv` files in `data/rpg_words` to generate names of **weapons** and **armour**.
 
 ### 📻 Audio 📻
 
@@ -89,12 +89,12 @@ Used to control the bot's access to voice channels.
 
 #### `/radio <station> [visible{False}]`
 
-Presents options for the stations in the `.csv` in `files/streams`.  
+Presents options for the stations in the `.csv` in `data/streams`.  
 Plays the selected stream in whatever VC you are in.
 
 #### `/atc <option> [visible{False}]`
 
-Presents options for the ATC towers in the `.csv` in `files/streams`.  
+Presents options for the ATC towers in the `.csv` in `data/streams`.  
 Plays the selected stream in whatever VC you are in.
 
 #### `/stream <url>`
