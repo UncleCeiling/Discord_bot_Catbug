@@ -32,7 +32,7 @@ async def on_ready():
     for guild in guilds:
         try:
             bot.tree.clear_commands(guild=guild)
-            bot.tree.copy_global_to(guild=guild)
+            # bot.tree.copy_global_to(guild=guild)
             synced_list = await bot.tree.sync(guild=guild)
         except Exception as exception:
             print(f"> ERROR: \n\n```{exception}```")
