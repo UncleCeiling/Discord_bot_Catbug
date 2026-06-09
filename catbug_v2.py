@@ -14,6 +14,8 @@ async def on_ready():
     """Handles startup sequence"""
     if bot.user:
         print(f"Signed in as {bot.user} (ID: {bot.user.id})") # Successful sign-in
+    # Load cogs
+    bot.tree.clear_commands(guild=None)
     print("Loading cogs:")
     try:
         for filename in os.listdir("./cogs"):
@@ -25,6 +27,10 @@ async def on_ready():
                     print(f"> Error loading {filename[:-3]} - {exception}")
     except Exception as exception:
         print(exception)
+    # Sync Globally
+    global_synced = await bot.tree.sync(guild=None)
+    print(f"> Synced {len(global_synced)} commands Globally.")
+    await bot.change_presence(status=discord.Status.online)
     # Sync Commands to Servers
     guilds = bot.guilds
     synced_servers = 0
@@ -40,11 +46,6 @@ async def on_ready():
             print(f"> > Synced {len(synced_list)} commands to `{guild.name}`")
             synced_servers += 1
     print(f"> Synced {synced_servers} servers.")
-    # Sync Globally
-    bot.tree.clear_commands(guild=None)
-    global_synced = await bot.tree.sync(guild=None)
-    print(f"> Synced {len(global_synced)} commands Globally.")
-    await bot.change_presence(status=discord.Status.online)
     await status_task.start()
 #endregion Initialise
 
