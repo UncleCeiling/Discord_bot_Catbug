@@ -33,11 +33,11 @@ async def on_ready():
             bot.tree.copy_global_to(guild=guild)
             synced_list = await bot.tree.sync(guild=guild)
         except Exception as exception:
-            print(f"\n> ERROR: \n\n```{exception}```")
+            print(f"> ERROR: \n\n```{exception}```")
         else:
-            print(f"\n> > Synced {len(synced_list)} commands to `{guild.name}`")
+            print(f"> > Synced {len(synced_list)} commands to `{guild.name}`")
             synced_servers += 1
-    print(f"\n\n> Synced {synced_servers} servers.")
+    print(f"> Synced {synced_servers} servers.")
     await bot.change_presence(status=discord.Status.online)
     await status_task.start()
 #endregion Initialise

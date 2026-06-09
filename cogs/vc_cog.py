@@ -125,7 +125,7 @@ class Vc(commands.Cog):
     @app_commands.command(name="radio",description="Radio channels")
     @app_commands.describe(station="The Genre you'd like to listen to.",visible="Make output visible in channel?")
     @app_commands.choices(station=get_station_values())
-    async def radio(self, interaction:discord.Interaction,station: app_commands.Choice[int],visible: Optional[bool]=False):
+    async def radio(self, interaction:discord.Interaction,station: app_commands.Choice,visible: Optional[bool]=False):
         # Build URL with Args
         url = get_station_url_from_value(station.value)
         # Filter cases where no action is taken
