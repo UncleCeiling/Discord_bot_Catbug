@@ -1,0 +1,8 @@
+**/__pycache__
+**/.git
+**/.venv
+**/.gitignore
+# **/.env
+**/old
+compose.y*ml
+*.md

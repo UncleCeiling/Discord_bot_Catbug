@@ -1,6 +1,9 @@
+EHAM,AMS,Schipol International Airport, Dutch Mil Radar,http://d.liveatc.net/ehle_dutchmil
 EIDW,DUB,Dublin(International),Del/Gnd/Twr/App/Center,http://d.liveatc.net/eidw3
 LJLJ,LJU,Ljubljana (Joze Pucnik),Radar/Approach,http://d.liveatc.net/ljlj_app
 KLAX,LAX,Los Angeles (International),Tower (North) #1,http://d.liveatc.net/klax3
 KLAX,LAX,Los Angeles (International),Tower (North/South) #1,http://d.liveatc.net/klax_twr
+KJFK,JFK,John F Kennedy International Airport,Gnd/Tower,http://d.liveatc.net/kfjk9_s
+TTPP,POS,Piarco International Airport,App/Center,http://d.liveatc.net/ttpp_app
 RJTT,HND,Tokyo (International),Control,http://d.liveatc.net/rjtt_control
 RJAA,NRT,Tokyo (Narita),Control,http://d.liveatc.net/rjaa_control1

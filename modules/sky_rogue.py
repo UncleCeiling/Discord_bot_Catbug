@@ -236,16 +236,3 @@ def fill_loadout(
                 )
                 choices.remove(3)
     return current_loadout
-
-
-# # region Testing
-
-# sr_lists = import_sky_rogue_lists("./cogbot/files/sky_rogue/")
-# for x in range(100):
-#     loadout = generate_empty_loadout(sr_lists, False, False)
-#     loadout = fill_loadout(sr_lists, loadout, False, False, "Air")
-#     print(
-#         f"Aircraft: {loadout.aircraft.name}\nMicros  : {loadout.primary.code}\nSlot 1  : {loadout.secondary1.code} {loadout.secondary1.type}\nSlot 2  : {loadout.secondary2.code} {loadout.secondary2.type}\nSlot 3  : {loadout.secondary3.code} {loadout.secondary3.type}\nSpecial : {loadout.special.code}\n"
-#     )
-
-# endregion

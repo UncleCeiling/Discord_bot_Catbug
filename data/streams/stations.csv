@@ -1,9 +1,10 @@
 *Seasonal* - Heart Xmas,https://media-ssl.musicradio.com/HeartXmas
-BBC - Radio 1,http://lstn.lv/bbc.m3u8?station=bbc_radio_one&bitrate=128000
-BBC - Radio 2,http://lstn.lv/bbc.m3u8?station=bbc_radio_two&bitrate=128000
-BBC - Radio 4,http://lstn.lv/bbc.m3u8?station=bbc_radio_fourfm&bitrate=128000
-BBC - Radio 6,http://lstn.lv/bbc.m3u8?station=bbc_6music&bitrate=128000
-BBC - Radio Scot,http://lstn.lv/bbc.m3u8?station=bbc_radio_scotland_fm&bitrate=128000
+BBC - Radio 1,http://lstn.lv/bbc.m3u8?station=bbc_radio_one&bitrate=96000
+BBC - Radio 2,http://lstn.lv/bbc.m3u8?station=bbc_radio_two&bitrate=96000
+BBC - Radio 4,http://lstn.lv/bbc.m3u8?station=bbc_radio_fourfm&bitrate=96000
+BBC - Radio 4,http://lstn.lv/bbc.m3u8?station=bbc_radio_four_extra&bitrate=96000
+BBC - Radio 6,http://lstn.lv/bbc.m3u8?station=bbc_6music&bitrate=96000
+BBC - Radio Scot,http://lstn.lv/bbc.m3u8?station=bbc_radio_scotland_fm&bitrate=96000
 BG - 89.5 Radio NRJ,http://play.global.audio/nrj.aac
 Radio Paradise - Global,http://stream.radioparadise.com/global-128
 Radio Paradise - Mellow,http://stream.radioparadise.com/mellow-128
