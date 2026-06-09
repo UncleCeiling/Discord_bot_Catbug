@@ -43,16 +43,24 @@ class System(commands.Cog):
         message = f"> `{guild} / {channel}"
         message += "`" if thread == None else f" / {thread}`"
         await interaction.response.send_message(message,ephemeral=(not visible))
-        try:
-            # self.bot.tree.copy_global_to(guild=interaction.guild.id)
-            synced = await self.bot.tree.sync(guild=interaction.guild)
-            for item in synced:
-                message += f"\n> Synced {item.name}"
+
+    async def sync(self,interaction: discord.Interaction):
+        guilds = self.bot.guilds
+        synced_servers = 0
+        message = f"> Syncing"
+        await interaction.response.send_message(content=message)
+        for guild in guilds:
+            try:
+                synced_list = await self.bot.tree.sync(guild=guild)
+            except Exception as exception:
+                message += f"\n> ERROR: \n\n```{exception}```"
+            else:
+                message += f"\n> > Synced {len(synced_list)} commands to `{guild.name}`"
+                synced_servers += 1
             await interaction.edit_original_response(content=message)
-        except Exception as exception:
-            message += f"\n{exception}"
-            print(message)
-            await interaction.edit_original_response(content=message)
+        message += f"\n\n> Synced {synced_servers} servers."
+        await interaction.edit_original_response(content=message)
+
 
     @app_commands.command(name="whoami",description="Tells you WHO you are")
     @app_commands.describe(visible="Make output visible in channel?")
