@@ -10,7 +10,7 @@ def get_station_values():
         stations = []
         value = 0
         for row in csv.DictReader(file,fieldnames=("station","link")):
-            stations.append(app_commands.Choice(name=row["station"], value=value))
+            stations.append(app_commands.Choice(name=row["station"], value=str(value)))
             value += 1
     return stations
 
@@ -125,9 +125,9 @@ class Vc(commands.Cog):
     @app_commands.command(name="radio",description="Radio channels")
     @app_commands.describe(station="The Genre you'd like to listen to.",visible="Make output visible in channel?")
     @app_commands.choices(station=get_station_values())
-    async def radio(self, interaction:discord.Interaction,station: app_commands.Choice,visible: Optional[bool]=False):
+    async def radio(self, interaction:discord.Interaction,station: app_commands.Choice[str],visible: Optional[bool]=False):
         # Build URL with Args
-        url = get_station_url_from_value(station.value)
+        url = get_station_url_from_value(int(station.value))
         # Filter cases where no action is taken
         if not interaction.guild: # Not in Server
             await interaction.response.send_message("> This command can only be used in a Server.",ephemeral=True)
