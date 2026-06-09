@@ -20,7 +20,7 @@ class Rpg(commands.Cog):
         app_commands.Choice(name="weapon", value="1"),
         app_commands.Choice(name="armour", value="2")
         ])
-    async def rpg(self, interaction:discord.Interaction,item_type:app_commands.Choice[str],modifiers:Optional[int]=0,visible:Optional[bool]=False):
+    async def rpg(self, interaction:discord.Interaction,item_type:app_commands.Choice[str],modifiers:Optional[int]=1,visible:Optional[bool]=False):
         choice = int(item_type.value)
         if choice == 1: # Weapon
             message = "> Your Weapon is the..."
