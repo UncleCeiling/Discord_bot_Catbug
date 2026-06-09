@@ -25,12 +25,19 @@ async def on_ready():
                     print(f"> Error loading {filename[:-3]} - {exception}")
     except Exception as exception:
         print(exception)
-    try:
-        synced = await bot.tree.sync()
-        for command in synced:
-            print(f"> > Synced {command}")
-    except Exception as exception:
-        print(exception)
+    guilds = bot.guilds
+    synced_servers = 0
+    print("> Syncing")
+    for guild in guilds:
+        try:
+            bot.tree.copy_global_to(guild=guild)
+            synced_list = await bot.tree.sync(guild=guild)
+        except Exception as exception:
+            print(f"\n> ERROR: \n\n```{exception}```")
+        else:
+            print(f"\n> > Synced {len(synced_list)} commands to `{guild.name}`")
+            synced_servers += 1
+    print(f"\n\n> Synced {synced_servers} servers.")
     await bot.change_presence(status=discord.Status.online)
     await status_task.start()
 #endregion Initialise

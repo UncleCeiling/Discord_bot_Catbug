@@ -51,6 +51,7 @@ class System(commands.Cog):
         await interaction.response.send_message(content=message)
         for guild in guilds:
             try:
+                self.bot.tree.copy_global_to(guild=guild)
                 synced_list = await self.bot.tree.sync(guild=guild)
             except Exception as exception:
                 message += f"\n> ERROR: \n\n```{exception}```"
