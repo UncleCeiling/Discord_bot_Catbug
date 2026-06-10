@@ -38,8 +38,8 @@ async def status_task() -> None:
         for row in csv.DictReader(file,fieldnames=("quote","emoji")):
             quotes.append(row)
     quote = choice(quotes)
-    status = f"{quote['emoji']} {quote['quote']}"
-    await bot.change_presence(activity=discord.CustomActivity(name=status))
+    await bot.change_presence(activity=discord.CustomActivity(name=quote["quote"],emoji=quote["emoji"]))
+    print(f"> Changed Status to `{quote["quote"]}`")
 
 @tasks.loop(hours=24)
 async def sync_global() -> None:
