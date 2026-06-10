@@ -39,11 +39,11 @@ async def status_task() -> None:
             quotes.append(row)
     quote = choice(quotes)
     await bot.change_presence(activity=discord.CustomActivity(name=quote["quote"],emoji=quote["emoji"]))
-    print(f"> Changed Status to `{quote["quote"]}`")
+    print(f"Changed Status to `{quote["quote"]}`")
 
 @tasks.loop(hours=24)
 async def sync_global() -> None:
-    print("> Syncing Global Commands ")
+    print("Syncing Global Commands ")
     synced_list = await bot.tree.sync()
     print(f"> Synced {len(synced_list)} commands:")
     for synced in synced_list:
