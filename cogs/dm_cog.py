@@ -13,15 +13,7 @@ class DM(commands.Cog):
     
     @app_commands.command(name="ip",description="Fetches the bot's public ip.")
     @app_commands.dm_only()
-    @app_commands.describe(command="command to run")
-    @app_commands.choices(command=[
-        app_commands.Choice(name="global", value="1"),
-        app_commands.Choice(name="guilds", value="2"),
-        app_commands.Choice(name="clear global", value="3"),
-        app_commands.Choice(name="clear guild", value="4"),
-        app_commands.Choice(name="copy global to guilds", value="5"),
-        ])
-    async def ip(self, interaction: discord.Interaction, command: app_commands.Choice[str]):
+    async def ip(self, interaction: discord.Interaction):
         if not is_admin(interaction.user.id):
             await interaction.response.send_message("> You do not have permission to perform this command.",ephemeral=False)
             return
