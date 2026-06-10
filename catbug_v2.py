@@ -13,9 +13,9 @@ bot = commands.Bot(command_prefix="!",intents=intents) # Builds the bot
 async def on_ready():
     """Handles startup sequence"""
     if bot.user:
-        print(f"Signed in as {bot.user} (ID: {bot.user.id})") # Successful sign-in
+        print(f"Signed in as {bot.user} (ID: {bot.user.id})")
     # Load cogs
-    bot.tree.clear_commands(guild=None)
+    await asyncio.sleep(1)
     print("Loading cogs:")
     for filename in os.listdir("./cogs"):
         if filename.endswith(".py"):
@@ -47,8 +47,9 @@ async def status_task() -> list[str]:
         for row in csv.DictReader(file,fieldnames=("quote","emoji")):
             quotes.append(row)
     quote = choice(quotes)
-    await bot.change_presence(activity=discord.CustomActivity(name=quote["quote"],emoji=discord.PartialEmoji.from_str(quote["emoji"])))
-    print(f"Changed Status to `{quote["quote"]}`")
+    status_text = f"{quote["quote"]} {quote["emoji"]}"
+    await bot.change_presence(activity=discord.CustomActivity(name=status_text,emoji=quote["emoji"]))
+    print(f"Changed Status to `{status_text}`")
     return [quote["quote"],quote["emoji"]]
 
 @tasks.loop(hours=24)
