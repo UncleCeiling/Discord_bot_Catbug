@@ -17,37 +17,17 @@ async def on_ready():
     # Load cogs
     bot.tree.clear_commands(guild=None)
     print("Loading cogs:")
-    try:
-        for filename in os.listdir("./cogs"):
-            if filename.endswith(".py"):
-                try:
-                    await bot.load_extension(f"cogs.{filename[:-3]}")
-                    print(f"> Loaded {filename[:-3]}.")
-                except Exception as exception:
-                    print(f"> Error loading {filename[:-3]} - {exception}")
-    except Exception as exception:
-        print(exception)
-    # Sync Globally
-    # global_synced = await bot.tree.sync(guild=None)
-    # print(f"> Synced {len(global_synced)} commands Globally.")
+    for filename in os.listdir("./cogs"):
+        if filename.endswith(".py"):
+            try:
+                await bot.load_extension(f"cogs.{filename[:-3]}")
+                print(f"> Loaded {filename[:-3]}.")
+            except Exception as exception:
+                print(f"> Error loading {filename[:-3]} - ```{exception}```")
     # Change Status
     await bot.change_presence(status=discord.Status.online)
-    # Sync Commands to Servers
-    guilds = bot.guilds
-    synced_servers = 0
-    print("> Syncing")
-    for guild in guilds:
-        try:
-            # bot.tree.clear_commands(guild=guild)
-            bot.tree.copy_global_to(guild=guild)
-            synced_list = await bot.tree.sync(guild=guild)
-        except Exception as exception:
-            print(f"> ERROR: \n\n```{exception}```")
-        else:
-            print(f"> > Synced {len(synced_list)} commands to `{guild.name}`")
-            synced_servers += 1
-    print(f"> Synced {synced_servers} servers.")
     await status_task.start()
+    await sync_global()
 #endregion Initialise
 
 #region Tasks
@@ -60,6 +40,16 @@ async def status_task() -> None:
     quote = choice(quotes)
     status = f"{quote['emoji']} {quote['quote']}"
     await bot.change_presence(activity=discord.CustomActivity(name=status))
+
+@tasks.loop(hours=24)
+async def sync_global() -> None:
+    print("> Syncing Global Commands ")
+    synced_list = await bot.tree.sync()
+    print(f"> Synced {len(synced_list)} commands:")
+    for synced in synced_list:
+        print(f"> > {synced}")
+
+
 #endregion
 
 # Main Loop
