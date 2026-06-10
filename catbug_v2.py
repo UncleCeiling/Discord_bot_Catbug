@@ -47,7 +47,7 @@ async def status_task() -> list[str]:
         for row in csv.DictReader(file,fieldnames=("quote","emoji")):
             quotes.append(row)
     quote = choice(quotes)
-    await bot.change_presence(activity=discord.CustomActivity(name=quote["quote"],emoji=discord.PartialEmoji(name=quote["emoji"])))
+    await bot.change_presence(activity=discord.CustomActivity(name=quote["quote"],emoji=discord.PartialEmoji.from_str(quote["emoji"])))
     print(f"Changed Status to `{quote["quote"]}`")
     return [quote["quote"],quote["emoji"]]
 
