@@ -12,7 +12,7 @@ class DM(commands.Cog):
     
     @app_commands.command(name="sync",description="Syncs the bot commands")
     @app_commands.allowed_contexts(False,True,False)
-    @app_commands.describe(command="command",visible="Make output visible in channel?")
+    @app_commands.describe(command="command")
     @app_commands.choices(command=[
         app_commands.Choice(name="global", value="1"),
         app_commands.Choice(name="guilds", value="2"),
