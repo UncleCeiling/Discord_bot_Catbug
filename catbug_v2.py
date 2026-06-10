@@ -27,9 +27,9 @@ async def on_ready():
     await asyncio.sleep(1)
     await bot.change_presence(status=discord.Status.online)
     await asyncio.sleep(1)
-    await status_task.start()
+    status_task.start()
     await asyncio.sleep(1)
-    await sync_global.start()
+    sync_global.start()
     await asyncio.sleep(1)
     print("Finished startup")
 #endregion Initialise
