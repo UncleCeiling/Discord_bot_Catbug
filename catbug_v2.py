@@ -28,8 +28,9 @@ async def on_ready():
     except Exception as exception:
         print(exception)
     # Sync Globally
-    global_synced = await bot.tree.sync(guild=None)
-    print(f"> Synced {len(global_synced)} commands Globally.")
+    # global_synced = await bot.tree.sync(guild=None)
+    # print(f"> Synced {len(global_synced)} commands Globally.")
+    # Change Status
     await bot.change_presence(status=discord.Status.online)
     # Sync Commands to Servers
     guilds = bot.guilds
