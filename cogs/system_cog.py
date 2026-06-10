@@ -8,6 +8,8 @@ from discord import channel
 from discord.ext import commands
 from typing import Optional
 
+from catbug_v2 import status_task
+
 class System(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
@@ -18,14 +20,8 @@ class System(commands.Cog):
 
     @app_commands.command(name="status",description="Picks a new random status")
     async def status(self, interaction: discord.Interaction):
-        with open("data/quotes.csv",encoding="utf8") as file:
-            quotes = []
-            for row in csv.DictReader(file,fieldnames=("quote","emoji")):
-                quotes.append(row)
-        quote = choice(quotes)
-        status = f"{quote['emoji']} {quote['quote']}"
-        await self.bot.change_presence(activity=discord.CustomActivity(name=status))
-        await interaction.response.send_message(f"""> Changed Status to:\n\n> {status} """,ephemeral=True)
+        new_status = await status_task()
+        await interaction.response.send_message(f"""> Changed Status to:\n\n> {new_status[0]} {new_status[1]} """,ephemeral=True)
 
     @app_commands.command(name="pwd",description="Tells you WHERE you are.") # Also syncs commands
     @app_commands.describe(visible="Make output visible in channel?")

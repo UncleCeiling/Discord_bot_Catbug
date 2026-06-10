@@ -36,14 +36,20 @@ async def on_ready():
 
 #region Tasks
 @tasks.loop(hours=1)
-async def status_task() -> None:
+async def status_task() -> list[str]:
+    """_summary_
+
+    Returns:
+        list[str]: [quote_text,quote_emoji]
+    """
     with open("data/quotes.csv",encoding="utf8") as file:
         quotes = []
         for row in csv.DictReader(file,fieldnames=("quote","emoji")):
             quotes.append(row)
     quote = choice(quotes)
-    await bot.change_presence(activity=discord.CustomActivity(name=quote["quote"],emoji=quote["emoji"]))
+    await bot.change_presence(activity=discord.CustomActivity(name=quote["quote"],emoji=discord.PartialEmoji(name=quote["emoji"])))
     print(f"Changed Status to `{quote["quote"]}`")
+    return [quote["quote"],quote["emoji"]]
 
 @tasks.loop(hours=24)
 async def sync_global() -> None:
