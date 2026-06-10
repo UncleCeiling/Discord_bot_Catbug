@@ -90,33 +90,5 @@ class System(commands.Cog):
                 message += f"[Server Avatar]({member.guild_avatar.url})\n"
         await interaction.response.send_message(content=message,ephemeral=(not visible))
 
-    @app_commands.command(name="reboot",description="Reboots the bot.")
-    async def reboot(self, interaction: discord.Interaction):
-        if interaction.guild:
-            await interaction.response.send_message("> This command can only used in DMs.",ephemeral=False)
-            return
-        else:
-            with open("data/admins.csv",encoding="utf8") as file:
-                admins = {}
-                for line in csv.DictReader(file,fieldnames=("Name","ID")):
-                    admins.update({line["Name"]:int(line["ID"])})
-            if interaction.user.id not in admins.values():
-                await interaction.response.send_message("> You do not have permission to perform this command",ephemeral=True)
-                return
-            else:
-                message = "> ⏳ Initiating shutdown..."
-                await interaction.response.send_message(message,ephemeral=False)
-                # message += "\n\n> 🪝 Running `git pull`..."
-                # await interaction.edit_original_response(content=message)
-                # output = subprocess.run(["git","pull"],stdout=subprocess.PIPE).stdout.decode("utf-8").replace("Fast-forward","FastForward").replace("+","🟢").replace("-","🔴").replace("Already up to date.","Already up to date. ✅").replace("\n","\n> ")
-                # message += f"\n\n> 🗒️ Output:\n> {output}"
-                # await interaction.edit_original_response(content=message)
-                message += "\n\n> 🚪 Logging off..."
-                await interaction.edit_original_response(content=message)
-                await self.bot.change_presence(status=discord.Status.offline,activity=None)
-                message += "\n\n> 🔄 Rebooting..."
-                await interaction.edit_original_response(content=message)
-                exit(0)
-
 async def setup(bot):
         await bot.add_cog(System(bot))
