@@ -29,7 +29,7 @@ async def on_ready():
     await asyncio.sleep(1)
     await status_task.start()
     await asyncio.sleep(1)
-    await sync_global()
+    await sync_global.start()
     await asyncio.sleep(1)
     print("Finished startup")
 #endregion Initialise
@@ -37,7 +37,7 @@ async def on_ready():
 #region Tasks
 @tasks.loop(hours=1)
 async def status_task() -> list[str]:
-    """_summary_
+    """Changes status to one of their quotes
 
     Returns:
         list[str]: [quote_text,quote_emoji]
