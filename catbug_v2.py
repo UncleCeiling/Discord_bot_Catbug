@@ -24,10 +24,14 @@ async def on_ready():
                 print(f"> Loaded {filename[:-3]}.")
             except Exception as exception:
                 print(f"> Error loading {filename[:-3]} - ```{exception}```")
-    # Change Status
+    await asyncio.sleep(1)
     await bot.change_presence(status=discord.Status.online)
+    await asyncio.sleep(1)
     await status_task.start()
+    await asyncio.sleep(1)
     await sync_global()
+    await asyncio.sleep(1)
+    print("Finished startup")
 #endregion Initialise
 
 #region Tasks
