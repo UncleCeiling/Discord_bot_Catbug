@@ -12,6 +12,7 @@ class DM(commands.Cog):
     
     @app_commands.command(name="sync",description="Syncs the bot commands")
     @app_commands.allowed_contexts(False,True,False)
+    @app_commands.dm_only()
     @app_commands.describe(command="command to run")
     @app_commands.choices(command=[
         app_commands.Choice(name="global", value="1"),
