@@ -64,7 +64,7 @@ class DM(commands.Cog):
                 # await interaction.response.send_message(message,ephemeral=False)
                 message = f"```{self.bot.commands}```"
                 for guild in guilds:
-                    message = f"\n```{guild}```"
+                    message += f"\n```{guild}```"
                 await interaction.response.send_message(message)
                 #         self.bot.tree.clear_commands(guild=guild)
                 #         self.bot.tree.copy_global_to(guild=guild)
