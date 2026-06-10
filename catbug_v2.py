@@ -24,19 +24,15 @@ async def on_ready():
                 print(f"> Loaded {filename[:-3]}.")
             except Exception as exception:
                 print(f"> Error loading {filename[:-3]} - ```{exception}```")
-    await asyncio.sleep(1)
     await bot.change_presence(status=discord.Status.online)
-    await asyncio.sleep(1)
-    status_task.start()
-    await asyncio.sleep(1)
-    sync_global.start()
-    await asyncio.sleep(1)
+    status_task.start(bot)
+    sync_global.start(bot)
     print("Finished startup")
 #endregion Initialise
 
 #region Tasks
 @tasks.loop(hours=1)
-async def status_task() -> list[str]:
+async def status_task(bot) -> list[str]:
     """Changes status to one of their quotes
 
     Returns:
@@ -48,12 +44,12 @@ async def status_task() -> list[str]:
             quotes.append(row)
     quote = choice(quotes)
     status_text = f"{quote["quote"]} {quote["emoji"]}"
-    await bot.change_presence(activity=discord.CustomActivity(name=status_text,emoji=quote["emoji"]))
+    await bot.change_presence(activity=discord.CustomActivity(name=status_text))
     print(f"Changed Status to `{status_text}`")
     return [quote["quote"],quote["emoji"]]
 
 @tasks.loop(hours=24)
-async def sync_global() -> None:
+async def sync_global(bot) -> None:
     print("Syncing Global Commands ")
     synced_list = await bot.tree.sync()
     print(f"> Synced {len(synced_list)} commands:")

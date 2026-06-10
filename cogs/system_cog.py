@@ -20,7 +20,7 @@ class System(commands.Cog):
 
     @app_commands.command(name="status",description="Picks a new random status")
     async def status(self, interaction: discord.Interaction):
-        new_status = await status_task()
+        new_status = await status_task(self.bot)
         await interaction.response.send_message(f"> Changed Status to:\n\n> {new_status[0]} {new_status[1]}",ephemeral=True)
 
     @app_commands.command(name="pwd",description="Tells you WHERE you are.") # Also syncs commands
