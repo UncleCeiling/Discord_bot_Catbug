@@ -12,11 +12,14 @@ WORKDIR /catbug_bot
 # apt req
 RUN apt update -y
 RUN apt upgrade -y
-RUN apt install libffi-dev libnacl-dev python3-dev ffmpeg -y
+RUN apt install libffi-dev -y
+RUN apt install libnacl-dev -y
+RUN apt install python3-dev -y
+RUN apt install ffmpeg -y
 
 # pip req
-COPY requirements.txt ./
 RUN python3 -m pip install --upgrade pip
+COPY requirements.txt ./
 RUN python3 -m pip install -r requirements.txt
 
 # copy files
