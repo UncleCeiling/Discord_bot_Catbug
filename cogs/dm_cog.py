@@ -12,7 +12,6 @@ class DM(commands.Cog):
         print("> dm_cog loaded")
     
     @app_commands.command(name="ip",description="Fetches the bot's public ip.")
-    @app_commands.dm_only()
     async def ip(self, interaction: discord.Interaction):
         if not is_admin(interaction.user.id):
             print(f"> {interaction.user.name} tried to run `ip`.")
@@ -26,7 +25,6 @@ class DM(commands.Cog):
         await interaction.response.send_message(f"NAT Type:`{nat_type}`\nExternal IP: {external_ip}\nExternal Port: {external_port}",ephemeral=True)
 
     @app_commands.command(name="reboot",description="Reboots the bot.")
-    @app_commands.dm_only()
     async def reboot(self, interaction: discord.Interaction):
         print(f"> {interaction.user.name} tried to run `reboot`.")
         if not is_admin(interaction.user.id):
