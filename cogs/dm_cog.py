@@ -15,9 +15,11 @@ class DM(commands.Cog):
     @app_commands.dm_only()
     async def ip(self, interaction: discord.Interaction):
         if not is_admin(interaction.user.id):
+            print(f"> {interaction.user.name} tried to run `ip`.")
             await interaction.response.send_message("> You do not have permission to perform this command.",ephemeral=False)
             return
         if interaction.guild:
+            print(f"> {interaction.user.name} ran `ip`.")
             await interaction.response.send_message("> This command can only used in DMs.",ephemeral=True)
             return
         nat_type, external_ip, external_port = stun.get_ip_info()
@@ -26,13 +28,14 @@ class DM(commands.Cog):
     @app_commands.command(name="reboot",description="Reboots the bot.")
     @app_commands.dm_only()
     async def reboot(self, interaction: discord.Interaction):
+        print(f"> {interaction.user.name} tried to run `reboot`.")
         if not is_admin(interaction.user.id):
             await interaction.response.send_message("> You do not have permission to perform this command.",ephemeral=False)
             return
+        print(f"> {interaction.user.name} ran `reboot`.")
         if interaction.guild:
             await interaction.response.send_message("> This command can only used in DMs.",ephemeral=True)
             return
-    
         message = "> ⏳ Initiating shutdown..."
         await interaction.response.send_message(message,ephemeral=True)
         # message += "\n\n> 🪝 Running `git pull`..."
