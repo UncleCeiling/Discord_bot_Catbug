@@ -52,6 +52,7 @@ class DM(commands.Cog):
         await self.bot.change_presence(status=discord.Status.offline,activity=None)
         message += "\n\n> 🔄 Rebooting..."
         await interaction.edit_original_response(content=message)
+        await self.bot.close()
         exit(0)
 
 async def setup(bot):
