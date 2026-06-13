@@ -5,9 +5,9 @@ while true; do
     git pull
     # Start container and wait for exit code
     echo ">> Composing container."
-    code=$(docker compose up --build)
-    # docker compose up --build -d
-    # code=$(docker wait catbug)
+    # code=$(docker compose up --build)
+    docker compose up --build -d
+    code=$(docker wait catbug)
     echo ">> Catbug exited with $code."
     if [$code -ne 0]; then
         echo ">> Stopping."
