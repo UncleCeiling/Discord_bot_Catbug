@@ -1,5 +1,5 @@
 #!/bin/sh
-while [1]; do
+while true; do
     # Update
     echo ">> Updating from Github."
     git pull
