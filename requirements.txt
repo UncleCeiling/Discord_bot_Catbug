@@ -1,3 +1,4 @@
 discord.py[voice]
 python-dotenv
-pystun3
+# pystun3
+aiostun

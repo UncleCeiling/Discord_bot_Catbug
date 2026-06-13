@@ -1,6 +1,5 @@
-from email import message
-
-import discord,csv,stun
+from aiostun import constants
+import discord,aiostun
 from discord import app_commands
 from discord.ext import commands
 from modules.tools import is_admin
@@ -18,16 +17,23 @@ class DM(commands.Cog):
         if not is_admin(interaction.user.id):
             print(f"> {interaction.user.name} tried to run `ip`.")
             await interaction.response.send_message("> You do not have permission to perform this command.",ephemeral=False)
-            return
+            return False
         if interaction.guild != None:
             print(f"> {interaction.user.name} ran `ip`.")
             await interaction.response.send_message("> This command can only used in DMs.",ephemeral=True)
-            return
+            return False
         message = "> Fetching IP..."
         await interaction.response.send_message(content=message,ephemeral=True)
-        nat_type, external_ip, external_port = stun.get_ip_info()
-        await interaction.edit_original_response(content=f"`{nat_type}`\n`{external_ip}`")
-        return
+        STUN_HOST = "stun.stunprotocol.org"
+        STUN_PORT = 3478
+        async with aiostun.Client(host=STUN_HOST,port=STUN_PORT) as stun_client:
+            mapped_address = await stun_client.get_mapped_address()
+        if mapped_address == None:
+            await interaction.edit_original_response(content="> Something went wrong...")
+            return False
+        ip = mapped_address["ip"]
+        await interaction.edit_original_response(content=f"> IP: ||`{ip}`||")
+        return True
 
     @app_commands.command(name="reboot",description="Reboots the bot.")
     @app_commands.dm_only()
