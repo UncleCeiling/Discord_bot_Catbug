@@ -48,7 +48,7 @@ async def status_task(bot) -> list[str]:
     print(f"Changed Status to `{status_text}`")
     return [quote["quote"],quote["emoji"]]
 
-@tasks.loop(hours=24)
+@tasks.loop(hours=48)
 async def sync_global(bot) -> None:
     print("Syncing Global Commands ")
     synced_list = await bot.tree.sync()

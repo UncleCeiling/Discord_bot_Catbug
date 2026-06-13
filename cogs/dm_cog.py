@@ -11,27 +11,29 @@ class DM(commands.Cog):
     async def on_ready(self):
         print("> dm_cog loaded")
     
-    @app_commands.command(name="ip",description="Fetches the bot's public ip.")
+    @app_commands.command(name="ip",description="Fetches the bot's ip.")
     async def ip(self, interaction: discord.Interaction):
         if not is_admin(interaction.user.id):
             print(f"> {interaction.user.name} tried to run `ip`.")
             await interaction.response.send_message("> You do not have permission to perform this command.",ephemeral=False)
             return
-        if interaction.guild:
+        if interaction.guild != None:
             print(f"> {interaction.user.name} ran `ip`.")
             await interaction.response.send_message("> This command can only used in DMs.",ephemeral=True)
             return
         nat_type, external_ip, external_port = stun.get_ip_info()
-        await interaction.response.send_message(f"NAT Type:`{nat_type}`\nExternal IP: {external_ip}\nExternal Port: {external_port}",ephemeral=True)
+        await interaction.response.send_message(f"`{nat_type}`\n`{external_ip}`",ephemeral=True)
+        return
 
     @app_commands.command(name="reboot",description="Reboots the bot.")
+    @app_commands.dm_only()
     async def reboot(self, interaction: discord.Interaction):
         print(f"> {interaction.user.name} tried to run `reboot`.")
         if not is_admin(interaction.user.id):
             await interaction.response.send_message("> You do not have permission to perform this command.",ephemeral=False)
             return
         print(f"> {interaction.user.name} ran `reboot`.")
-        if interaction.guild:
+        if interaction.guild != None:
             await interaction.response.send_message("> This command can only used in DMs.",ephemeral=True)
             return
         message = "> ⏳ Initiating shutdown..."
