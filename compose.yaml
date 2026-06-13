@@ -1,7 +1,8 @@
 services:
   bot:
+    container_name: catbug
     build:
       context: .
     volumes:
-      - ./data:/catbug-bot/data
-    restart: always
+      - ./data:/data
+    restart: unless-stopped

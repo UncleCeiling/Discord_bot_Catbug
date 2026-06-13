@@ -7,15 +7,15 @@ ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 
 # Sets the working directory for the rest of the Dockerfile
-WORKDIR /catbug_bot
+WORKDIR /
 
 # apt req
-RUN apt update -y
-RUN apt upgrade -y
-RUN apt install libffi-dev -y
-RUN apt install libnacl-dev -y
-RUN apt install python3-dev -y
-RUN apt install ffmpeg -y
+RUN apt update -y \
+    && apt upgrade -y \
+    && apt install libffi-dev -y \
+    && apt install libnacl-dev -y \
+    && apt install python3-dev -y \
+    && apt install ffmpeg -y 
 
 # pip req
 RUN python3 -m pip install --upgrade pip
