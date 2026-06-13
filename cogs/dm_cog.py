@@ -1,3 +1,5 @@
+from email import message
+
 import discord,csv,stun
 from discord import app_commands
 from discord.ext import commands
@@ -21,8 +23,10 @@ class DM(commands.Cog):
             print(f"> {interaction.user.name} ran `ip`.")
             await interaction.response.send_message("> This command can only used in DMs.",ephemeral=True)
             return
+        message = "> Fetching IP..."
+        await interaction.response.send_message(content=message,ephemeral=True)
         nat_type, external_ip, external_port = stun.get_ip_info()
-        await interaction.response.send_message(f"`{nat_type}`\n`{external_ip}`",ephemeral=True)
+        await interaction.edit_original_response(content=f"`{nat_type}`\n`{external_ip}`")
         return
 
     @app_commands.command(name="reboot",description="Reboots the bot.")
