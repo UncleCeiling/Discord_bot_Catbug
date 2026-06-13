@@ -13,6 +13,7 @@ class DM(commands.Cog):
         print("> dm_cog loaded")
     
     @app_commands.command(name="ip",description="Fetches the bot's ip.")
+    @app_commands.dm_only()
     async def ip(self, interaction: discord.Interaction):
         if not is_admin(interaction.user.id):
             print(f"> {interaction.user.name} tried to run `ip`.")
