@@ -14,4 +14,5 @@ while true; do
         exit 1
     fi
     echo ">> Restarting."
+    sleep 10s
 done
