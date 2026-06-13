@@ -23,7 +23,7 @@ class DM(commands.Cog):
             print(f"> {interaction.user.name} ran `ip`.")
             await interaction.response.send_message("> This command can only used in DMs.",ephemeral=True)
             return
-        message = "> Fetching IP..."
+        message = "> ⏳ Fetching IP..."
         await interaction.response.send_message(content=message,ephemeral=True)
         ip = get("https://api.ipify.org").text
         await interaction.edit_original_response(content=f"> IP: ||`{ip}`||")
@@ -47,10 +47,10 @@ class DM(commands.Cog):
         # output = subprocess.run(["git","pull"],stdout=subprocess.PIPE).stdout.decode("utf-8").replace("Fast-forward","FastForward").replace("+","🟢").replace("-","🔴").replace("Already up to date.","Already up to date. ✅").replace("\n","\n> ")
         # message += f"\n\n> 🗒️ Output:\n> {output}"
         # await interaction.edit_original_response(content=message)
-        message += "\n\n> 🚪 Logging off..."
+        message = "> 🚪 Logging off..."
         await interaction.edit_original_response(content=message)
         await self.bot.change_presence(status=discord.Status.offline,activity=None)
-        message += "\n\n> 🔄 Rebooting..."
+        message = "> 🔄 Rebooting..."
         await interaction.edit_original_response(content=message)
         await self.bot.close()
         exit(0)
