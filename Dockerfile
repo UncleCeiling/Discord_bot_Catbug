@@ -22,7 +22,6 @@ COPY requirements.txt ./
 RUN python3 -m pip install -r requirements.txt
 
 # copy files
-COPY .env.sample .env
 COPY . .
 
 # run the bot
