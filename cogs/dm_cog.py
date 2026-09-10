@@ -26,7 +26,7 @@ class DM(commands.Cog):
         message = "> ⏳ Fetching IP..."
         await interaction.response.send_message(content=message,ephemeral=True)
         ip = get("https://api.ipify.org").text
-        await interaction.edit_original_response(content=f"> IP: ||`{ip}`||")
+        await interaction.edit_original_response(content=f"> IP:\n||```{ip}```||")
         return
 
     @app_commands.command(name="reboot",description="Reboots the bot.")
