@@ -1,28 +1,29 @@
+# Set Python version for the container
 ARG PYTHON_VER=3.13.5
-FROM python:${PYTHON_VER}-slim
 
-# Prevent `pyc` files.
+# Build in two stages to install deps without the project
+FROM python:${PYTHON_VER}-slim-bullseye as base
+
+# Set Python specific env-vars 
 ENV PYTHONDONTWRITEBYTECODE=1
-# Prevent lost logs.
 ENV PYTHONUNBUFFERED=1
 
-# Sets the working directory for the rest of the Dockerfile
-WORKDIR /
-
-# apt req
+# env requirements
 RUN apt update -y && apt upgrade -y
 RUN apt install libffi-dev -y
 RUN apt install libnacl-dev -y
 RUN apt install python3-dev -y
 RUN apt install ffmpeg -y 
-
-# pip req
 RUN python3 -m pip install --upgrade pip
-COPY requirements.txt ./
-RUN python3 -m pip install -r requirements.txt
 
-# copy files
+FROM base AS build
+
+# Sets the working directory for this stage
+WORKDIR /app
+
+# copy project files and install the required modules
 COPY . .
+RUN python3 -m pip install -r requirements.txt
 
 # run the bot
 CMD ["python3","catbug_v2.py"]
