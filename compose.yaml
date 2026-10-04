@@ -4,5 +4,5 @@ services:
     build:
       context: .
     volumes:
-      - ./data:/data
+      - ./data:/app/data
     restart: no
